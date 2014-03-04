@@ -5,6 +5,7 @@
 
 class QLineEdit;
 class QVBoxLayout;
+class QFormLayout;
 class QWidget;
 
 class LoginWindow: public QMainWindow
@@ -14,6 +15,8 @@ public:
 
 private:
     void createWidgets();
+    void addHeaderLayout();
+    void addFormLayout();
 
     QWidget *centralWidget;
     QVBoxLayout *mainLayout;
