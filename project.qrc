@@ -1,0 +1,26 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/annotate.png</file>
+    <file>images/lessons.png</file>
+    <file>images/notes.png</file>  
+    <file>images/select.png</file> 
+    <file>images/zoom_bar.png</file>
+    <file>images/delete.png</file> 
+    <file>images/link.png</file>   
+    <file>images/pdf.png</file>    
+    <file>images/skull_front.png</file>      
+    <file>images/zoom_bar_slider.png</file>
+    <file>images/diagrams.png</file>         
+    <file>images/log_out.png</file>
+    <file>images/profile.png</file>
+    <file>images/skull_side.png</file>
+    <file>images/generate_summary.png</file> 
+    <file>images/new_lesson.png</file>       
+    <file>images/readme.txt 
+    <file>images/students.png</file>s
+    <file>images/hand.png</file>   
+    <file>images/new_question.png</file>     
+    <file>images/save_exit.png</file>        
+    <file>images/test.png</file>
+</qresource>
+</RCC>
