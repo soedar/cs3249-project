@@ -10,8 +10,13 @@ class QWidget;
 
 class LoginWindow: public QMainWindow
 {
+    Q_OBJECT
+    
 public:
     LoginWindow();
+
+private slots:
+    void auth();
 
 private:
     void createWidgets();
