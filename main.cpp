@@ -1,12 +1,12 @@
 // main.cpp
 
 #include <QApplication>
-#include "Project.h"
+#include "LoginWindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    Project project;
-    project.show();
+    LoginWindow loginWindow;
+    loginWindow.show();
     return app.exec();
 }

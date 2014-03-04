@@ -3,5 +3,5 @@
 
 Project::Project()
 {
-    
+    setGeometry(0, 0, 650, 500);
 }
