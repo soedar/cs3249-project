@@ -59,14 +59,19 @@ void LoginWindow::addFormLayout()
     passwordLineEdit->setEchoMode(QLineEdit::Password);
     formLayout->addRow(passwordLabel, passwordLineEdit);
 
-    QPushButton *loginButton = new QPushButton(tr("Login"));
+    loginButton = new QPushButton(tr("Login"));
     loginButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    loginButton->setEnabled(false);
     formLayout->addWidget(loginButton);
 
+    connect(emailLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableLoginButton()));
+    connect(passwordLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableLoginButton()));
     connect(loginButton, SIGNAL(clicked()), this, SLOT(auth()));
 
     mainLayout->addLayout(formLayout);
 }
+
+// slots
 
 void LoginWindow::auth()
 {
@@ -75,11 +80,20 @@ void LoginWindow::auth()
 
     User user = UserDb::userWithEmail(emailLineEdit->text());
     if (user.email() != inputEmail) {
-        qDebug() << "No such user";
+        QMessageBox::critical(this, tr("Login Failed"), tr("Email address not found"));
     } else if (user.password() != inputPassword) {
-        qDebug() << "Wrong password";
+        QMessageBox::critical(this, tr("Login Failed"), tr("Invalid password"));
     } else {
+        this->loggedInUser = user;
         this->done(1);
     }
-    //this->done(1);
+}
+
+void LoginWindow::enableLoginButton()
+{
+    if (emailLineEdit->text() != "" && passwordLineEdit->text() != "") {
+        loginButton->setEnabled(true);
+    } else { 
+        loginButton->setEnabled(false);
+    }
 }

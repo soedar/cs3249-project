@@ -2,6 +2,7 @@
 #define LOGIN_WINDOW_H
 
 #include <QDialog>
+#include "User.h"
 
 class QLineEdit;
 class QVBoxLayout;
@@ -14,9 +15,11 @@ class LoginWindow: public QDialog
 
 public:
     LoginWindow();
+    User loggedInUser;
 
 private slots:
     void auth();
+    void enableLoginButton();
 
 private:
     void createWidgets();
@@ -27,6 +30,7 @@ private:
     QVBoxLayout *mainLayout;
     QLineEdit *emailLineEdit;
     QLineEdit *passwordLineEdit;
+    QPushButton *loginButton;
 };
 
 #endif

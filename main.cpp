@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    // loginWindow.loggedInUser now contain the logged in user
+    qDebug() << loginWindow.loggedInUser.email();
+
     Project project;
     project.show();
 
