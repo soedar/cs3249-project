@@ -1,5 +1,7 @@
 #include <QtGui>
 #include "LoginWindow.h"
+#include "UserDb.h"
+#include "User.h"
 
 LoginWindow::LoginWindow()
 {
@@ -68,5 +70,16 @@ void LoginWindow::addFormLayout()
 
 void LoginWindow::auth()
 {
-    this->done(1);
+    QString inputEmail = emailLineEdit->text();
+    QString inputPassword = passwordLineEdit->text();
+
+    User user = UserDb::userWithEmail(emailLineEdit->text());
+    if (user.email() != inputEmail) {
+        qDebug() << "No such user";
+    } else if (user.password() != inputPassword) {
+        qDebug() << "Wrong password";
+    } else {
+        this->done(1);
+    }
+    //this->done(1);
 }
