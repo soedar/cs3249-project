@@ -10,16 +10,13 @@ LoginWindow::LoginWindow()
 
 void LoginWindow::createWidgets()
 {
-    centralWidget = new QWidget;
-
     mainLayout = new QVBoxLayout;
     mainLayout->setAlignment(Qt::AlignHCenter | Qt::AlignCenter);
 
     addHeaderLayout();
     addFormLayout();
 
-    centralWidget->setLayout(mainLayout);
-    setCentralWidget(centralWidget);
+    setLayout(mainLayout);
 }
 
 void LoginWindow::addHeaderLayout()
@@ -64,5 +61,12 @@ void LoginWindow::addFormLayout()
     loginButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     formLayout->addWidget(loginButton);
 
+    connect(loginButton, SIGNAL(clicked()), this, SLOT(auth()));
+
     mainLayout->addLayout(formLayout);
+}
+
+void LoginWindow::auth()
+{
+    this->done(1);
 }

@@ -1,17 +1,17 @@
 #ifndef LOGIN_WINDOW_H
 #define LOGIN_WINDOW_H
 
-#include <QMainWindow>
+#include <QDialog>
 
 class QLineEdit;
 class QVBoxLayout;
 class QFormLayout;
 class QWidget;
 
-class LoginWindow: public QMainWindow
+class LoginWindow: public QDialog
 {
     Q_OBJECT
-    
+
 public:
     LoginWindow();
 
