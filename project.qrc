@@ -1,25 +1,26 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>assets/annotate.png</file>
-    <file>assets/lessons.png</file>
-    <file>assets/notes.png</file>  
-    <file>assets/select.png</file> 
-    <file>assets/zoom_bar.png</file>
-    <file>assets/delete.png</file> 
-    <file>assets/link.png</file>   
-    <file>assets/pdf.png</file>    
-    <file>assets/skull_front.png</file>      
-    <file>assets/zoom_bar_slider.png</file>
-    <file>assets/diagrams.png</file>
-    <file>assets/log_out.png</file>
-    <file>assets/profile.png</file>
-    <file>assets/skull_side.png</file>
-    <file>assets/generate_summary.png</file> 
-    <file>assets/new_lesson.png</file>       
-    <file>assets/students.png</file>
-    <file>assets/hand.png</file>   
-    <file>assets/new_question.png</file>     
-    <file>assets/save_exit.png</file>        
-    <file>assets/test.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>assets/annotate.png</file>
+        <file>assets/lessons.png</file>
+        <file>assets/notes.png</file>
+        <file>assets/select.png</file>
+        <file>assets/zoom_bar.png</file>
+        <file>assets/delete.png</file>
+        <file>assets/link.png</file>
+        <file>assets/pdf.png</file>
+        <file>assets/skull_front.png</file>
+        <file>assets/zoom_bar_slider.png</file>
+        <file>assets/diagrams.png</file>
+        <file>assets/log_out.png</file>
+        <file>assets/profile.png</file>
+        <file>assets/skull_side.png</file>
+        <file>assets/generate_summary.png</file>
+        <file>assets/new_lesson.png</file>
+        <file>assets/students.png</file>
+        <file>assets/hand.png</file>
+        <file>assets/new_question.png</file>
+        <file>assets/save_exit.png</file>
+        <file>assets/test.png</file>
+        <file>assets/cross.png</file>
+    </qresource>
 </RCC>
