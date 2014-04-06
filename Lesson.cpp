@@ -8,6 +8,8 @@ Lesson::Lesson()
     this->setMarks(0);
     this->setMaxMarks(0);
     this->setTopic("");
+    fileList = QStringList();
+    imageList = QStringList();
 }
 
 Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int maxMarks, int marks)
@@ -52,6 +54,16 @@ bool Lesson::isTeacher()
     return teacher;
 }
 
+QStringList Lesson::getImageList()
+{
+    return imageList;
+}
+
+QStringList Lesson::getFileList()
+{
+    return fileList;
+}
+
 void Lesson::setDate(const QString &string)
 {
     date = string;
@@ -80,4 +92,29 @@ void Lesson::setMarks(int marks)
 void Lesson::setTeacher(bool teacher)
 {
     this->teacher = teacher;
+}
+
+void Lesson::addFiles(QStringList *list)
+{
+    for (int i=0; i<list->count(); i++)
+    {
+        fileList.push_back(list->at(i));
+    }
+}
+
+void Lesson::addImages(QStringList *list)
+{
+    for (int i=0; i<list->count(); i++)
+    {
+        imageList.push_back(list->at(i));
+    }
+}
+
+void Lesson::removeFile(const QString &string)
+{
+    fileList.removeOne(string);
+}
+void Lesson::removeImage(const QString &string)
+{
+    imageList.removeOne(string);
 }

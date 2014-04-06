@@ -30,6 +30,19 @@ QStringList LessonsDB::getTopics()
     return topics;
 }
 
+void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
+{
+    Lesson tempLesson;
+    tempLesson.setDate("1/1/4");
+    tempLesson.setLesson(lessonName);
+    tempLesson.setMarks(0);
+    tempLesson.setMaxMarks(10);
+    tempLesson.setTeacher(true);
+    tempLesson.setTopic(topicName);
+    tempLesson.addFiles(files);
+    tempLesson.addImages(images);
+}
+
 void LessonsDB::addTopic(const QString &string)
 {
 

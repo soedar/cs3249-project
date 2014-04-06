@@ -18,11 +18,6 @@ void GridButton::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void GridButton::enterEvent(QEvent *event)
-{
-    return;
-}
-
 void GridButton::setIndex(int ind)
 {
     index = ind;

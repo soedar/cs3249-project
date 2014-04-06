@@ -79,11 +79,16 @@ void LoginWindow::auth()
     QString inputPassword = passwordLineEdit->text();
 
     User user = UserDb::userWithEmail(emailLineEdit->text());
-    if (user.email() != inputEmail) {
+    if (user.email() != inputEmail)
+    {
         QMessageBox::critical(this, tr("Login Failed"), tr("Email address not found"));
-    } else if (user.password() != inputPassword) {
+    }
+    else if (user.password() != inputPassword)
+    {
         QMessageBox::critical(this, tr("Login Failed"), tr("Invalid password"));
-    } else {
+    }
+    else
+    {
         this->loggedInUser = user;
         this->done(1);
     }
@@ -91,9 +96,12 @@ void LoginWindow::auth()
 
 void LoginWindow::enableLoginButton()
 {
-    if (emailLineEdit->text() != "" && passwordLineEdit->text() != "") {
+    if (emailLineEdit->text() != "" && passwordLineEdit->text() != "")
+    {
         loginButton->setEnabled(true);
-    } else { 
+    }
+    else
+    {
         loginButton->setEnabled(false);
     }
 }

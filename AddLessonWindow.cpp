@@ -10,26 +10,47 @@ AddLessonWindow::AddLessonWindow()
 void AddLessonWindow::createWidgets()
 {
    uploader = new ImageUploader(this);
+   uploaderF = new FileUploader(this);
    mainLayout = new QVBoxLayout();
+
+   QHBoxLayout *titleHeader = new QHBoxLayout();
+
+   QHBoxLayout *topHeader = new QHBoxLayout();
+   QHBoxLayout *topLeftHeader = new QHBoxLayout();
+   QHBoxLayout *topRightHeader = new QHBoxLayout();
+
+   QHBoxLayout *mainArea = new QHBoxLayout();
+   QVBoxLayout *mainAreaLeft = new QVBoxLayout();
+   QVBoxLayout *mainAreaRight = new QVBoxLayout();
+
+   QVBoxLayout *mainAreaCenter = new QVBoxLayout();
+
+   QHBoxLayout *bottomLayout = new QHBoxLayout();
+
+   titleHeader->setAlignment(Qt::AlignCenter);
+
+   topHeader->setAlignment(Qt::AlignCenter);
+   topLeftHeader->setAlignment(Qt::AlignCenter);
+   topRightHeader->setAlignment(Qt::AlignCenter);
+
+   mainArea->setAlignment(Qt::AlignCenter);
+   mainAreaLeft->setAlignment(Qt::AlignCenter);
+   mainAreaRight->setAlignment(Qt::AlignCenter);
+
+   bottomLayout->setAlignment(Qt::AlignCenter);
 
    QLabel *addNewLabel = new QLabel(tr("Add New Lesson"));
    addNewLabel->setFont(QFont(NULL, 16));
    addNewLabel->setAlignment(Qt::AlignCenter);
    addNewLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-   QHBoxLayout *titleHeader = new QHBoxLayout();
-   titleHeader->setAlignment(Qt::AlignCenter);
+
+
 
    titleHeader->addWidget(addNewLabel);
 
-   QHBoxLayout *topHeader = new QHBoxLayout();
-   topHeader->setAlignment(Qt::AlignCenter);
 
-   QHBoxLayout *topLeftHeader = new QHBoxLayout();
-   topLeftHeader->setAlignment(Qt::AlignCenter);
 
-   QHBoxLayout *topRightHeader = new QHBoxLayout();
-   topRightHeader->setAlignment(Qt::AlignCenter);
 
    QLabel *titleLabel = new QLabel(tr("Title : "));
    QLabel *topicLabel = new QLabel(tr("Topic : "));
@@ -53,15 +74,55 @@ void AddLessonWindow::createWidgets()
    topHeader->addLayout(topLeftHeader);
    topHeader->addLayout(topRightHeader);
 
-   QHBoxLayout *mainArea = new QHBoxLayout();
+
+
    uploadImages = new QLabel(tr("Upload Images"));
    uploadFiles = new QLabel(tr("Upload Files"));
 
-   mainArea->addWidget(uploader);
+   QFrame* line = new QFrame();
+   line->setFrameShape(QFrame::VLine);
+   line->setFrameShadow(QFrame::Sunken);
+
+   dragImages = new QPushButton(QIcon(":/assets/diagrams.png"), tr("Drag Images to Upload!"));
+   dragImages->setFlat(true);
+   dragImages->setEnabled(false);
+   dragFiles = new QPushButton(QIcon(":/assets/diagrams.png"), tr("Drag Images to Upload!"));
+   dragFiles->setFlat(true);
+   dragFiles->setEnabled(false);
+
+   uploadBtn = new QPushButton(tr("Done"));
+
+   mainAreaLeft->addWidget(uploadImages);
+   mainAreaLeft->addWidget(uploader);
+   mainAreaLeft->addWidget(dragImages);
+
+   mainAreaCenter->addWidget(line);
+
+   mainAreaRight->addWidget(uploadFiles);
+   mainAreaRight->addWidget(uploaderF);
+   mainAreaRight->addWidget(dragFiles);
+
+   mainArea->addLayout(mainAreaLeft);
+   mainArea->addLayout(mainAreaCenter);
+   mainArea->addLayout(mainAreaRight);
+
+   bottomLayout->addWidget(uploadBtn);
 
    mainLayout->addLayout(titleHeader);
    mainLayout->addLayout(topHeader);
    mainLayout->addLayout(mainArea);
+   mainLayout->addLayout(bottomLayout);
+
    setLayout(mainLayout);
 
+}
+
+void AddLessonWindow::addStuff()
+{
+    LessonsDBController::getDB().addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
+}
+
+QPushButton* AddLessonWindow::getBtn()
+{
+    return uploadBtn;
 }

@@ -12,6 +12,7 @@ public:
     QList<Lesson> getLessons();
     QStringList getTopics();
     void addTopic(const QString &string);
+    void addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images);
 
 private:
     QList<Lesson> lessons;

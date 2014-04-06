@@ -15,30 +15,31 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include <LessonsDB.h>
-#include <Lesson.h>
+
 #include <LessonsDBController.h>
 #include "ImageUploader.h"
-
+#include "FileUploader.h"
 
 class AddLessonWindow : public QDialog
 {
     Q_OBJECT
 public:
     AddLessonWindow();
+    QPushButton* getBtn();
 private:
     void createWidgets();
+    void addStuff();
 
     QVBoxLayout *mainLayout;
     QLineEdit *lessonName;
     QComboBox *topicName;
     QLabel *uploadImages;
     QLabel *uploadFiles;
-    QPushButton *uploadImageBtn;
-    QPushButton *uploadFileBtn;
-    QLabel *dragFiles;
-    QLabel *dragImages;
+    QPushButton *uploadBtn;
+    QPushButton *dragFiles;
+    QPushButton *dragImages;
     ImageUploader *uploader;
+    FileUploader *uploaderF;
 
 
 signals:

@@ -4,7 +4,7 @@
 TeacherWindow::TeacherWindow()
 {
     setGeometry(0,0,650,500);
-    lessons = new LessonsDB();
+    lessons = LessonsDBController::getDB();
     createWidgets();
 }
 
@@ -83,13 +83,13 @@ void TeacherWindow::initializeTable()
 void TeacherWindow::populateTableData()
 {
     QString tempString;
-    Lesson tempLesson = lessons->getLessons().at(0);
+    Lesson tempLesson = lessons.getLessons().at(0);
     tempString = tempLesson.getTopic();
     QTableWidgetItem *item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
 
-    for (int i=0; i<lessons->getLessons().size(); i++)
+    for (int i=0; i<lessons.getLessons().size(); i++)
     {
-        tempLesson = lessons->getLessons().at(i);
+        tempLesson = lessons.getLessons().at(i);
         tempString = tempLesson.getTopic();
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
         mainTable->setItem(i,0,item);
@@ -108,4 +108,9 @@ void TeacherWindow::populateTableData()
         QCheckBox *cb = new QCheckBox();
         mainTable->setCellWidget(i,3,cb);
     }
+}
+
+QPushButton* TeacherWindow::getAddButton()
+{
+    return addNewButton;
 }

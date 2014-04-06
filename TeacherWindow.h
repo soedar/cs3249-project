@@ -1,8 +1,7 @@
 #ifndef TEACHERWINDOW_H
 #define TEACHERWINDOW_H
 
-#include "Lesson.h"
-#include "LessonsDB.h"
+#include "LessonsDBController.h"
 
 #include <QDialog>
 #include <QVBoxLayout>
@@ -24,6 +23,7 @@ class TeacherWindow : public QDialog
 
 public:
     TeacherWindow();
+    QPushButton* getAddButton();
 
 private:
     void createWidgets();
@@ -31,7 +31,7 @@ private:
     void createButtons();
     void populateTableData();
 
-    LessonsDB *lessons;
+    LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
     QPushButton *logOutButton;

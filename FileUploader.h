@@ -1,5 +1,5 @@
-#ifndef IMAGEUPLOADER_H
-#define IMAGEUPLOADER_H
+#ifndef FILEUPLOADER_H
+#define FILEUPLOADER_H
 
 #include <QWidget>
 #include <QStringList>
@@ -15,11 +15,10 @@
 #include <QDropEvent>
 #include <GridButton.h>
 
-class ImageUploader : public QWidget
+class FileUploader : public QWidget
 {
-    Q_OBJECT
 public:
-    ImageUploader(QWidget *parent);
+    FileUploader(QWidget *parent);
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
@@ -32,12 +31,11 @@ public slots:
 
 private:
     void refreshGrid();
-    QStringList *images;
-    QGridLayout *imageGrid;
+    QStringList *files;
+    QGridLayout *fileGrid;
     QList<GridButton *> *grids;
     int maxRows;
     int maxCols;
-
 };
 
-#endif // IMAGEUPLOADER_H
+#endif // FILEUPLOADER_H

@@ -1,34 +1,33 @@
-#include "ImageUploader.h"
+#include "FileUploader.h"
 #include "qdebug.h"
 
-ImageUploader::ImageUploader(QWidget *parent)
-: QWidget(parent)
+FileUploader::FileUploader(QWidget *parent)
+    :QWidget(parent)
 {
     setFixedSize(300,350);
     setAcceptDrops(true);
-    images = new QStringList();
-    imageGrid = new QGridLayout();
+    files = new QStringList();
+    fileGrid = new QGridLayout();
     grids = new QList<GridButton *>();
-    setLayout(imageGrid);
+    setLayout(fileGrid);
     maxRows = 4;
     maxCols = 3;
 }
-
-void ImageUploader::addItem(const QString &string)
+void FileUploader::addItem(const QString &string)
 {
-    images->push_back(string);
+    files->push_back(string);
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
-    button->setIcon(QIcon(":/assets/diagrams.png"));
+    button->setIcon(QIcon(":/assets/pdf.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
     button->setEnabled(true);
-    imageGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
+    fileGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
     grids->push_back(button);
     connect(button,SIGNAL(rightClicked()),this, SLOT(deleteItem()));
 }
 
-void ImageUploader::deleteItem()
+void FileUploader::deleteItem()
 {
     GridButton *button = (GridButton *)sender();
     int index = button->getIndex();
@@ -39,9 +38,9 @@ void ImageUploader::deleteItem()
     qDebug("Grids Size Now : ");
     qDebug() << grids->count();
     qDebug("\n");
-    images->removeAt(index);
+    files->removeAt(index);
     grids->removeAt(index);
-    imageGrid->removeWidget(button);
+    fileGrid->removeWidget(button);
 
     for (int i=0; i<grids->count(); i++)
     {
@@ -58,22 +57,23 @@ void ImageUploader::deleteItem()
     //button->exit();
 }
 
-void ImageUploader::refreshGrid()
+QStringList* FileUploader::getList()
+{
+    return files;
+}
+
+void FileUploader::refreshGrid()
 {
     for (int i=0; i<grids->count(); i++)
     {
-        imageGrid->removeWidget(grids->at(i));
+        fileGrid->removeWidget(grids->at(i));
     }
     for (int i=0; i<grids->count(); i++)
     {
-        imageGrid->addWidget(grids->at(i), i/maxCols , i%maxCols);
+        fileGrid->addWidget(grids->at(i), i/maxCols , i%maxCols);
     }
 }
 
-QStringList* ImageUploader::getList()
-{
-    return images;
-}
 
 /**
  * Below 4 functions taken from
@@ -82,26 +82,25 @@ QStringList* ImageUploader::getList()
  */
 
 
-void ImageUploader::dragEnterEvent(QDragEnterEvent* event)
+void FileUploader::dragEnterEvent(QDragEnterEvent* event)
 {
     // if some actions should not be usable, like move, this code must be adopted
     event->acceptProposedAction();
 }
 
-void ImageUploader::dragMoveEvent(QDragMoveEvent* event)
+void FileUploader::dragMoveEvent(QDragMoveEvent* event)
 {
     // if some actions should not be usable, like move, this code must be adopted
     event->acceptProposedAction();
 }
 
 
-void ImageUploader::dragLeaveEvent(QDragLeaveEvent* event)
+void FileUploader::dragLeaveEvent(QDragLeaveEvent* event)
 {
     event->accept();
 }
 
-//Modified to accomodate this program
-void ImageUploader::dropEvent(QDropEvent* event)
+void FileUploader::dropEvent(QDropEvent* event)
 {
     const QMimeData* mimeData = event->mimeData();
 
@@ -113,25 +112,25 @@ void ImageUploader::dropEvent(QDropEvent* event)
         {
             QString string = urlList.at(i).toLocalFile();
 
-            if (images->contains(string))
+            if (files->contains(string))
             {
                 qDebug("It seems you have already dragged this file here.\n");
             }
             else
             {
-                if (images->count() >= maxRows*maxCols)
+                if (files->count() >= maxRows*maxCols)
                 {
-                    qDebug("Way too many images already\n");
+                    qDebug("Way too many files already\n");
                 }
                 else
                 {
-                    if (string.contains(".png") || string.contains(".jpg") || string.contains(".jpeg") || string.contains(".gif") || string.contains(".bmp"))
+                    if (string.contains(".pdf"))
                     {
                         addItem(string);
                     }
                     else
                     {
-                        qDebug("Item u dragged is not an image");
+                        qDebug("Item u dragged is not a pdf file");
                     }
                 }
             }
