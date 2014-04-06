@@ -1,59 +1,102 @@
 #include "ImageUploader.h"
+#include "qdebug.h"
 
-ImageUploader::ImageUploader()
+ImageUploader::ImageUploader(QWidget *parent)
+: QWidget(parent)
 {
+    setAcceptDrops(true);
     images = new QStringList();
     imageGrid = new QGridLayout();
-    grids = new QList<GridItem>();
-
-}
-
-void ImageUploader::deleteItem(const QString &string)
-{
-    int index = images->indexOf(string,0);
-
-    if (index != -1)
-    {
-        images->removeAt(index);
-        imageGrid->removeWidget(grids->at(index));
-        grids->removeAt(index);
-    }
+    grids = new QList<GridButton *>();
+    setLayout(imageGrid);
+    maxRows = 4;
+    maxCols = 3;
 }
 
 void ImageUploader::addItem(const QString &string)
 {
     images->push_back(string);
-    GridItem tempItem = GridItem();
-    tempItem.setLabel(string);
-    grids->push_back(tempItem);
-    imageGrid->addWidget(tempItem);
-    connect(tempItem.getButton(),SIGNAL(clicked()),this,deleteItem(string));
+    QStringList list = string.split("/");
+    GridButton *button = new GridButton(this);
+    button->setIcon(QIcon(":/assets/diagrams.png"));
+    button->setText(tr(list.last().toStdString().c_str()));
+    button->setIndex(grids->count());
+    button->setEnabled(true);
+    imageGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
+    grids->push_back(button);
+    connect(button,SIGNAL(rightClicked()),this, SLOT(deleteItem()));
 }
 
-//Taken from http://qt-project.org/wiki/Drag_and_Drop_of_files
-//Copyright (c) 2011, Gerolf Reinwardt. All rights reserved.
-void ImageUploader::dragEnterEvent(QDragEnterEvent *event)
+void ImageUploader::deleteItem()
 {
+    GridButton *button = (GridButton *)sender();
+    int index = button->getIndex();
+
+    qDebug("Sender's index : ");
+    qDebug() << index;
+    qDebug("\n");
+    qDebug("Grids Size Now : ");
+    qDebug() << grids->count();
+    qDebug("\n");
+    images->removeAt(index);
+    grids->removeAt(index);
+    imageGrid->removeWidget(button);
+
+    for (int i=0; i<grids->count(); i++)
+    {
+        grids->at(i)->setIndex(i);
+    }
+
+    qDebug("Grids Size After : ");
+    qDebug() << grids->count();
+    qDebug("\n");
+
+    delete button;
+
+    refreshGrid();
+    //button->exit();
+}
+
+void ImageUploader::refreshGrid()
+{
+    for (int i=0; i<grids->count(); i++)
+    {
+        imageGrid->removeWidget(grids->at(i));
+    }
+    for (int i=0; i<grids->count(); i++)
+    {
+        imageGrid->addWidget(grids->at(i), i/maxCols , i%maxCols);
+    }
+}
+
+
+/**
+ * Below 4 functions taken from
+ * http://qt-project.org/wiki/Drag_and_Drop_of_files
+ * Copyright (c) 2011, Gerolf Reinwardt. All rights reserved.
+ */
+
+
+void ImageUploader::dragEnterEvent(QDragEnterEvent* event)
+{
+    // if some actions should not be usable, like move, this code must be adopted
     event->acceptProposedAction();
 }
 
-//Taken from http://qt-project.org/wiki/Drag_and_Drop_of_files
-//Copyright (c) 2011, Gerolf Reinwardt. All rights reserved.
-void ImageUploader::dragMoveEvent(QDragMoveEvent *event)
+void ImageUploader::dragMoveEvent(QDragMoveEvent* event)
 {
+    // if some actions should not be usable, like move, this code must be adopted
     event->acceptProposedAction();
 }
 
-//Taken from http://qt-project.org/wiki/Drag_and_Drop_of_files
-//Copyright (c) 2011, Gerolf Reinwardt. All rights reserved.
-void ImageUploader::dragLeaveEvent(QDragLeaveEvent *event)
+
+void ImageUploader::dragLeaveEvent(QDragLeaveEvent* event)
 {
     event->accept();
 }
 
-//Taken from http://qt-project.org/wiki/Drag_and_Drop_of_files
-//Copyright (c) 2011, Gerolf Reinwardt. All rights reserved.
-void ImageUploader::dropEvent(QDropEvent *event)
+//Modified to accomodate this program
+void ImageUploader::dropEvent(QDropEvent* event)
 {
     const QMimeData* mimeData = event->mimeData();
 
@@ -63,24 +106,31 @@ void ImageUploader::dropEvent(QDropEvent *event)
 
         for (int i = 0; i < urlList.size() && i < 32; ++i)
         {
-            QString tempString = urlList.at(i).toLocalFile();
-            if (images->contains(tempString))
+            QString string = urlList.at(i).toLocalFile();
+
+            if (images->contains(string))
             {
-                qDebug("It seems you have already dragged this file?\n");
+                qDebug("It seems you have already dragged this file here.\n");
             }
             else
             {
-                if (tempString.contains(".png") || tempString.contains(".jpg") || tempString.contains(".jpeg") || tempString.contains(".gif"))
+                if (images->count() >= maxRows*maxCols)
                 {
-                    addItem(urlList.at(i).toLocalFile());
+                    qDebug("Way too many images already\n");
                 }
                 else
                 {
-                    qDebug("File is not an image\n");
+                    if (string.contains(".png") || string.contains(".jpg") || string.contains(".jpeg") || string.contains(".gif") || string.contains(".bmp"))
+                    {
+                        addItem(string);
+                    }
+                    else
+                    {
+                        qDebug("Item u dragged is not an image");
+                    }
                 }
             }
         }
 
     }
-
 }

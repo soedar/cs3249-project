@@ -9,8 +9,18 @@ AddLessonWindow::AddLessonWindow()
 
 void AddLessonWindow::createWidgets()
 {
-   uploader = new ImageUploader();
+   uploader = new ImageUploader(this);
    mainLayout = new QVBoxLayout();
+
+   QLabel *addNewLabel = new QLabel(tr("Add New Lesson"));
+   addNewLabel->setFont(QFont(NULL, 16));
+   addNewLabel->setAlignment(Qt::AlignCenter);
+   addNewLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+   QHBoxLayout *titleHeader = new QHBoxLayout();
+   titleHeader->setAlignment(Qt::AlignCenter);
+
+   titleHeader->addWidget(addNewLabel);
 
    QHBoxLayout *topHeader = new QHBoxLayout();
    topHeader->setAlignment(Qt::AlignCenter);
@@ -49,6 +59,7 @@ void AddLessonWindow::createWidgets()
 
    mainArea->addWidget(uploader);
 
+   mainLayout->addLayout(titleHeader);
    mainLayout->addLayout(topHeader);
    mainLayout->addLayout(mainArea);
    setLayout(mainLayout);
