@@ -1,14 +1,20 @@
 // main.cpp
 
 #include <QApplication>
-#include "Overseer.h"
+#include "LessonsDBController.h"
+#include "LoginWindow.h"
+#include "AddLessonWindow.h"
+#include "TeacherWindow.h"
+#include "Project.h"
 #include "qdebug.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //Overseer *overseer = new Overseer();
 
+    /**
+     *All Windows should be initialized here
+     */
 
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
@@ -17,7 +23,10 @@ int main(int argc, char *argv[])
     TeacherWindow *teacherWindow = new TeacherWindow();
     Project *project = new Project();
 
-
+    /**
+     * Put all the connections here. For some reason having an overseer doesnt work so.. yeah
+     * so just put them here
+     */
 
     QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
     QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),addLessonWindow,SLOT(show()));

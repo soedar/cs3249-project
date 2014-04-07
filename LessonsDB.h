@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "Lesson.h"
+#include <QDate>
 
 class LessonsDB
 {

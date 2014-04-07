@@ -2,11 +2,10 @@
 
 LessonsDB::LessonsDB()
 {
-    //lessons = new QList<Lesson>();
-
+    //Initial Lesson items
     Lesson tempLesson;
 
-    tempLesson.setDate("1/1/4");
+    tempLesson.setDate("1/1/2014");
     tempLesson.setLesson("1: The Skull");
     tempLesson.setMarks(0);
     tempLesson.setMaxMarks(10);
@@ -14,7 +13,7 @@ LessonsDB::LessonsDB()
     tempLesson.setTopic("The Human Skeleton");
     lessons.push_back(tempLesson);
 
-    tempLesson.setDate("2/1/4");
+    tempLesson.setDate("2/1/2014");
     tempLesson.setLesson("2: The Hand");
     lessons.push_back(tempLesson);
     addTopic("The Human Skeleton");
@@ -33,7 +32,11 @@ QStringList LessonsDB::getTopics()
 void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     Lesson tempLesson;
-    tempLesson.setDate("1/1/4");
+
+    QDate today = QDate::currentDate();
+    QString todayStr = today.toString("d/M/yyyy");
+
+    tempLesson.setDate(todayStr);
     tempLesson.setLesson(lessonName);
     tempLesson.setMarks(0);
     tempLesson.setMaxMarks(10);
@@ -41,6 +44,7 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
     tempLesson.setTopic(topicName);
     tempLesson.addFiles(files);
     tempLesson.addImages(images);
+    qDebug("Adding new item in LessonsDB\n");
     lessons.push_back(tempLesson);
 }
 

@@ -81,7 +81,7 @@ void AddLessonWindow::createWidgets()
    dragImages = new QPushButton(QIcon(":/assets/diagrams.png"), tr("Drag Images to Upload!"));
    dragImages->setFlat(true);
    dragImages->setEnabled(false);
-   dragFiles = new QPushButton(QIcon(":/assets/diagrams.png"), tr("Drag Images to Upload!"));
+   dragFiles = new QPushButton(QIcon(":/assets/pdf.png"), tr("Drag PDF Files to Upload!"));
    dragFiles->setFlat(true);
    dragFiles->setEnabled(false);
 
@@ -121,7 +121,7 @@ void AddLessonWindow::addStuff()
         qDebug("I am adding a new item\n");
         qDebug() << LessonsDBController::getDB().getLessons().size();
         qDebug("\n");
-        LessonsDBController::getDB().addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
+        LessonsDBController::addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
         qDebug() << LessonsDBController::getDB().getLessons().size();
         qDebug("\n");
     }

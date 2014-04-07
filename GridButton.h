@@ -1,11 +1,11 @@
 #ifndef GRIDBUTTON_H
 #define GRIDBUTTON_H
 
-#include <QPushButton>
+#include <QToolButton>
 #include <QMouseEvent>
 #include <QEvent>
 
-class GridButton : public QPushButton
+class GridButton : public QToolButton
 {
     Q_OBJECT
 public:

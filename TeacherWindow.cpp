@@ -86,6 +86,7 @@ void TeacherWindow::populateTableData()
     Lesson tempLesson = lessons.getLessons().at(0);
     tempString = tempLesson.getTopic();
     QTableWidgetItem *item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
+    lessons = LessonsDBController::getDB();
 
     if (mainTable->rowCount() < lessons.getLessons().size())
     {

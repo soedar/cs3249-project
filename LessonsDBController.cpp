@@ -24,6 +24,11 @@ LessonsDB LessonsDBController::getDB()
     return ldb;
 }
 
+void LessonsDBController::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
+{
+    ldb.addLesson(lessonName, topicName, files, images);
+}
+
 void LessonsDBController::readFile(const QString &string)
 {
     return;

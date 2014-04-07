@@ -1,8 +1,10 @@
 #include "GridButton.h"
 
-GridButton::GridButton(QWidget *parent) : QPushButton(parent)
+GridButton::GridButton(QWidget *parent) : QToolButton(parent)
 {
     index = 0;
+    setFixedSize(80,60);
+    setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
 void GridButton::mousePressEvent(QMouseEvent *event)
