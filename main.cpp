@@ -5,12 +5,13 @@
 #include "LoginWindow.h"
 #include "AddLessonWindow.h"
 #include "TeacherWindow.h"
+#include "StudentWindow.h"
 #include "Project.h"
 #include "qdebug.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication *app = new QApplication(argc, argv);
 
     /**
      *All Windows should be initialized here
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     LoginWindow *loginWindow = new LoginWindow();
     AddLessonWindow *addLessonWindow = new AddLessonWindow();
     TeacherWindow *teacherWindow = new TeacherWindow();
+    StudentWindow *studentWindow = new StudentWindow();
     Project *project = new Project();
 
     /**
@@ -35,6 +37,18 @@ int main(int argc, char *argv[])
     QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(show()));
     QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),addLessonWindow,SLOT(hide()));
 
+    /*
+     *
+     * This part need to find a way to return user to login window and log in again
+    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
+    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
+
+    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),studentWindow,SLOT(hide()));
+    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
+    */
+
+    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
+    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
 
 
     //Login Process
@@ -48,8 +62,15 @@ int main(int argc, char *argv[])
     //loginWindow.loggedInUser now contain the logged in user
     qDebug() << loginWindow->loggedInUser.email();
 
-    teacherWindow->show();
+    if (loginWindow->loggedInUser.email() == "teacher")
+    {
+        teacherWindow->show();
+    }
+    else
+    {
+        studentWindow->show();
+    }
     //project.show();
 
-    return app.exec();
+    return app->exec();
 }

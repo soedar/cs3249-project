@@ -20,6 +20,7 @@ void ImageUploader::addItem(const QString &string)
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
     button->setIconSize(QSize(48,48));
+    button->setFixedSize(80,60);
     button->setIcon(QIcon(":/assets/diagrams.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());

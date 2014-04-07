@@ -16,9 +16,13 @@ public:
 signals:
     void rightClicked();
     void leftClicked();
+    void entered();
+    void left();
 
 public slots:
     void mousePressEvent(QMouseEvent *event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
 
 private:
     int index;

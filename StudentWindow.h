@@ -1,5 +1,5 @@
-#ifndef TEACHERWINDOW_H
-#define TEACHERWINDOW_H
+#ifndef STUDENTWINDOW_H
+#define STUDENTWINDOW_H
 
 #include "LessonsDBController.h"
 
@@ -15,16 +15,17 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QHeaderView>
+#include <GridButton.h>
+#include <QCursor>
 
 
-class TeacherWindow : public QDialog
+class StudentWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    TeacherWindow();
+    StudentWindow();
     void populateTableData();
-    QPushButton *addNewButton;
     QPushButton *logOutButton;
 
 private:
@@ -32,21 +33,17 @@ private:
     void initializeTable();
     void createButtons();
 
-    int numSelected;
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
-
-    QPushButton *editButton;
-    QPushButton *deleteButton;
 
     QTableWidget *mainTable;
 
 public slots:
     void updateTable();
-    void toggle(bool checked);
-    void deleteItem();
+    void transition();
+    void changeToHand();
+    void changeToCursor();
 
+#endif // STUDENTWINDOW_H
 };
-
-#endif // TEACHERWINDOW_H

@@ -99,6 +99,9 @@ void TeacherWindow::initializeTable()
 
 void TeacherWindow::populateTableData()
 {
+    QStringList headers;
+    headers << "Topic" << "Lessons" << "Date Modified" << "Action";
+    mainTable->setHorizontalHeaderLabels(headers);
     QString tempString;
     Lesson tempLesson;
     QTableWidgetItem *item;

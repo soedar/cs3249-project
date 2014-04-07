@@ -3,7 +3,7 @@
 GridButton::GridButton(QWidget *parent) : QToolButton(parent)
 {
     index = 0;
-    setFixedSize(80,60);
+
     setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
@@ -16,8 +16,16 @@ void GridButton::mousePressEvent(QMouseEvent *event)
     else
     {
         emit leftClicked();
-        return;
     }
+}
+
+void GridButton::enterEvent(QEvent *event)
+{
+    emit entered();
+}
+void GridButton::leaveEvent(QEvent *event)
+{
+    emit left();
 }
 
 void GridButton::setIndex(int ind)

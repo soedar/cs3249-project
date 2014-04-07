@@ -20,6 +20,7 @@ void FileUploader::addItem(const QString &string)
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
     button->setIconSize(QSize(36,36));
+    button->setFixedSize(80,60);
     button->setIcon(QIcon(":/assets/pdf.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
