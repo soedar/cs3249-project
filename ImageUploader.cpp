@@ -75,6 +75,16 @@ QStringList* ImageUploader::getList()
     return images;
 }
 
+void ImageUploader::clearData()
+{
+    for (int i=0; i<grids->count(); i++)
+    {
+        imageGrid->removeWidget(grids->at(i));
+    }
+    images->clear();
+    grids->clear();
+}
+
 /**
  * Below 4 functions taken from
  * http://qt-project.org/wiki/Drag_and_Drop_of_files

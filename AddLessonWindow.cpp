@@ -1,4 +1,5 @@
 #include "AddLessonWindow.h"
+#include "qdebug.h"
 
 AddLessonWindow::AddLessonWindow()
 {
@@ -44,13 +45,7 @@ void AddLessonWindow::createWidgets()
    addNewLabel->setAlignment(Qt::AlignCenter);
    addNewLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-
-
-
    titleHeader->addWidget(addNewLabel);
-
-
-
 
    QLabel *titleLabel = new QLabel(tr("Title : "));
    QLabel *topicLabel = new QLabel(tr("Topic : "));
@@ -115,14 +110,22 @@ void AddLessonWindow::createWidgets()
 
    setLayout(mainLayout);
 
+   connect(uploadBtn,SIGNAL(clicked()),this,SLOT(addStuff()));
+
 }
 
 void AddLessonWindow::addStuff()
 {
-    LessonsDBController::getDB().addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
-}
-
-QPushButton* AddLessonWindow::getBtn()
-{
-    return uploadBtn;
+    if (lessonName->text().length() > 0)
+    {
+        qDebug("I am adding a new item\n");
+        qDebug() << LessonsDBController::getDB().getLessons().size();
+        qDebug("\n");
+        LessonsDBController::getDB().addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
+        qDebug() << LessonsDBController::getDB().getLessons().size();
+        qDebug("\n");
+    }
+    lessonName->clear();
+    uploaderF->clearData();
+    uploader->clearData();
 }

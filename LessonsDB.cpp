@@ -41,6 +41,7 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
     tempLesson.setTopic(topicName);
     tempLesson.addFiles(files);
     tempLesson.addImages(images);
+    lessons.push_back(tempLesson);
 }
 
 void LessonsDB::addTopic(const QString &string)

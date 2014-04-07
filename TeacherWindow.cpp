@@ -87,6 +87,12 @@ void TeacherWindow::populateTableData()
     tempString = tempLesson.getTopic();
     QTableWidgetItem *item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
 
+    if (mainTable->rowCount() < lessons.getLessons().size())
+    {
+        qDebug("adding a new row\n");
+        mainTable->insertRow(mainTable->rowCount());
+    }
+
     for (int i=0; i<lessons.getLessons().size(); i++)
     {
         tempLesson = lessons.getLessons().at(i);
@@ -110,7 +116,8 @@ void TeacherWindow::populateTableData()
     }
 }
 
-QPushButton* TeacherWindow::getAddButton()
+void TeacherWindow::updateTable()
 {
-    return addNewButton;
+    mainTable->clear();
+    populateTableData();
 }

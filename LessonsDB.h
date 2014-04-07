@@ -1,6 +1,6 @@
 #ifndef LESSONSDB_H
 #define LESSONSDB_H
-#include <QStringList>
+
 #include <QList>
 #include "Lesson.h"
 

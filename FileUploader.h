@@ -7,8 +7,6 @@
 #include <QMimeData>
 #include <QList>
 #include <QUrl>
-#include <QList>
-#include <QPushButton>
 #include <QDragEnterEvent>
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>
@@ -25,6 +23,7 @@ public:
     void dropEvent(QDropEvent* event);
     void addItem(const QString &string);
     QStringList* getList();
+    void clearData();
 
 public slots:
     void deleteItem();//const QString &string);

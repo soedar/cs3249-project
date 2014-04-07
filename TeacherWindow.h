@@ -13,9 +13,9 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QLabel>
-#include <QStringList>
 #include <QCheckBox>
 #include <QHeaderView>
+
 
 class TeacherWindow : public QDialog
 {
@@ -23,20 +23,24 @@ class TeacherWindow : public QDialog
 
 public:
     TeacherWindow();
-    QPushButton* getAddButton();
+    void populateTableData();
+    QPushButton *addNewButton;
 
 private:
     void createWidgets();
     void initializeTable();
     void createButtons();
-    void populateTableData();
+
 
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
     QPushButton *logOutButton;
-    QPushButton *addNewButton;
+
     QTableWidget *mainTable;
+
+public slots:
+    void updateTable();
 
 };
 

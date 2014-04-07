@@ -74,6 +74,16 @@ void FileUploader::refreshGrid()
     }
 }
 
+void FileUploader::clearData()
+{
+    for (int i=0; i<grids->count(); i++)
+    {
+        fileGrid->removeWidget(grids->at(i));
+    }
+    files->clear();
+    grids->clear();
+}
+
 
 /**
  * Below 4 functions taken from
