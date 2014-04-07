@@ -13,6 +13,7 @@ public:
     void saveFile(const QString &string);
     static LessonsDB getDB();
     static void addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images);
+    static void deleteItemAt(int index);
 private:
     static LessonsDB ldb;
     bool initialized;

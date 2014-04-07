@@ -14,6 +14,7 @@ public:
     QStringList getTopics();
     void addTopic(const QString &string);
     void addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images);
+    void deleteItemAt(int index);
 
 private:
     QList<Lesson> lessons;

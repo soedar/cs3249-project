@@ -15,6 +15,7 @@
 
 class FileUploader : public QWidget
 {
+    Q_OBJECT
 public:
     FileUploader(QWidget *parent);
     void dragEnterEvent(QDragEnterEvent *event);
@@ -26,7 +27,7 @@ public:
     void clearData();
 
 public slots:
-    void deleteItem();//const QString &string);
+    void deleteItem();
 
 private:
     void refreshGrid();

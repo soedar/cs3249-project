@@ -29,6 +29,11 @@ QStringList LessonsDB::getTopics()
     return topics;
 }
 
+void LessonsDB::deleteItemAt(int index)
+{
+   lessons.removeAt(index);
+}
+
 void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     Lesson tempLesson;

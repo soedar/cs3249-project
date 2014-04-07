@@ -2,7 +2,7 @@
 #include "qdebug.h"
 
 FileUploader::FileUploader(QWidget *parent)
-    :QWidget(parent)
+:QWidget(parent)
 {
     setFixedSize(300,350);
     setAcceptDrops(true);
@@ -13,18 +13,20 @@ FileUploader::FileUploader(QWidget *parent)
     maxRows = 4;
     maxCols = 3;
 }
+
 void FileUploader::addItem(const QString &string)
 {
     files->push_back(string);
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
+    button->setIconSize(QSize(36,36));
     button->setIcon(QIcon(":/assets/pdf.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
     button->setEnabled(true);
     fileGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
     grids->push_back(button);
-    connect(button,SIGNAL(rightClicked()),this, SLOT(deleteItem()));
+    connect(button, SIGNAL(rightClicked()), this, SLOT(deleteItem()));
 }
 
 void FileUploader::deleteItem()
@@ -54,7 +56,6 @@ void FileUploader::deleteItem()
     delete button;
 
     refreshGrid();
-    //button->exit();
 }
 
 QStringList* FileUploader::getList()
@@ -76,9 +77,13 @@ void FileUploader::refreshGrid()
 
 void FileUploader::clearData()
 {
-    for (int i=0; i<grids->count(); i++)
+    int size = grids->count();
+    for (int i=0; i<size; i++)
     {
-        fileGrid->removeWidget(grids->at(i));
+        fileGrid->removeWidget(grids->last());
+        GridButton *tempButton = grids->takeLast();
+        delete tempButton;
+
     }
     files->clear();
     grids->clear();

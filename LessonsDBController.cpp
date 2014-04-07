@@ -24,6 +24,11 @@ LessonsDB LessonsDBController::getDB()
     return ldb;
 }
 
+void LessonsDBController::deleteItemAt(int index)
+{
+    ldb.deleteItemAt(index);
+}
+
 void LessonsDBController::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     ldb.addLesson(lessonName, topicName, files, images);

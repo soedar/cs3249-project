@@ -6,6 +6,7 @@ TeacherWindow::TeacherWindow()
     setGeometry(0,0,650,500);
     lessons = LessonsDBController::getDB();
     createWidgets();
+    numSelected = 0;
 }
 
 void TeacherWindow::createWidgets()
@@ -48,6 +49,20 @@ void TeacherWindow::initializeTable()
     QHBoxLayout *tableRight = new QHBoxLayout;
     tableRight->setAlignment(Qt::AlignRight);
 
+    QHBoxLayout *extraButtons = new QHBoxLayout;
+    extraButtons->setAlignment(Qt::AlignRight);
+
+    editButton = new QPushButton(tr("Edit"));
+    deleteButton = new QPushButton(tr("Delete"));
+    editButton->setEnabled(false);
+    deleteButton->setEnabled(false);
+
+    extraButtons->addWidget(editButton);
+    extraButtons->addWidget(deleteButton);
+
+    connect(deleteButton,SIGNAL(clicked()),this,SLOT(deleteItem()));
+
+
     QLabel *lessonsLabel = new QLabel(tr("Lessons"));
     lessonsLabel->setFont(QFont(NULL, 20));
     lessonsLabel->setAlignment(Qt::AlignLeft);
@@ -77,21 +92,27 @@ void TeacherWindow::initializeTable()
     table->setAlignment(Qt::AlignCenter);
     table->addWidget(mainTable);
 
+    mainLayout->addLayout(extraButtons);
+
     mainLayout->addLayout(table);
 }
 
 void TeacherWindow::populateTableData()
 {
     QString tempString;
-    Lesson tempLesson = lessons.getLessons().at(0);
-    tempString = tempLesson.getTopic();
-    QTableWidgetItem *item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
+    Lesson tempLesson;
+    QTableWidgetItem *item;
     lessons = LessonsDBController::getDB();
 
-    if (mainTable->rowCount() < lessons.getLessons().size())
+    while (mainTable->rowCount() < lessons.getLessons().size())
     {
         qDebug("adding a new row\n");
         mainTable->insertRow(mainTable->rowCount());
+    }
+    while (mainTable->rowCount() > lessons.getLessons().size())
+    {
+        qDebug("removing a row\n");
+        mainTable->removeRow(mainTable->rowCount()-1);
     }
 
     for (int i=0; i<lessons.getLessons().size(); i++)
@@ -114,6 +135,7 @@ void TeacherWindow::populateTableData()
     {
         QCheckBox *cb = new QCheckBox();
         mainTable->setCellWidget(i,3,cb);
+        connect(cb,SIGNAL(toggled(bool)),this,SLOT(toggle(bool)));
     }
 }
 
@@ -121,4 +143,62 @@ void TeacherWindow::updateTable()
 {
     mainTable->clear();
     populateTableData();
+}
+
+void TeacherWindow::deleteItem()
+{
+    int size = LessonsDBController::getDB().getLessons().size();
+
+    for (int i=size-1; i>=0; i--)
+    {
+        QCheckBox *box = (QCheckBox *)(mainTable->cellWidget(i,3));
+        if (box->isChecked())
+        {
+            LessonsDBController::deleteItemAt(i);
+            numSelected--;
+        }
+    }
+    if (numSelected == 0)
+    {
+        editButton->setEnabled(false);
+        deleteButton->setEnabled(false);
+    }
+    else if (numSelected == 1)
+    {
+        editButton->setEnabled(true);
+        deleteButton->setEnabled(true);
+    }
+    else
+    {
+        editButton->setEnabled(false);
+        deleteButton->setEnabled(true);
+    }
+    updateTable();
+}
+
+void TeacherWindow::toggle(bool checked)
+{
+    if(checked)
+    {
+        numSelected++;
+    }
+    else
+    {
+        numSelected--;
+    }
+    if (numSelected == 0)
+    {
+        editButton->setEnabled(false);
+        deleteButton->setEnabled(false);
+    }
+    else if (numSelected == 1)
+    {
+        editButton->setEnabled(true);
+        deleteButton->setEnabled(true);
+    }
+    else
+    {
+        editButton->setEnabled(false);
+        deleteButton->setEnabled(true);
+    }
 }

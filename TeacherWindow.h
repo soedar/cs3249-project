@@ -31,16 +31,20 @@ private:
     void initializeTable();
     void createButtons();
 
-
+    int numSelected;
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
     QPushButton *logOutButton;
+    QPushButton *editButton;
+    QPushButton *deleteButton;
 
     QTableWidget *mainTable;
 
 public slots:
     void updateTable();
+    void toggle(bool checked);
+    void deleteItem();
 
 };
 

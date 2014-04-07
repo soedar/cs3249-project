@@ -27,7 +27,7 @@ public:
     void clearData();
 
 public slots:
-    void deleteItem();//const QString &string);
+    void deleteItem();
 
 private:
     void refreshGrid();

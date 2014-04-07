@@ -19,6 +19,7 @@ void ImageUploader::addItem(const QString &string)
     images->push_back(string);
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
+    button->setIconSize(QSize(48,48));
     button->setIcon(QIcon(":/assets/diagrams.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
@@ -77,9 +78,12 @@ QStringList* ImageUploader::getList()
 
 void ImageUploader::clearData()
 {
-    for (int i=0; i<grids->count(); i++)
+    int size = grids->count();
+    for (int i=0; i<size; i++)
     {
-        imageGrid->removeWidget(grids->at(i));
+        imageGrid->removeWidget(grids->last());
+        GridButton *tempButton = grids->takeLast();
+        delete tempButton;
     }
     images->clear();
     grids->clear();
