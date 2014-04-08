@@ -8,6 +8,7 @@
 #include "StudentWindow.h"
 #include "Project.h"
 #include "qdebug.h"
+#include "LessonWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     TeacherWindow *teacherWindow = new TeacherWindow();
     StudentWindow *studentWindow = new StudentWindow();
     Project *project = new Project();
+    LessonWidget *widget = new LessonWidget();
 
     /**
      * Put all the connections here. For some reason having an overseer doesnt work so.. yeah
@@ -40,6 +42,7 @@ int main(int argc, char *argv[])
     /*
      *
      * This part need to find a way to return user to login window and log in again
+     *
     QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
     QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
 
@@ -62,14 +65,16 @@ int main(int argc, char *argv[])
     //loginWindow.loggedInUser now contain the logged in user
     qDebug() << loginWindow->loggedInUser.email();
 
-    if (loginWindow->loggedInUser.email() == "teacher")
+    widget->show();
+
+    /*if (loginWindow->loggedInUser.email() == "teacher")
     {
         teacherWindow->show();
     }
     else
     {
         studentWindow->show();
-    }
+    }*/
     //project.show();
 
     return app->exec();
