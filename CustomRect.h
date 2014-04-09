@@ -1,5 +1,5 @@
-#ifndef CUSTOMCIRCLE_H
-#define CUSTOMCIRCLE_H
+#ifndef CustomRect_H
+#define CustomRect_H
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
@@ -12,14 +12,17 @@
 #include <QGraphicsSceneMouseEvent>
 #include "qdebug.h"
 
-class CustomCircle : public QObject, public QGraphicsItem
+class CustomRect : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 
 public:
-    CustomCircle();
+    CustomRect();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void setIndex(int i);
+    int index;
+    int getIndex();
 
 private:
     bool selected;
@@ -37,4 +40,4 @@ signals:
     void moved(QPointF posChange);
 };
 
-#endif // CUSTOMCIRCLE_H
+#endif // CustomRect_H

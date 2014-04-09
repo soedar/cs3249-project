@@ -26,6 +26,7 @@ public:
     void populateTableData();
     QPushButton *addNewButton;
     QPushButton *logOutButton;
+    QPushButton *editButton;
 
 private:
     void createWidgets();
@@ -37,7 +38,7 @@ private:
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
 
-    QPushButton *editButton;
+
     QPushButton *deleteButton;
 
     QTableWidget *mainTable;
@@ -46,7 +47,10 @@ public slots:
     void updateTable();
     void toggle(bool checked);
     void deleteItem();
+    void selectItem();
 
+signals:
+    void edit();
 };
 
 #endif // TEACHERWINDOW_H

@@ -1,4 +1,5 @@
 #include "LessonsDB.h"
+#include "qdebug.h"
 
 LessonsDB::LessonsDB()
 {
@@ -31,7 +32,12 @@ QStringList LessonsDB::getTopics()
 
 void LessonsDB::deleteItemAt(int index)
 {
-   lessons.removeAt(index);
+    lessons.removeAt(index);
+}
+
+void LessonsDB::addItemAtIndex(int index, Lesson l)
+{
+    lessons.insert(index,l);
 }
 
 void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
@@ -51,6 +57,28 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
     tempLesson.addImages(images);
     qDebug("Adding new item in LessonsDB\n");
     lessons.push_back(tempLesson);
+}
+
+void LessonsDB::editLesson(int index, const QString &lessonName, const QString &topicName, QList<AnnotationGraphicsItem *> annoList)
+{
+    Lesson tempLesson;
+
+    QDate today = QDate::currentDate();
+    QString todayStr = today.toString("d/M/yyyy");
+
+    Lesson newLesson = Lesson();
+    newLesson.setDate(todayStr);
+    newLesson.setLesson(lessonName);
+    newLesson.setTeacher(tempLesson.isTeacher());
+    newLesson.setMarks(tempLesson.getMarks());
+    newLesson.setMaxMarks(tempLesson.getMaxMarks());
+    newLesson.setTopic(topicName);
+    newLesson.setAnnos(annoList);
+    newLesson.addFiles(tempLesson.getFileList());
+    newLesson.addImages(tempLesson.getImageList());
+
+    deleteItemAt(index);
+    addItemAtIndex(index,newLesson);
 }
 
 void LessonsDB::addTopic(const QString &string)

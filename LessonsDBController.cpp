@@ -1,6 +1,7 @@
 #include "LessonsDBController.h"
 
 LessonsDB LessonsDBController::ldb;
+int LessonsDBController::editIndex;
 
 LessonsDBController::LessonsDBController()
 {
@@ -34,6 +35,11 @@ void LessonsDBController::addLesson(const QString &lessonName, const QString &to
     ldb.addLesson(lessonName, topicName, files, images);
 }
 
+void LessonsDBController::editLesson(int index, const QString &lessonName, const QString &topicName, QList<AnnotationGraphicsItem *> annoList)
+{
+    ldb.editLesson(index,lessonName,topicName,annoList);
+}
+
 void LessonsDBController::readFile(const QString &string)
 {
     return;
@@ -41,4 +47,14 @@ void LessonsDBController::readFile(const QString &string)
 void LessonsDBController::saveFile(const QString &string)
 {
     return;
+}
+
+int LessonsDBController::getIndex()
+{
+    return editIndex;
+}
+
+void LessonsDBController::setIndex(int ind)
+{
+    editIndex = ind;
 }

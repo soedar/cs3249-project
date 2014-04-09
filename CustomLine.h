@@ -1,7 +1,7 @@
 #ifndef CUSTOMLINE_H
 #define CUSTOMLINE_H
 
-#include "CustomCircle.h"
+#include "CustomRect.h"
 
 class CustomLine : public QObject, public QGraphicsLineItem
 {
@@ -10,6 +10,9 @@ public:
     CustomLine();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void setIndex(int i);
+    int index;
+    int getIndex();
 
 private:
     QPointF pos1;

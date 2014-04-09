@@ -5,13 +5,18 @@
 #include <QGraphicsView>
 #include <QTextEdit>
 #include <QGraphicsScene>
-#include <QMenu>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <LessonsDBController.h>
 #include <QPixmap>
 #include <QWheelEvent>
-#include <CustomText.h>
+#include <QToolBar>
+#include <QAction>
+#include <AnnotationGraphicsItem.h>
+#include <CustomScene.h>
+#include <QLabel>
+#include <QLineEdit>
+#include <QComboBox>
 
 class LessonWidget : public QDialog
 {
@@ -21,19 +26,25 @@ public:
 
 private:
     QGraphicsView *imageView;
-    QGraphicsScene *scene;
+    CustomScene *scene;
     QPixmap image;
     QTextEdit *pdfView;
-    QMenu *editMenu;
     QMenu *transitMenu;
+    QToolBar *toolbar;
+
     QAction *selectAction;
     QAction *handAction;
     QAction *linkAction;
     QAction *annotationAction;
     QAction *deleteAction;
     QAction *imageAction;
+    QAction *saveAction;
+
+    QLineEdit *lessonName;
+    QComboBox *topicName;
 
     QStringList *imageUrls;
+    QList<AnnotationGraphicsItem *> annotations;
 
     double zoom;
     double maxZoom;
@@ -41,6 +52,7 @@ private:
 
     void createWidgets();
     void initImages();
+    void createActions();
     void setImage(int index);
 
 protected:
@@ -53,8 +65,17 @@ protected:
 
 
 signals:
+    void prepared();
+    void saved();
 
 public slots:
+    void addNewAnnotation();
+    void enableSelect();
+    void enableMove();
+    void changeCursorDelete();
+    void deleteItem();
+    void prepare();
+    void saveAndExit();
 
 };
 

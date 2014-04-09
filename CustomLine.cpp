@@ -2,6 +2,7 @@
 
 CustomLine::CustomLine()
 {
+    setFlag(ItemIsSelectable,false);
     pos1 = QPoint(0,0);
     pos2 = QPoint(1,1);
     setLine(0,0,1,1);
@@ -9,7 +10,7 @@ CustomLine::CustomLine()
 
 QRectF CustomLine::boundingRect() const
 {
-    return QRectF(0,0,100,100);
+    return QRectF(0,0,900,500);
 }
 
 void CustomLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -32,3 +33,14 @@ void CustomLine::setPos2(QPointF posChange)
     setLine(pos1.x()+5,pos1.y()+5,pos2.x()+5,pos2.y()+5);
     update();
 }
+
+void CustomLine::setIndex(int i)
+{
+    index = i;
+}
+
+int CustomLine::getIndex()
+{
+    return index;
+}
+

@@ -1,29 +1,33 @@
-#include "CustomCircle.h"
+#include "CustomRect.h"
 
-CustomCircle::CustomCircle()
+CustomRect::CustomRect()
 {
     selected = false;
     setFlag(ItemIsMovable);
-    setFlag(ItemIsSelectable);
+    setFlag(ItemIsSelectable,false);
 
 }
 
 
-QRectF CustomCircle::boundingRect() const
+QRectF CustomRect::boundingRect() const
 {
     return QRectF(0,0,20,20);
 }
 
-void CustomCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CustomRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
    painter->fillRect(boundingRect(),QBrush(Qt::red));
    painter->drawRect(boundingRect());
 
 }
 
+void CustomRect::setIndex(int i)
+{
+    index = i;
+}
 
 
-void CustomCircle::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void CustomRect::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     selected = true;
     qDebug("I am clicked\n");
@@ -31,7 +35,7 @@ void CustomCircle::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
 }
 
-void CustomCircle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void CustomRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (selected)
     {
@@ -41,16 +45,21 @@ void CustomCircle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseMoveEvent(event);
 }
 
-void CustomCircle::recieveChange(QPointF posChange)
+void CustomRect::recieveChange(QPointF posChange)
 {
     posChange.setX(posChange.x()+10);
     posChange.setY(posChange.y()+60);
     this->setPos(posChange);
 }
 
-void CustomCircle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void CustomRect::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     selected = false;
     //update();
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+int CustomRect::getIndex()
+{
+    return index;
 }

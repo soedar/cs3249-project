@@ -10,6 +10,7 @@ Lesson::Lesson()
     this->setTopic("");
     fileList = QStringList();
     imageList = QStringList();
+    annotations = QList<AnnotationGraphicsItem *>();
 }
 
 Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int maxMarks, int marks)
@@ -66,17 +67,17 @@ QStringList Lesson::getFileList()
 
 void Lesson::setDate(const QString &string)
 {
-    date = string;
+    this->date = string;
 }
 
 void Lesson::setLesson(const QString &string)
 {
-    lesson = string;
+    this->lesson = string;
 }
 
 void Lesson::setTopic(const QString &string)
 {
-    topic = string;
+    this->topic = string;
 }
 
 void Lesson::setMaxMarks(int marks)
@@ -98,7 +99,7 @@ void Lesson::addFiles(QStringList *list)
 {
     for (int i=0; i<list->count(); i++)
     {
-        fileList.push_back(list->at(i));
+        this->fileList.push_back(list->at(i));
     }
 }
 
@@ -106,15 +107,55 @@ void Lesson::addImages(QStringList *list)
 {
     for (int i=0; i<list->count(); i++)
     {
-        imageList.push_back(list->at(i));
+        this->imageList.push_back(list->at(i));
     }
 }
 
+void Lesson::addFiles(QStringList list)
+{
+    for (int i=0; i<list.count(); i++)
+    {
+        this->fileList.push_back(list.at(i));
+    }
+}
+
+void Lesson::addImages(QStringList list)
+{
+    for (int i=0; i<list.count(); i++)
+    {
+        this->imageList.push_back(list.at(i));
+    }
+}
 void Lesson::removeFile(const QString &string)
 {
-    fileList.removeOne(string);
+    this->fileList.removeOne(string);
 }
+
+QList<AnnotationGraphicsItem *> Lesson::getAnnos()
+{
+    return this->annotations;
+}
+
+
 void Lesson::removeImage(const QString &string)
 {
-    imageList.removeOne(string);
+    this->imageList.removeOne(string);
+}
+
+void Lesson::setAnnos(QList<AnnotationGraphicsItem *> tempList)
+{
+    this->annotations.clear();
+
+    for (int i=0; i<tempList.size(); i++)
+    {
+        this->annotations.push_back(tempList.at(i));
+    }
+}
+
+void Lesson::addAnnos(QList<AnnotationGraphicsItem *> tempList)
+{
+    for (int i=0; i<tempList.size(); i++)
+    {
+        this->annotations.push_back(tempList.at(i));
+    }
 }

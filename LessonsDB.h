@@ -14,7 +14,9 @@ public:
     QStringList getTopics();
     void addTopic(const QString &string);
     void addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images);
+    void editLesson(int index, const QString &lessonName, const QString &topicName, QList<AnnotationGraphicsItem *> annoList);
     void deleteItemAt(int index);
+    void addItemAtIndex(int index, Lesson l);
 
 private:
     QList<Lesson> lessons;

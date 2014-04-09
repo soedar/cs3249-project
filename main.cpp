@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     Project *project = new Project();
     LessonWidget *widget = new LessonWidget();
 
+
     /**
      * Put all the connections here. For some reason having an overseer doesnt work so.. yeah
      * so just put them here
@@ -38,6 +39,15 @@ int main(int argc, char *argv[])
     QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(updateTable()));
     QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(show()));
     QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),addLessonWindow,SLOT(hide()));
+
+
+    QObject::connect(teacherWindow, SIGNAL(edit()), widget, SLOT(prepare()));
+    QObject::connect(widget,SIGNAL(prepared()),widget,SLOT(show()));
+    QObject::connect(widget,SIGNAL(prepared()),teacherWindow,SLOT(hide()));
+
+    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(updateTable()));
+    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(show()));
+    QObject::connect(widget,SIGNAL(saved()),widget,SLOT(hide()));
 
     /*
      *
@@ -65,16 +75,16 @@ int main(int argc, char *argv[])
     //loginWindow.loggedInUser now contain the logged in user
     qDebug() << loginWindow->loggedInUser.email();
 
-    widget->show();
+    //widget->show();
 
-    /*if (loginWindow->loggedInUser.email() == "teacher")
+    if (loginWindow->loggedInUser.email() == "teacher")
     {
         teacherWindow->show();
     }
     else
     {
         studentWindow->show();
-    }*/
+    }
     //project.show();
 
     return app->exec();

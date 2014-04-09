@@ -2,11 +2,12 @@
 
 CustomText::CustomText()
 {
-    setFlag(QGraphicsTextItem::ItemIsMovable);
+    setFlag(ItemIsMovable);
+    setFlag(ItemIsSelectable);
     //setFlag(QGraphicsItem::ItemIsMovable);
     setTextInteractionFlags(Qt::TextEditorInteraction);
     setPlainText("Type here");
-    setTextWidth(50);
+    setTextWidth(80);
     selected = false;
 }
 
@@ -19,6 +20,11 @@ void CustomText::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 {
     QGraphicsTextItem::paint(painter,option,widget);
     painter->drawRect(boundingRect());
+}
+
+void CustomText::setIndex(int i)
+{
+    index = i;
 }
 
 void CustomText::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -54,4 +60,9 @@ void CustomText::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     selected = false;
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+int CustomText::getIndex()
+{
+    return index;
 }
