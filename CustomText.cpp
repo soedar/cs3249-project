@@ -33,6 +33,7 @@ void CustomText::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
 }
 
+//Sends two signals, one for the box rect and one for the line.
 void CustomText::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (selected)

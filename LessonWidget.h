@@ -32,13 +32,13 @@ private:
     QMenu *transitMenu;
     QToolBar *toolbar;
 
-    QAction *selectAction;
-    QAction *handAction;
-    QAction *linkAction;
-    QAction *annotationAction;
-    QAction *deleteAction;
-    QAction *imageAction;
-    QAction *saveAction;
+    QAction *selectAction; //Disables Movement, Enables Multi-Selection
+    QAction *handAction; // Enables Movement, Disables Multi-Selection
+    QAction *linkAction; //NOT IMPLEMENTED
+    QAction *annotationAction; //Adds a new annotation to a predefined spot in the scene
+    QAction *deleteAction; //Click once to change icon, click again to select an item, click again to delete selected items
+    QAction *imageAction; //NOT IMPLEMENTED
+    QAction *saveAction; //Saves and exits, working for now
 
     QLineEdit *lessonName;
     QComboBox *topicName;
@@ -56,12 +56,7 @@ private:
     void setImage(int index);
 
 protected:
-    //void paintEvent(QPaintEvent *event);
     void wheelEvent(QWheelEvent *event);
-    //void resizeEvent(QResizeEvent *event);
-    //virtual void mousePressEvent(QMouseEvent *event);
-    //virtual void mouseReleaseEvent(QMouseEvent *event);
-    //virtual void mouseMoveEvent(QMouseEvent *event);
 
 
 signals:

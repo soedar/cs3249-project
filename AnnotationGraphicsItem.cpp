@@ -1,5 +1,10 @@
 #include "AnnotationGraphicsItem.h"
 
+
+//Box is a text box u can edit for the annotation
+//box Rect and line Rect are 2 pointers u can drag and use as 'anchors'
+//line is just the line that connects the rect pointers.
+//Note this is just a grouping class. You cannot physically put this object itself into a scene.
 AnnotationGraphicsItem::AnnotationGraphicsItem()
 {
     box = new CustomText();
@@ -7,6 +12,7 @@ AnnotationGraphicsItem::AnnotationGraphicsItem()
     lineRect = new CustomRect();
     line = new CustomLine();
 
+    //signals that, when u move one of the items, update the positions of the other items.
     connect(box,SIGNAL(moved(QPointF)),boxRect,SLOT(recieveChange(QPointF)));
     connect(box,SIGNAL(movedForLine(QPointF)),line,SLOT(setPos1(QPointF)));
     connect(boxRect,SIGNAL(moved(QPointF)),box,SLOT(recieveChange(QPointF)));

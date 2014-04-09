@@ -1,6 +1,7 @@
 #include "AddLessonWindow.h"
 #include "qdebug.h"
 
+//The window that allows u to create a new lesson
 AddLessonWindow::AddLessonWindow()
 {
     setGeometry(0,0,650,500);
@@ -10,22 +11,28 @@ AddLessonWindow::AddLessonWindow()
 
 void AddLessonWindow::createWidgets()
 {
+
    uploader = new ImageUploader(this);
    uploaderF = new FileUploader(this);
    mainLayout = new QVBoxLayout();
 
+   //Contains the title
    QHBoxLayout *titleHeader = new QHBoxLayout();
 
+   //Contain the lessonName, topic Name stuff
    QHBoxLayout *topHeader = new QHBoxLayout();
    QHBoxLayout *topLeftHeader = new QHBoxLayout();
    QHBoxLayout *topRightHeader = new QHBoxLayout();
 
+
+   //Contain the file/image uploaders
    QHBoxLayout *mainArea = new QHBoxLayout();
    QVBoxLayout *mainAreaLeft = new QVBoxLayout();
    QVBoxLayout *mainAreaRight = new QVBoxLayout();
 
    QVBoxLayout *mainAreaCenter = new QVBoxLayout();
 
+   //For the exit button
    QHBoxLayout *bottomLayout = new QHBoxLayout();
 
    titleHeader->setAlignment(Qt::AlignCenter);
@@ -118,12 +125,7 @@ void AddLessonWindow::addStuff()
 {
     if (lessonName->text().length() > 0)
     {
-        qDebug("I am adding a new item\n");
-        qDebug() << LessonsDBController::getDB().getLessons().size();
-        qDebug("\n");
         LessonsDBController::addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
-        qDebug() << LessonsDBController::getDB().getLessons().size();
-        qDebug("\n");
     }
     lessonName->clear();
     uploaderF->clearData();

@@ -1,5 +1,8 @@
 #include "CustomScene.h"
 
+
+//Added extra signal here with the mousepressevent
+
 CustomScene::CustomScene(QObject *parent) :
     QGraphicsScene(parent)
 {

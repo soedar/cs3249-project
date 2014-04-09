@@ -1,6 +1,7 @@
 #include "ImageUploader.h"
 #include "qdebug.h"
 
+//A custom widget that allows u to drag and drop images onto it.
 ImageUploader::ImageUploader(QWidget *parent)
 : QWidget(parent)
 {
@@ -35,12 +36,6 @@ void ImageUploader::deleteItem()
     GridButton *button = (GridButton *)sender();
     int index = button->getIndex();
 
-    qDebug("Sender's index : ");
-    qDebug() << index;
-    qDebug("\n");
-    qDebug("Grids Size Now : ");
-    qDebug() << grids->count();
-    qDebug("\n");
     images->removeAt(index);
     grids->removeAt(index);
     imageGrid->removeWidget(button);
@@ -50,14 +45,9 @@ void ImageUploader::deleteItem()
         grids->at(i)->setIndex(i);
     }
 
-    qDebug("Grids Size After : ");
-    qDebug() << grids->count();
-    qDebug("\n");
-
     delete button;
 
     refreshGrid();
-    //button->exit();
 }
 
 void ImageUploader::refreshGrid()

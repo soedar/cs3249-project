@@ -1,5 +1,7 @@
 #include "GridButton.h"
 
+
+//This is the button that will be inside the file uploader and image uploader
 GridButton::GridButton(QWidget *parent) : QToolButton(parent)
 {
     index = 0;

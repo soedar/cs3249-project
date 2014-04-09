@@ -1,11 +1,14 @@
 #include "CustomRect.h"
 
+//Functionalities changed from QGraphicsItem
+//Mostly just the events and the signals stuff,
+//Otherwise same stuff as CustomLine
+
 CustomRect::CustomRect()
 {
     selected = false;
     setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable,false);
-
 }
 
 
@@ -31,7 +34,6 @@ void CustomRect::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     selected = true;
     qDebug("I am clicked\n");
-    //update();
     QGraphicsItem::mousePressEvent(event);
 }
 
@@ -41,7 +43,6 @@ void CustomRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
        emit moved(this->pos());
     }
-    //update();
     QGraphicsItem::mouseMoveEvent(event);
 }
 
@@ -55,7 +56,6 @@ void CustomRect::recieveChange(QPointF posChange)
 void CustomRect::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     selected = false;
-    //update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
 

@@ -1,5 +1,11 @@
 #include "CustomLine.h"
 
+//Functionalities changed from QGraphicsLineItem
+//1.Programmed to have 2 points
+//2.Line will be drawn between those 2 points
+//3.This itself cannot be selected or directly moved
+//4.Set pos1 and set pos2.
+//5.Has an index u can set
 CustomLine::CustomLine()
 {
     setFlag(ItemIsSelectable,false);
@@ -15,7 +21,6 @@ QRectF CustomLine::boundingRect() const
 
 void CustomLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //QGraphicsLineItem::paint(painter,option,widget);
     painter->drawLine(pos1,pos2);
 }
 

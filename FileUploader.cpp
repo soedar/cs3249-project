@@ -1,6 +1,7 @@
 #include "FileUploader.h"
 #include "qdebug.h"
 
+//A custom widget that allows u to drag and drop files onto it.
 FileUploader::FileUploader(QWidget *parent)
 :QWidget(parent)
 {
@@ -116,6 +117,7 @@ void FileUploader::dragLeaveEvent(QDragLeaveEvent* event)
     event->accept();
 }
 
+//Modified from original code to fit needs of this program
 void FileUploader::dropEvent(QDropEvent* event)
 {
     const QMimeData* mimeData = event->mimeData();

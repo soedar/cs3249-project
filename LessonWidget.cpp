@@ -1,5 +1,8 @@
 #include "LessonWidget.h"
 
+//The lesson widget contains a graphics scene and a graphics view
+//You can put any graphics items into the scene and modify them
+//in any way.
 LessonWidget::LessonWidget()
 {
     setGeometry(0,0,1000,600);
@@ -61,12 +64,6 @@ void LessonWidget::createWidgets()
     mainLayout->addLayout(topHeader);
     mainLayout->addLayout(graphicsLayout);
 
-   /* AnnotationGraphicsItem *agi = new AnnotationGraphicsItem();
-
-    scene->addItem(agi->box);
-    scene->addItem(agi->line);
-    scene->addItem(agi->boxRect);
-    scene->addItem(agi->lineRect);*/
 
     setLayout(mainLayout);
 }
