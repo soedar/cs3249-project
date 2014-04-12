@@ -10,6 +10,8 @@
 *.dll
 *.dylib
 
+debug/*
+
 # Qt-es
 
 *.pro.user
@@ -21,3 +23,8 @@ Makefile
 
 *.pro
 *.app
+
+cs3249-project
+
+# Gedit backup files
+*~
