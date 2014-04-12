@@ -26,5 +26,7 @@ Makefile
 
 cs3249-project
 
+.DS_Store
+
 # Gedit backup files
 *~
