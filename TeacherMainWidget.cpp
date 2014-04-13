@@ -40,6 +40,7 @@ void TeacherMainWidget::initializeTable()
     addNewButton = new QPushButton(tr("Add New"));
     addNewButton->setIcon(QIcon(":/assets/new_lesson.png"));
     addNewButton->setEnabled(true);
+
     tableHeader->addLayout(tableLeft);
     tableHeader->addLayout(tableRight);
     tableRight->addWidget(addNewButton);

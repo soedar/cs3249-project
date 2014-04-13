@@ -16,13 +16,15 @@ public:
 protected:
     MainWidget *mainWidget;
     DatabaseLayer *db;
-    void showMainWidget();
 
 private:
     bool loggedOff;
 
 private slots:
     void logoff();
+
+protected slots:
+    void showMainWidget();
 
 };
 

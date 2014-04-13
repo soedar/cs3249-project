@@ -15,7 +15,9 @@ public:
 private:
     TeacherMainWidget *teacherMainWidget;
     AddLessonWidget *addWidget;
-    void toggleAddWidget();
+
+private slots:
+    void showAddWidget();
 };
 
 #endif // TEACHERWINDOW_H
