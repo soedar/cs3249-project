@@ -23,25 +23,32 @@ int main(int argc, char *argv[])
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
 
-    LoginWindow *loginWindow = new LoginWindow(&databaseLayer);
-    TeacherWindow *teacherWindow = new TeacherWindow(&databaseLayer);
-    StudentWindow *studentWindow = new StudentWindow(&databaseLayer);
 
+    MainWindow *chosenWindow;
+    int retValue;
+    do {
+        LoginWindow *loginWindow = new LoginWindow(&databaseLayer);
 
-    //Login Process
-    loginWindow->show();
-    if (loginWindow->exec() == QDialog::Rejected) {
-        return 0;
-    }
+        //Login Process
+        loginWindow->show();
+        if (loginWindow->exec() == QDialog::Rejected) {
+            return 0;
+        }
 
-    //loginWindow.loggedInUser now contain the logged in user
-    qDebug() << loginWindow->loggedInUser.email();
+        User loggedInUser = loginWindow->loggedInUser;
 
-    if (loginWindow->loggedInUser.userRole() == UserRoleTeacher) {
-        teacherWindow->show();
-    } else {
-        studentWindow->show();
-    }
+        TeacherWindow *teacherWindow = new TeacherWindow(&databaseLayer);
+        StudentWindow *studentWindow = new StudentWindow(&databaseLayer);
 
-    return app->exec();
+        if (loggedInUser.userRole() == UserRoleTeacher) {
+            chosenWindow = teacherWindow;
+        } else {
+            chosenWindow = studentWindow;
+        }
+
+        chosenWindow->show();
+        retValue = app->exec();
+    } while (chosenWindow->didLoggedOff());
+
+    return retValue;
 }

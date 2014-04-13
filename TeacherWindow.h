@@ -13,12 +13,9 @@ public:
     TeacherWindow(DatabaseLayer *db);
 
 private:
-    TeacherMainWidget *mainWidget;
+    TeacherMainWidget *teacherMainWidget;
     AddLessonWidget *addWidget;
-
-private slots:
-void toggleAddWidget();
-void toggleMainWidget();
+    void toggleAddWidget();
 };
 
 #endif // TEACHERWINDOW_H

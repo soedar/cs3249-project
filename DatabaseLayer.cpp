@@ -11,8 +11,6 @@ DatabaseLayer::DatabaseLayer()
     QDir dataDir(dataPath);
     dataDir.mkpath(dataPath);
 
-    qDebug() << dataPath;
-
     loadAllUsers();
 }
 
@@ -49,8 +47,6 @@ void DatabaseLayer::loadAllUsers()
         QString email = data[0];
         QString password = data[1];
         UserRole role = static_cast<UserRole>(data[2].toInt());
-
-        qDebug() << email << role;
 
         if (!users.contains(email)) {
             User user(email, password, role);

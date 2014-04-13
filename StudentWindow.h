@@ -12,10 +12,8 @@ public:
     StudentWindow(DatabaseLayer *db);
 
 private:
-    StudentMainWidget *mainWidget;
-
-private slots:
-void toggleMainWidget();
+    StudentWindow(DatabaseLayer *db, StudentMainWidget *studentMainWidget);
+    StudentMainWidget *studentMainWidget;
 };
 
 #endif // STUDENTWINDOW_H

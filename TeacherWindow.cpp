@@ -1,12 +1,9 @@
 #include "TeacherWindow.h"
 
 
-TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db)
+TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMainWidget())
 {
-    mainWidget = new TeacherMainWidget();
-    QObject::connect(mainWidget->addNewButton,SIGNAL(clicked()),this,SLOT(toggleAddWidget()));
-    QObject::connect(mainWidget->logOutButton,SIGNAL(clicked()),this,SLOT(close()));
-    toggleMainWidget();
+    this->teacherMainWidget = (TeacherMainWidget *)mainWidget;
 }
 
 void TeacherWindow::toggleAddWidget()
@@ -15,10 +12,4 @@ void TeacherWindow::toggleAddWidget()
     QObject::connect(addWidget->uploadBtn, SIGNAL(clicked()), this, SLOT(toggleMainWidget()));
     mainWidget->setParent(0);
     setCentralWidget(addWidget);
-}
-
-void TeacherWindow::toggleMainWidget()
-{
-    setCentralWidget(mainWidget);
-    mainWidget->updateTable();
 }

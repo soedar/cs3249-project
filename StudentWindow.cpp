@@ -1,14 +1,7 @@
 #include "StudentWindow.h"
 
 
-StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db)
+StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMainWidget())
 {
-    mainWidget = new StudentMainWidget();
-    toggleMainWidget();
-}
-
-void StudentWindow::toggleMainWidget()
-{
-    setCentralWidget(mainWidget);
-    mainWidget->updateTable();
+    this->studentMainWidget = (StudentMainWidget *)mainWidget;
 }

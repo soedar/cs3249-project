@@ -3,7 +3,6 @@
 MainWidget::MainWidget()
 {
 	lessons = LessonsDBController::getDB();
-    setGeometry(0,0,1200,800);
 }
 
 void MainWidget::createWidgets()
