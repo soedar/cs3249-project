@@ -1,9 +1,10 @@
 #include "TeacherWindow.h"
 
 
-TeacherWindow::TeacherWindow()
+TeacherWindow::TeacherWindow(DatabaseLayer *db)
 {
     setGeometry(0,0,800,600);
+    this->db = db;
 
     mainWidget = new TeacherMainWidget();
     QObject::connect(mainWidget->addNewButton,SIGNAL(clicked()),this,SLOT(toggleAddWidget()));

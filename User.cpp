@@ -5,11 +5,11 @@ User::User()
     this->_userRole = UserRoleNone;
 }
 
-User::User(const QString &email, const QString &password)
+User::User(const QString &email, const QString &password, UserRole userRole)
 {
     this->_email = email;
     this->_password = password;
-    this->_userRole = UserRoleTeacher;
+    this->_userRole = userRole;
 }
 
 QString User::email()

@@ -1,13 +1,14 @@
 #include <QtGui>
 #include "LoginWindow.h"
-#include "UserDb.h"
+#include "DatabaseLayer.h"
 #include "User.h"
 
-LoginWindow::LoginWindow()
+LoginWindow::LoginWindow(DatabaseLayer *db)
 {
     setGeometry(0, 0, 550, 300);
     createWidgets();
     setWindowTitle(tr("The Anatomy Academy: Login"));
+    this->db = db;
 }
 
 void LoginWindow::createWidgets()
@@ -78,7 +79,7 @@ void LoginWindow::auth()
     QString inputEmail = emailLineEdit->text();
     QString inputPassword = passwordLineEdit->text();
 
-    User user = UserDb::userWithEmail(emailLineEdit->text());
+    User user = db->userWithEmail(emailLineEdit->text());
     if (user.email() != inputEmail)
     {
         QMessageBox::critical(this, tr("Login Failed"), tr("Email address not found"));

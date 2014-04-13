@@ -5,17 +5,17 @@
 
 typedef enum
 {
-    UserRoleNone,
-    UserRoleStudent,
-    UserRoleTeacher,
-    UserRoleAdmin
+    UserRoleNone    = 0,
+    UserRoleStudent = 1,
+    UserRoleTeacher = 2,
+    UserRoleAdmin   = 3
 } UserRole;
 
 class User
 {
 public:
     User();
-    User(const QString &email, const QString &password);
+    User(const QString &email, const QString &password, UserRole userRole);
 
     QString email();
     QString password();
