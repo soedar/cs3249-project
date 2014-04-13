@@ -5,7 +5,6 @@
 #include "LoginWindow.h"
 #include "TeacherWindow.h"
 #include "StudentWindow.h"
-#include "LessonWidget.h"
 
 #include "DatabaseLayer.h"
 

@@ -194,8 +194,3 @@ void TeacherMainWidget::selectItem()
         }
     }
 }
-
-void TeacherMainWidget::edit()
-{
-
-}

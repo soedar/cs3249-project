@@ -22,6 +22,8 @@ class TeacherMainWidget : public MainWidget
         void toggle(bool checked);
         void deleteItem();
         void selectItem();
+
+    signals:
         void edit();
 };
 
