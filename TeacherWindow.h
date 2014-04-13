@@ -1,22 +1,20 @@
 #ifndef TEACHERWINDOW_H
 #define TEACHERWINDOW_H
 
-#include <QMainWindow>
 #include "TeacherMainWidget.h"
 #include "AddLessonWidget.h"
+#include "MainWindow.h"
 #include "DatabaseLayer.h"
 
-class TeacherWindow : public QMainWindow
+class TeacherWindow : public MainWindow
 {
     Q_OBJECT
-
 public:
     TeacherWindow(DatabaseLayer *db);
 
 private:
     TeacherMainWidget *mainWidget;
     AddLessonWidget *addWidget;
-    DatabaseLayer *db;
 
 private slots:
 void toggleAddWidget();

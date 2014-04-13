@@ -1,11 +1,8 @@
 #include "StudentWindow.h"
 
 
-StudentWindow::StudentWindow(DatabaseLayer *db)
+StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db)
 {
-    setGeometry(0,0,800,600);
-    this->db = db;
-
     mainWidget = new StudentMainWidget();
     toggleMainWidget();
 }
