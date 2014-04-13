@@ -1,15 +1,14 @@
-#include "AddLessonWindow.h"
-#include "qdebug.h"
+#include "AddLessonWidget.h"
 
 //The window that allows u to create a new lesson
-AddLessonWindow::AddLessonWindow()
+AddLessonWidget::AddLessonWidget()
 {
     setGeometry(0,0,650,500);
     setAcceptDrops(true);
     createWidgets();
 }
 
-void AddLessonWindow::createWidgets()
+void AddLessonWidget::createWidgets()
 {
 
    uploader = new ImageUploader(this);
@@ -121,7 +120,7 @@ void AddLessonWindow::createWidgets()
 
 }
 
-void AddLessonWindow::addStuff()
+void AddLessonWidget::addStuff()
 {
     if (lessonName->text().length() > 0)
     {

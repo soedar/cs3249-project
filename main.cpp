@@ -3,11 +3,9 @@
 #include <QApplication>
 #include "LessonsDBController.h"
 #include "LoginWindow.h"
-#include "AddLessonWindow.h"
 #include "TeacherWindow.h"
 #include "StudentWindow.h"
 #include "Project.h"
-#include "qdebug.h"
 #include "LessonWidget.h"
 
 int main(int argc, char *argv[])
@@ -21,7 +19,6 @@ int main(int argc, char *argv[])
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
     LoginWindow *loginWindow = new LoginWindow();
-    AddLessonWindow *addLessonWindow = new AddLessonWindow();
     TeacherWindow *teacherWindow = new TeacherWindow();
     StudentWindow *studentWindow = new StudentWindow();
     Project *project = new Project();
@@ -33,20 +30,19 @@ int main(int argc, char *argv[])
      * so just put them here
      */
 
-    QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
-    QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),addLessonWindow,SLOT(show()));
+    //QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
+    //QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),addLessonWindow,SLOT(show()));
 
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(updateTable()));
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(show()));
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),addLessonWindow,SLOT(hide()));
+    //QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(updateTable()));
+    //QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(show()));
 
 
-    QObject::connect(teacherWindow, SIGNAL(edit()), widget, SLOT(prepare()));
+    //QObject::connect(teacherWindow, SIGNAL(edit()), widget, SLOT(prepare()));
     QObject::connect(widget,SIGNAL(prepared()),widget,SLOT(show()));
-    QObject::connect(widget,SIGNAL(prepared()),teacherWindow,SLOT(hide()));
+    //QObject::connect(widget,SIGNAL(prepared()),teacherWindow,SLOT(hide()));
 
-    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(updateTable()));
-    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(show()));
+    //QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(updateTable()));
+    //QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(show()));
     QObject::connect(widget,SIGNAL(saved()),widget,SLOT(hide()));
 
     /*
@@ -60,12 +56,14 @@ int main(int argc, char *argv[])
     QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
     */
 
-    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
+    //QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
     QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
 
 
     //Login Process
 
+    teacherWindow->show();
+/*
     loginWindow->show();
     if (loginWindow->exec() == QDialog::Rejected)
     {
@@ -86,6 +84,8 @@ int main(int argc, char *argv[])
         studentWindow->show();
     }
     //project.show();
+    */
 
     return app->exec();
+
 }
