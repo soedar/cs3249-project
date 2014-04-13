@@ -21,4 +21,5 @@ void TeacherWindow::toggleAddWidget()
 void TeacherWindow::toggleMainWidget()
 {
     setCentralWidget(mainWidget);
+    mainWidget->updateTable();
 }

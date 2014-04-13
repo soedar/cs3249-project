@@ -122,14 +122,17 @@ void MainWidget::populateTableData()
         tempLesson = lessons.getLessons().at(i);
         tempString = tempLesson.getTopic();
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
         mainTable->setItem(i,0,item);
 
         tempString = tempLesson.getLesson();
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
         mainTable->setItem(i,1,item);
 
         tempString = tempLesson.getDate();
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
         mainTable->setItem(i,2,item);
     }
 

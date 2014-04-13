@@ -75,8 +75,6 @@ void AddLessonWidget::createWidgets()
    topHeader->addLayout(topLeftHeader);
    topHeader->addLayout(topRightHeader);
 
-
-
    uploadImages = new QLabel(tr("Upload Images"));
    uploadFiles = new QLabel(tr("Upload Files"));
 
