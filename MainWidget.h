@@ -18,39 +18,28 @@
 
 class MainWidget : public QWidget
 {
-    QObject;
+    Q_OBJECT;
 
 public:
     MainWidget();
-    void populateTableData();
+    virtual void populateTableData();
 
-    QPushButton *addNewButton;
     QPushButton *logOutButton;
-    QPushButton *editButton;
 
-private:
+protected:
     void createWidgets();
-    void initializeTable();
     void createButtons();
+    virtual void initializeTable();
 
-    int numSelected;
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
 
 
-    QPushButton *deleteButton;
-
     QTableWidget *mainTable;
 
 public slots:
     void updateTable();
-    void toggle(bool checked);
-    void deleteItem();
-    void selectItem();
-
-signals:
-    void edit();
 };
 
 #endif

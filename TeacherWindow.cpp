@@ -5,7 +5,7 @@ TeacherWindow::TeacherWindow()
 {
     setGeometry(0,0,800,600);
 
-    mainWidget = new MainWidget();
+    mainWidget = new TeacherMainWidget();
     QObject::connect(mainWidget->addNewButton,SIGNAL(clicked()),this,SLOT(toggleAddWidget()));
     toggleMainWidget();
 }

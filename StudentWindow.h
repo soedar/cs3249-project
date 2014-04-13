@@ -1,49 +1,21 @@
 #ifndef STUDENTWINDOW_H
 #define STUDENTWINDOW_H
 
-#include "LessonsDBController.h"
+#include <QMainWindow>
+#include "StudentMainWidget.h"
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-
-#include <QLineEdit>
-#include <QFormLayout>
-#include <QWidget>
-#include <QPushButton>
-#include <QTableWidget>
-#include <QLabel>
-#include <QCheckBox>
-#include <QHeaderView>
-#include <GridButton.h>
-#include <QCursor>
-
-
-class StudentWindow : public QDialog
+class StudentWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     StudentWindow();
-    void populateTableData();
-    QPushButton *logOutButton;
 
 private:
-    void createWidgets();
-    void initializeTable();
-    void createButtons();
+    StudentMainWidget *mainWidget;
 
-    LessonsDB lessons;
-    QVBoxLayout *mainLayout;
-    QPushButton *profileButton;
-
-    QTableWidget *mainTable;
-
-public slots:
-    void updateTable();
-    void transition();
-    void changeToHand();
-    void changeToCursor();
+private slots:
+void toggleMainWidget();
+};
 
 #endif // STUDENTWINDOW_H
-};

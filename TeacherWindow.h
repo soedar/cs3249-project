@@ -2,7 +2,7 @@
 #define TEACHERWINDOW_H
 
 #include <QMainWindow>
-#include "MainWidget.h"
+#include "TeacherMainWidget.h"
 #include "AddLessonWidget.h"
 
 class TeacherWindow : public QMainWindow
@@ -13,7 +13,7 @@ public:
     TeacherWindow();
 
 private:
-    MainWidget *mainWidget;
+    TeacherMainWidget *mainWidget;
     AddLessonWidget *addWidget;
 
 private slots:

@@ -57,12 +57,12 @@ int main(int argc, char *argv[])
     */
 
     //QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
-    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
+    //QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
 
 
     //Login Process
 
-    teacherWindow->show();
+    studentWindow->show();
 /*
     loginWindow->show();
     if (loginWindow->exec() == QDialog::Rejected)
