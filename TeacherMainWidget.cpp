@@ -68,7 +68,6 @@ void TeacherMainWidget::initializeTable()
 
 void TeacherMainWidget::populateTableData()
 {
-    qDebug("populating data");
     QStringList headers;
     headers << "Topic" << "Lessons" << "Date Modified" << "Action";
     mainTable->setHorizontalHeaderLabels(headers);

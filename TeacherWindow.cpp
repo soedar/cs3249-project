@@ -7,6 +7,7 @@ TeacherWindow::TeacherWindow()
 
     mainWidget = new TeacherMainWidget();
     QObject::connect(mainWidget->addNewButton,SIGNAL(clicked()),this,SLOT(toggleAddWidget()));
+    QObject::connect(mainWidget->logOutButton,SIGNAL(clicked()),this,SLOT(close()));
     toggleMainWidget();
 }
 
