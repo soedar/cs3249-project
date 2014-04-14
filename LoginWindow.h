@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "User.h"
+#include "DatabaseLayer.h"
 
 class QLineEdit;
 class QVBoxLayout;
@@ -14,7 +15,7 @@ class LoginWindow: public QDialog
     Q_OBJECT
 
 public:
-    LoginWindow();
+    LoginWindow(DatabaseLayer *db);
     User loggedInUser;
 
 private slots:
@@ -31,6 +32,7 @@ private:
     QLineEdit *emailLineEdit;
     QLineEdit *passwordLineEdit;
     QPushButton *loginButton;
+    DatabaseLayer *db;
 };
 
 #endif

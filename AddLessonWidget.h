@@ -15,11 +15,11 @@
 
 class Overseer;
 
-class AddLessonWindow : public QDialog
+class AddLessonWidget : public QWidget
 {
     Q_OBJECT
 public:
-    AddLessonWindow();
+    AddLessonWidget();
     QPushButton *uploadBtn;
 
 private:

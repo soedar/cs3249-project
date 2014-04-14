@@ -3,12 +3,11 @@
 #include <QApplication>
 #include "LessonsDBController.h"
 #include "LoginWindow.h"
-#include "AddLessonWindow.h"
 #include "TeacherWindow.h"
 #include "StudentWindow.h"
-#include "Project.h"
-#include "qdebug.h"
-#include "LessonWidget.h"
+
+#include "DatabaseLayer.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -18,74 +17,37 @@ int main(int argc, char *argv[])
      *All Windows should be initialized here
      */
 
+    DatabaseLayer databaseLayer;
+
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
-    LoginWindow *loginWindow = new LoginWindow();
-    AddLessonWindow *addLessonWindow = new AddLessonWindow();
-    TeacherWindow *teacherWindow = new TeacherWindow();
-    StudentWindow *studentWindow = new StudentWindow();
-    Project *project = new Project();
-    LessonWidget *widget = new LessonWidget();
 
 
-    /**
-     * Put all the connections here. For some reason having an overseer doesnt work so.. yeah
-     * so just put them here
-     */
+    MainWindow *chosenWindow;
+    int retValue;
+    do {
+        LoginWindow *loginWindow = new LoginWindow(&databaseLayer);
 
-    QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
-    QObject::connect(teacherWindow->addNewButton,SIGNAL(clicked()),addLessonWindow,SLOT(show()));
+        //Login Process
+        loginWindow->show();
+        if (loginWindow->exec() == QDialog::Rejected) {
+            return 0;
+        }
 
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(updateTable()));
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),teacherWindow,SLOT(show()));
-    QObject::connect(addLessonWindow->uploadBtn,SIGNAL(clicked()),addLessonWindow,SLOT(hide()));
+        User loggedInUser = loginWindow->loggedInUser;
 
+        TeacherWindow *teacherWindow = new TeacherWindow(&databaseLayer);
+        StudentWindow *studentWindow = new StudentWindow(&databaseLayer);
 
-    QObject::connect(teacherWindow, SIGNAL(edit()), widget, SLOT(prepare()));
-    QObject::connect(widget,SIGNAL(prepared()),widget,SLOT(show()));
-    QObject::connect(widget,SIGNAL(prepared()),teacherWindow,SLOT(hide()));
+        if (loggedInUser.userRole() == UserRoleTeacher) {
+            chosenWindow = teacherWindow;
+        } else {
+            chosenWindow = studentWindow;
+        }
 
-    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(updateTable()));
-    QObject::connect(widget,SIGNAL(saved()),teacherWindow,SLOT(show()));
-    QObject::connect(widget,SIGNAL(saved()),widget,SLOT(hide()));
+        chosenWindow->show();
+        retValue = app->exec();
+    } while (chosenWindow->didLoggedOff());
 
-    /*
-     *
-     * This part need to find a way to return user to login window and log in again
-     *
-    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),teacherWindow,SLOT(hide()));
-    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
-
-    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),studentWindow,SLOT(hide()));
-    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),loginWindow,SLOT(show()));
-    */
-
-    QObject::connect(teacherWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
-    QObject::connect(studentWindow->logOutButton,SIGNAL(clicked()),app,SLOT(closeAllWindows()));
-
-
-    //Login Process
-
-    loginWindow->show();
-    if (loginWindow->exec() == QDialog::Rejected)
-    {
-        return 0;
-    }
-
-    //loginWindow.loggedInUser now contain the logged in user
-    qDebug() << loginWindow->loggedInUser.email();
-
-    //widget->show();
-
-    if (loginWindow->loggedInUser.email() == "teacher")
-    {
-        teacherWindow->show();
-    }
-    else
-    {
-        studentWindow->show();
-    }
-    //project.show();
-
-    return app->exec();
+    return retValue;
 }

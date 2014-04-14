@@ -71,6 +71,7 @@ public slots:
     void deleteItem();
     void prepare();
     void saveAndExit();
+    void exit();
 
 };
 
