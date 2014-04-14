@@ -12,11 +12,12 @@
 #include <QWheelEvent>
 #include <QToolBar>
 #include <QAction>
-#include <AnnotationGraphicsItem.h>
+#include <CustomImage.h>
 #include <CustomScene.h>
 #include <QLabel>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QGraphicsPixmapItem>
 
 class LessonWidget : public QDialog
 {
@@ -27,7 +28,7 @@ public:
 private:
     QGraphicsView *imageView;
     CustomScene *scene;
-    QPixmap image;
+    QGraphicsPixmapItem *image;
     QTextEdit *pdfView;
     QMenu *transitMenu;
     QToolBar *toolbar;
@@ -44,7 +45,8 @@ private:
     QComboBox *topicName;
 
     QStringList *imageUrls;
-    QList<AnnotationGraphicsItem *> annotations;
+    QList<CustomImage *> annotations;
+    int currentIndex;
 
     double zoom;
     double maxZoom;
@@ -57,7 +59,6 @@ private:
 
 protected:
     void wheelEvent(QWheelEvent *event);
-
 
 signals:
     void prepared();
@@ -72,6 +73,10 @@ public slots:
     void prepare();
     void saveAndExit();
     void exit();
+    void previousImage();
+    void nextImage();
+    void clearScene();
+    void refreshScene();
 
 };
 

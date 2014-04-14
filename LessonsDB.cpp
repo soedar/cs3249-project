@@ -55,11 +55,15 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
     tempLesson.setTopic(topicName);
     tempLesson.addFiles(files);
     tempLesson.addImages(images);
+    for (int i=0; i<images->size(); i++)
+    {
+        tempLesson.addCustomImage(i);
+    }
     qDebug("Adding new item in LessonsDB\n");
     lessons.push_back(tempLesson);
 }
 
-void LessonsDB::editLesson(int index, const QString &lessonName, const QString &topicName, QList<AnnotationGraphicsItem *> annoList)
+void LessonsDB::editLesson(int index, const QString &lessonName, const QString &topicName, QList<CustomImage *> annoList)
 {
     Lesson tempLesson;
 

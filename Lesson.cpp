@@ -10,7 +10,7 @@ Lesson::Lesson()
     this->setTopic("");
     fileList = QStringList();
     imageList = QStringList();
-    annotations = QList<AnnotationGraphicsItem *>();
+    annotations = QList<CustomImage *>();
 }
 
 Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int maxMarks, int marks)
@@ -131,7 +131,7 @@ void Lesson::removeFile(const QString &string)
     this->fileList.removeOne(string);
 }
 
-QList<AnnotationGraphicsItem *> Lesson::getAnnos()
+QList<CustomImage *> Lesson::getAnnos()
 {
     return this->annotations;
 }
@@ -139,10 +139,32 @@ QList<AnnotationGraphicsItem *> Lesson::getAnnos()
 
 void Lesson::removeImage(const QString &string)
 {
+    int index = imageList.indexOf(string);
+    if (index > -1)
+    {
+        for (int i=0; i<annotations.size();i++)
+        {
+            CustomImage *image = annotations.at(i);
+            if (image->getIndex() == index)
+            {
+                annotations.removeAt(i);
+                break;
+            }
+        }
+        for (int i=0; i<annotations.size(); i++)
+        {
+            CustomImage *image = annotations.at(i);
+            if (image->getIndex() > index)
+            {
+                annotations.at(i)->setIndex(image->getIndex()-1);
+                break;
+            }
+        }
+    }
     this->imageList.removeOne(string);
 }
 
-void Lesson::setAnnos(QList<AnnotationGraphicsItem *> tempList)
+void Lesson::setAnnos(QList<CustomImage *> tempList)
 {
     this->annotations.clear();
 
@@ -152,10 +174,17 @@ void Lesson::setAnnos(QList<AnnotationGraphicsItem *> tempList)
     }
 }
 
-void Lesson::addAnnos(QList<AnnotationGraphicsItem *> tempList)
+void Lesson::addCustomImage(int ind)
 {
-    for (int i=0; i<tempList.size(); i++)
-    {
-        this->annotations.push_back(tempList.at(i));
-    }
+    CustomImage *tempImage = new CustomImage();
+    tempImage->setIndex(ind);
+    annotations.push_back(tempImage);
+}
+
+void Lesson::addAnnos(int index, QList<AnnotationGraphicsItem *> tempList)
+{
+    CustomImage *image = new CustomImage();
+    image->setAnnos(tempList);
+    image->setIndex(index);
+    this->annotations.push_back(image);
 }

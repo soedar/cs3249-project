@@ -18,6 +18,18 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mousePressEvent(event);
 }
 
+void CustomScene::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_A)
+    {
+        emit toTheLeft();
+    }
+    else if (event->key() == Qt::Key_D)
+    {
+        emit toTheRight();
+    }
+}
+
 void CustomScene::setDelete(bool del)
 {
     deleting = del;
