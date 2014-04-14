@@ -35,7 +35,7 @@ void LessonsDBController::addLesson(const QString &lessonName, const QString &to
     ldb.addLesson(lessonName, topicName, files, images);
 }
 
-void LessonsDBController::editLesson(int index, const QString &lessonName, const QString &topicName, QList<AnnotationGraphicsItem *> annoList)
+void LessonsDBController::editLesson(int index, const QString &lessonName, const QString &topicName, QList<CustomImage *> annoList)
 {
     ldb.editLesson(index,lessonName,topicName,annoList);
 }

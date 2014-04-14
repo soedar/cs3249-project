@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QStringList>
-#include <AnnotationGraphicsItem.h>
+#include <CustomImage.h>
 
 class Lesson
 {
@@ -33,9 +33,10 @@ public:
     void addFiles(QStringList list);
     void removeImage(const QString &string);
     void removeFile(const QString &string);
-    QList<AnnotationGraphicsItem *> getAnnos();
-    void addAnnos(QList<AnnotationGraphicsItem *> tempList);
-    void setAnnos(QList<AnnotationGraphicsItem *> tempList);
+    QList<CustomImage *> getAnnos();
+    void addAnnos(int index, QList<AnnotationGraphicsItem *> tempList);
+    void setAnnos(QList<CustomImage *> tempList);
+    void addCustomImage(int ind);
 
 private:
     bool teacher;
@@ -46,7 +47,7 @@ private:
     int marks;
     QStringList imageList;
     QStringList fileList;
-    QList<AnnotationGraphicsItem *> annotations;
+    QList<CustomImage *> annotations;
 
 };
 

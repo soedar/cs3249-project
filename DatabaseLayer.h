@@ -2,7 +2,7 @@
 #define DB_LAYER_H
 
 #include <QString>
-#include <Qmap>
+#include <QMap>
 #include "User.h"
 
 class DatabaseLayer {

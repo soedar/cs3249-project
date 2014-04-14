@@ -13,19 +13,17 @@ LessonWidget::LessonWidget()
     //pdfView = new QTextEdit(this);
     imageView->setScene(scene);
     imageUrls = new QStringList();
-    annotations = QList<AnnotationGraphicsItem *>();
+    annotations = QList<CustomImage *>();
+    currentIndex = -1;
+    image = new QGraphicsPixmapItem();
+    image->setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-    /*
-     * Push any image url u want here
-     */
-    //imageUrls->push_back("C:/Program Files/Epic Battles ROTZ/Planets/Earth - 4.5bya");
 
     zoom = 1.0;
     maxZoom = 3.0;
     minZoom = 0.4;
     createWidgets();
     createActions();
-    initImages();
 }
 
 void LessonWidget::createWidgets()
@@ -63,6 +61,10 @@ void LessonWidget::createWidgets()
     topHeader->addLayout(topRightHeader);
     mainLayout->addLayout(topHeader);
     mainLayout->addLayout(graphicsLayout);
+
+
+    connect(scene,SIGNAL(toTheLeft()),this,SLOT(previousImage()));
+    connect(scene,SIGNAL(toTheRight()),this,SLOT(nextImage()));
 
 
     setLayout(mainLayout);
@@ -125,18 +127,10 @@ void LessonWidget::createActions()
     toolbar->addAction(saveAction);
 }
 
-void LessonWidget::initImages()
-{
-    if (imageUrls->size() > 0)
-    {
-        setImage(0);
-    }
-}
 void LessonWidget::setImage(int index)
 {
-    image = QPixmap::fromImage(QImage(imageUrls->at(index)));
-
-    scene->addPixmap(image);
+    QPixmap pixmap = QPixmap::fromImage(QImage(imageUrls->at(index)));
+    image->setPixmap(pixmap);
 }
 
 void LessonWidget::wheelEvent(QWheelEvent *event)
@@ -175,7 +169,11 @@ void LessonWidget::wheelEvent(QWheelEvent *event)
 
 void LessonWidget::addNewAnnotation()
 {
-    int i = annotations.size();
+    if (annotations.size() < 1)
+    {
+        return;
+    }
+    int i = annotations.at(currentIndex)->getAnnos().size();
     AnnotationGraphicsItem *agi = new AnnotationGraphicsItem();
     agi->box->setIndex(i);
     agi->boxRect->setIndex(i);
@@ -186,8 +184,9 @@ void LessonWidget::addNewAnnotation()
     scene->addItem(agi->boxRect);
     scene->addItem(agi->lineRect);
 
-    annotations.push_back(agi);
-
+    qDebug() << "Anno size : " << annotations.at(currentIndex)->getAnnos().size() << "\n";
+    annotations.at(currentIndex)->addAnno(agi);
+    qDebug() << "Anno size : " << annotations.at(currentIndex)->getAnnos().size() << "\n";
 }
 
 void LessonWidget::enableMove()
@@ -195,12 +194,13 @@ void LessonWidget::enableMove()
     QWidget::setCursor(Qt::OpenHandCursor);
     imageView->setDragMode(QGraphicsView::ScrollHandDrag);
     scene->setDelete(false);
-    for (int i=0; i<annotations.size(); i++)
+    QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+    for (int i=0; i<tempList.size(); i++)
     {
-        annotations.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable);
-        annotations.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable);
-        annotations.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable);
-        annotations.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable);
+        tempList.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable);
+        tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable);
+        tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable);
+        tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable);
     }
 }
 
@@ -209,12 +209,13 @@ void LessonWidget::enableSelect()
     imageView->setDragMode(QGraphicsView::RubberBandDrag);
     QWidget::setCursor(Qt::ArrowCursor);
     scene->setDelete(false);
-    for (int i=0; i<annotations.size(); i++)
+    QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+    for (int i=0; i<tempList.size(); i++)
     {
-        annotations.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
     }
 }
 
@@ -223,12 +224,13 @@ void LessonWidget::changeCursorDelete()
     imageView->setDragMode(QGraphicsView::NoDrag);
     QWidget::setCursor(QCursor(QPixmap(tr(":/assets/delete.png"))));
     scene->setDelete(true);
-    for (int i=0; i<annotations.size(); i++)
+    QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+    for (int i=0; i<tempList.size(); i++)
     {
-        annotations.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
-        annotations.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->box->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
     }
 }
 
@@ -247,24 +249,19 @@ void LessonWidget::deleteItem()
 
     qSort(nums.begin(),nums.end(),qGreater<int>());
 
+    QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
     for (int i=0; i<nums.size(); i++)
     {
-        AnnotationGraphicsItem *tempItem = annotations.takeAt(nums.at(i));
+        AnnotationGraphicsItem *tempItem = tempList.takeAt(nums.at(i));
         scene->removeItem(tempItem->box);
         scene->removeItem(tempItem->boxRect);
         scene->removeItem(tempItem->line);
         scene->removeItem(tempItem->lineRect);
+        annotations.at(currentIndex)->removeAnno(nums.at(i));
         delete tempItem;
     }
 
-    for (int i=0; i<annotations.size(); i++)
-    {
-        AnnotationGraphicsItem *tempItem = annotations.at(i);
-        tempItem->box->setIndex(i);
-        tempItem->boxRect->setIndex(i);
-        tempItem->line->setIndex(i);
-        tempItem->lineRect->setIndex(i);
-    }
+    annotations.at(currentIndex)->updateIndices();
 }
 
 void LessonWidget::prepare()
@@ -276,17 +273,40 @@ void LessonWidget::prepare()
         return;
     }
     tempLesson = LessonsDBController::getDB().getLessons().at(editIndex);
-    QList<AnnotationGraphicsItem *> tempList = tempLesson.getAnnos();
+    annotations = tempLesson.getAnnos();
 
-    for (int i=0; i<tempList.size(); i++)
+    QStringList tempImages = tempLesson.getImageList();
+
+    //Push the images of the lesson into the imageList
+    for (int i=0; i<tempImages.size(); i++)
     {
-        AnnotationGraphicsItem *item = tempList.at(i);
-        annotations.push_back(item);
-        scene->addItem(item->box);
-        scene->addItem(item->line);
-        scene->addItem(item->boxRect);
-        scene->addItem(item->lineRect);
+        imageUrls->push_back(tempImages.at(i));
     }
+
+    scene->addItem(image);
+
+    //Add the annotations of the image at index 0 into the scene
+    if (annotations.size() > 0)
+    {
+        currentIndex = 0;
+        setImage(0);
+        QList<AnnotationGraphicsItem *> tempAnnos = annotations.at(0)->getAnnos();
+        for (int i=0; i<tempAnnos.size(); i++)
+        {
+            AnnotationGraphicsItem *anno = tempAnnos.at(i);
+            scene->addItem(anno->line);
+            scene->addItem(anno->lineRect);
+            scene->addItem(anno->boxRect);
+            scene->addItem(anno->box);
+        }
+    }
+    else
+    {
+        currentIndex = -1;
+    }
+
+
+    //Initialize topics
     QStringList list = LessonsDBController::getDB().getTopics();
     for (int i=0; i<list.size(); i++)
     {
@@ -295,7 +315,10 @@ void LessonWidget::prepare()
             topicName->setCurrentIndex(i);
         }
     }
+    //Initialize lesson name
     lessonName->setText(tempLesson.getLesson());
+
+    qDebug() << "Lesson Loaded\n" << "No.of images = " << annotations.size() << "\n";
 
     emit prepared();
 }
@@ -304,19 +327,86 @@ void LessonWidget::saveAndExit()
 {
     LessonsDBController::editLesson(LessonsDBController::getIndex(),lessonName->text(),topicName->currentText(),annotations);
     LessonsDBController::setIndex(-1);
-    int size = annotations.size();
-    for (int i=0; i<size; i++)
-    {
-        AnnotationGraphicsItem *tempItem = annotations.takeLast();
-        scene->removeItem(tempItem->box);
-        scene->removeItem(tempItem->boxRect);
-        scene->removeItem(tempItem->line);
-        scene->removeItem(tempItem->lineRect);
-    }
+
+
+        QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+        int size = tempList.size();
+        for (int i=0; i<size; i++)
+        {
+            AnnotationGraphicsItem *tempItem = tempList.takeLast();
+            scene->removeItem(tempItem->box);
+            scene->removeItem(tempItem->boxRect);
+            scene->removeItem(tempItem->line);
+            scene->removeItem(tempItem->lineRect);
+        }
+    scene->removeItem(image);
+    annotations.clear();
     emit saved();
 }
 
 void LessonWidget::exit()
 {
     delete this;
+}
+
+void LessonWidget::previousImage()
+{
+    qDebug() << "TO THE LEFT! TO THE LEFT!\n";
+
+    if (annotations.size() == 0 || currentIndex == 0)
+    {
+        return;
+    }
+
+    else
+    {
+        clearScene();
+        currentIndex = currentIndex-1;
+        refreshScene();
+    }
+}
+void LessonWidget::nextImage()
+{
+    qDebug() << "TO THE RIGHT! TO THE RIGHT!\n";
+    if (annotations.size() == 0 || currentIndex == annotations.size()-1)
+    {
+        return;
+    }
+    else
+    {
+        clearScene();
+        currentIndex = currentIndex+1;
+        refreshScene();
+    }
+}
+
+void LessonWidget::clearScene()
+{
+    qDebug() << "CI : " << currentIndex << "\n";
+        QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+        int size = tempList.size();
+        for (int i=0; i<size; i++)
+        {
+            AnnotationGraphicsItem *tempItem = tempList.at(i);
+            scene->removeItem(tempItem->box);
+            scene->removeItem(tempItem->boxRect);
+            scene->removeItem(tempItem->line);
+            scene->removeItem(tempItem->lineRect);
+        }
+}
+
+
+void LessonWidget::refreshScene()
+{
+    qDebug() << "CI : " << currentIndex << "\n";
+    setImage(currentIndex);
+    QList<AnnotationGraphicsItem *> tempAnnos = annotations.at(currentIndex)->getAnnos();
+    for (int i=0; i<tempAnnos.size(); i++)
+    {
+        AnnotationGraphicsItem *anno = tempAnnos.at(i);
+        scene->addItem(anno->line);
+        scene->addItem(anno->lineRect);
+        scene->addItem(anno->boxRect);
+        scene->addItem(anno->box);
+    }
 }
