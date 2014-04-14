@@ -17,6 +17,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QComboBox>
+#include "TestWidget.h"
 
 class LessonWidget : public QDialog
 {
@@ -55,6 +56,8 @@ private:
     void createActions();
     void setImage(int index);
 
+    TestWidget *testWidget;
+
 protected:
     void wheelEvent(QWheelEvent *event);
 
@@ -73,6 +76,8 @@ public slots:
     void saveAndExit();
     void exit();
 
+private slots:
+    void showTestWidget();
 };
 
 #endif // LESSONWIDGET_H

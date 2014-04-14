@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include "LessonsDBController.h"
+#include "TestsDBController.h"
 #include "LoginWindow.h"
 #include "TeacherWindow.h"
 #include "StudentWindow.h"
@@ -22,6 +23,8 @@ int main(int argc, char *argv[])
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
 
+    TestsDBController *tdb = new TestsDBController();
+    tdb->init();
 
     MainWindow *chosenWindow;
     int retValue;

@@ -2,6 +2,7 @@
 #define MAINWIDGET_H
 
 #include "LessonsDBController.h"
+#include "TestsDB.h"
 
 #include <QDialog>
 #include <QVBoxLayout>
@@ -34,7 +35,6 @@ protected:
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
     QPushButton *profileButton;
-
 
     QTableWidget *mainTable;
 

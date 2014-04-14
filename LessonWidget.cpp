@@ -320,3 +320,9 @@ void LessonWidget::exit()
 {
     delete this;
 }
+
+void LessonWidget::showTestWidget() {
+    //testWidget = new TestWidget(STICK THE LESSON NAME HERE);
+
+    // I haven't added any buttons there yet
+}

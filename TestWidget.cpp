@@ -4,24 +4,17 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget()
+TestWidget::TestWidget(QString name)
 {
+    tests = TestsDBController::getDB();
+    // for testing
+    tests.forTesting(this);
+
     setGeometry(0,0,1000,600);
     setMouseTracking(true);
 
-}
-
-void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
-                       QString op3, QString op4, int ans) {
-
-    Question *question = new Question(this);
-    question->createQuestion(qnsName, op1, op2, op3, op4);
-    question->setAns(ans);
-    questionList.append(question);
-}
-
-void TestWidget::deleteTest() {
-
+    lessonName = name;
+    questionList = tests.getTest(lessonName);
 }
 
 void TestWidget::setLayout() {
@@ -37,3 +30,30 @@ void TestWidget::setLayout() {
     window->show();
 
 }
+
+void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
+                       QString op3, QString op4, int ans) {
+
+    Question *question = new Question(this);
+    question->setQuestion(qnsName, op1, op2, op3, op4, ans);
+    questionList.append(question);
+
+    qDebug("Successfully added qns");
+}
+
+void TestWidget::saveTest() {
+    tests.addTest(lessonName, questionList);
+}
+
+// TODO: add confirmation dialog if there's time
+void TestWidget::deleteTest() {
+    tests.deleteTest(lessonName);
+
+    // confirmation dialog here
+
+
+    // redraw to show blank window?
+
+}
+
+

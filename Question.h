@@ -7,16 +7,17 @@ class Question : public QWidget
 {
     Q_OBJECT
 public:
-    Question(QWidget *parent);
-    QGroupBox *createQuestion(QString name, QString op1,
+    Question(QWidget *parent = 0);
+    QGroupBox *setQuestion(QString name, QString op1,
                              QString op2, QString op3,
-                             QString op4);
+                             QString op4, int ans);
     bool isCorrect();
     int getSelectedOption();
     int getAns();
-    void setAns(int ans);
+
 
 private:
+    void setAns(int ans);
     QVBoxLayout *vbox;
     QGroupBox *qnsName;
     QRadioButton *qnsOp1;

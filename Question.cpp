@@ -5,9 +5,9 @@ Question::Question(QWidget *parent)
     vbox = new QVBoxLayout;
 }
 
-QGroupBox *Question::createQuestion(QString name, QString op1,
+QGroupBox *Question::setQuestion(QString name, QString op1,
                                    QString op2, QString op3,
-                                   QString op4) {
+                                   QString op4, int ans) {
 
     // Question name
     qnsName = new QGroupBox(name);
@@ -26,6 +26,8 @@ QGroupBox *Question::createQuestion(QString name, QString op1,
     //vbox->addStretch(1);
     qnsName->setLayout(vbox);
 
+    setAns(ans);
+
     return qnsName;
 
 }
@@ -40,6 +42,7 @@ bool Question::isCorrect() {
 
 void Question::setAns(int ans) {
     answer = ans;
+    qDebug("Successfully set qns ans");
 }
 
 int Question::getAns() {
