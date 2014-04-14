@@ -20,12 +20,15 @@ int main(int argc, char *argv[])
 
     DatabaseLayer databaseLayer;
 
+<<<<<<< HEAD
     LessonsDBController *ldb = new LessonsDBController();
     ldb->init();
 
     TestsDBController *tdb = new TestsDBController();
     tdb->init();
 
+=======
+>>>>>>> origin/refactor
     MainWindow *chosenWindow;
     int retValue;
     do {
@@ -39,6 +42,7 @@ int main(int argc, char *argv[])
 
         User loggedInUser = loginWindow->loggedInUser;
 
+        databaseLayer.loadLessons();
         TeacherWindow *teacherWindow = new TeacherWindow(&databaseLayer);
         StudentWindow *studentWindow = new StudentWindow(&databaseLayer);
 

@@ -6,7 +6,7 @@ Lesson::Lesson()
     this->setTeacher(true);
     this->setLesson("");
     this->setMarks(0);
-    this->setMaxMarks(0);
+    this->setMaxMarks(10);
     this->setTopic("");
     fileList = QStringList();
     imageList = QStringList();
@@ -21,6 +21,9 @@ Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int ma
         this->setDate(date);
         this->setMaxMarks(maxMarks);
         this->setMarks(marks);
+        fileList = QStringList();
+        imageList = QStringList();
+        annotations = QList<CustomImage *>();
 }
 
 //Getters and Setters
@@ -97,7 +100,7 @@ void Lesson::setTeacher(bool teacher)
 
 void Lesson::addFiles(QStringList *list)
 {
-    for (int i=0; i<list->count(); i++)
+    for (int i=0; i<list->size(); i++)
     {
         this->fileList.push_back(list->at(i));
     }
@@ -105,7 +108,7 @@ void Lesson::addFiles(QStringList *list)
 
 void Lesson::addImages(QStringList *list)
 {
-    for (int i=0; i<list->count(); i++)
+    for (int i=0; i<list->size(); i++)
     {
         this->imageList.push_back(list->at(i));
     }
@@ -113,7 +116,7 @@ void Lesson::addImages(QStringList *list)
 
 void Lesson::addFiles(QStringList list)
 {
-    for (int i=0; i<list.count(); i++)
+    for (int i=0; i<list.size(); i++)
     {
         this->fileList.push_back(list.at(i));
     }
@@ -121,7 +124,7 @@ void Lesson::addFiles(QStringList list)
 
 void Lesson::addImages(QStringList list)
 {
-    for (int i=0; i<list.count(); i++)
+    for (int i=0; i<list.size(); i++)
     {
         this->imageList.push_back(list.at(i));
     }
@@ -142,7 +145,7 @@ void Lesson::removeImage(const QString &string)
     int index = imageList.indexOf(string);
     if (index > -1)
     {
-        for (int i=0; i<annotations.size();i++)
+        for (int i=0; i<annotations.size(); i++)
         {
             CustomImage *image = annotations.at(i);
             if (image->getIndex() == index)
@@ -171,6 +174,30 @@ void Lesson::setAnnos(QList<CustomImage *> tempList)
     for (int i=0; i<tempList.size(); i++)
     {
         this->annotations.push_back(tempList.at(i));
+    }
+}
+
+void Lesson::setAnnos(QList<CustomImage *> tempList ,QList<int> numbers, QList<QPointF> positions)
+{
+    this->annotations.clear();
+    int count = 0;
+
+    if (tempList.size() != numbers.size())
+    {
+        qDebug() << "Number of numbers != Number of Custom Images\nSomething went wrong\n";
+    }
+
+    for (int i=0; i<tempList.size(); i++)
+    {
+        CustomImage *image = tempList.at(i);
+
+        for (int j=0; j<numbers.at(i); j++)
+        {
+            image->addAnno(new AnnotationGraphicsItem());
+            image->setPos(j,positions.at(count), positions.at(count+1));
+            count = count+2;
+        }
+        annotations.push_back(image);
     }
 }
 

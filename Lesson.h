@@ -36,6 +36,7 @@ public:
     QList<CustomImage *> getAnnos();
     void addAnnos(int index, QList<AnnotationGraphicsItem *> tempList);
     void setAnnos(QList<CustomImage *> tempList);
+    void setAnnos(QList<CustomImage *> tempList, QList<int> numbers, QList<QPointF> positions);
     void addCustomImage(int ind);
 
 private:

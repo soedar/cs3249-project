@@ -123,6 +123,7 @@ void AddLessonWidget::addStuff()
     if (lessonName->text().length() > 0)
     {
         LessonsDBController::addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
+        qDebug() << "Num Files : " << uploaderF->getList()->size() << "   Num Images : " << uploader->getList()->size() << "\n";
     }
     lessonName->clear();
     uploaderF->clearData();

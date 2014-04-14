@@ -4,6 +4,7 @@ TeacherMainWidget::TeacherMainWidget()
 {
     numSelected = 0;
     createWidgets();
+    qDebug("Teacher Window initialized\n");
 }
 
 void TeacherMainWidget::initializeTable()
@@ -49,7 +50,7 @@ void TeacherMainWidget::initializeTable()
     mainLayout->addLayout(tableHeader);
 
     mainTable = new QTableWidget;
-    mainTable->setRowCount(2);
+    mainTable->setRowCount(0);
     mainTable->setColumnCount(4);
     QStringList headers;
     headers << "Topic" << "Lessons" << "Date Modified" << "Action";

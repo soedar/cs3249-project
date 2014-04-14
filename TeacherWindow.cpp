@@ -11,6 +11,8 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(this->editWidget,SIGNAL(prepared()), this->editWidget,SLOT(show()));
     QObject::connect(this->editWidget, SIGNAL(saved()), teacherMainWidget, SLOT(updateTable()));
     QObject::connect(this->editWidget, SIGNAL(saved()), this->editWidget, SLOT(hide()));
+    QObject::connect(teacherMainWidget->profileButton, SIGNAL(clicked()), this, SLOT(save()));
+    QObject::connect(teacherMainWidget->logOutButton, SIGNAL(clicked()), this, SLOT(save()));
 }
 
 void TeacherWindow::showAddWidget()
@@ -19,4 +21,9 @@ void TeacherWindow::showAddWidget()
     QObject::connect(addWidget->uploadBtn, SIGNAL(clicked()), this, SLOT(showMainWidget()));
     mainWidget->setParent(0);
     setCentralWidget(addWidget);
+}
+
+void TeacherWindow::save()
+{
+    db->saveLessons();
 }
