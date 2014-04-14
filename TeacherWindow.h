@@ -5,6 +5,7 @@
 #include "AddLessonWidget.h"
 #include "MainWindow.h"
 #include "DatabaseLayer.h"
+#include "LessonWidget.h"
 
 class TeacherWindow : public MainWindow
 {
@@ -15,6 +16,7 @@ public:
 private:
     TeacherMainWidget *teacherMainWidget;
     AddLessonWidget *addWidget;
+    LessonWidget *editWidget;
 
 private slots:
     void showAddWidget();

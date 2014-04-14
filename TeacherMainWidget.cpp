@@ -188,6 +188,7 @@ void TeacherMainWidget::selectItem()
                 editButton->setEnabled(false);
                 deleteButton->setEnabled(false);
                 LessonsDBController::setIndex(i);
+                qDebug("emitting");
                 emit edit();
                 return;
             }
