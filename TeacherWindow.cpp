@@ -9,6 +9,8 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(teacherMainWidget->addNewButton, SIGNAL(clicked()), this, SLOT(showAddWidget()));
     QObject::connect(teacherMainWidget, SIGNAL(edit()), this->editWidget, SLOT(prepare()));
     QObject::connect(this->editWidget,SIGNAL(prepared()), this->editWidget,SLOT(show()));
+    QObject::connect(this->editWidget, SIGNAL(saved()), teacherMainWidget, SLOT(updateTable()));
+    QObject::connect(this->editWidget, SIGNAL(saved()), this->editWidget, SLOT(hide()));
 }
 
 void TeacherWindow::showAddWidget()

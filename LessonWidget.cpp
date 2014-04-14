@@ -315,3 +315,8 @@ void LessonWidget::saveAndExit()
     }
     emit saved();
 }
+
+void LessonWidget::exit()
+{
+    delete this;
+}
