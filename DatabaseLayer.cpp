@@ -11,6 +11,8 @@ DatabaseLayer::DatabaseLayer()
     QDir dataDir(dataPath);
     dataDir.mkpath(dataPath);
 
+    qDebug() << "Data path is: " << dataPath;
+
     loadAllUsers();
 }
 
