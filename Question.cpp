@@ -5,27 +5,28 @@ Question::Question(QWidget *parent)
     vbox = new QVBoxLayout;
 }
 
-QGroupBox Question::createQuestion(QString qnsName, QString op1,
-                                   QString op2, QString op3, QString op4) {
+QGroupBox *Question::createQuestion(QString name, QString op1,
+                                   QString op2, QString op3,
+                                   QString op4) {
 
     // Question name
-    *questionName = new QGroupBox(tr(qnsName));
+    qnsName = new QGroupBox(name);
 
     // Options
-    *op1 = new QRadioButton(tr(op1));
-    *op2 = new QRadioButton(tr(op2));
-    *op3 = new QRadioButton(tr(op3));
-    *op4 = new QRadioButton(tr(op4));
+    qnsOp1 = new QRadioButton(op1);
+    qnsOp2 = new QRadioButton(op2);
+    qnsOp3 = new QRadioButton(op3);
+    qnsOp4 = new QRadioButton(op4);
 
     // Set a vertical layout for the question and options
-    vbox->addWidget(op1);
-    vbox->addWidget(op2);
-    vbox->addWidget(op3);
-    vbox->addWidget(op4);
+    vbox->addWidget(qnsOp1);
+    vbox->addWidget(qnsOp2);
+    vbox->addWidget(qnsOp3);
+    vbox->addWidget(qnsOp4);
     //vbox->addStretch(1);
-    questionName->setLayout(vbox);
+    qnsName->setLayout(vbox);
 
-    return questionName;
+    return qnsName;
 
 }
 
@@ -46,13 +47,13 @@ int Question::getAns() {
 }
 
 int Question::getSelectedOption() {
-    if(op1->isChecked()) {
+    if(qnsOp1->isChecked()) {
         return 1;
-    } else if(op2->isChecked()) {
+    } else if(qnsOp2->isChecked()) {
         return 2;
-    } else if(op3->isChecked()) {
+    } else if(qnsOp3->isChecked()) {
         return 3;
-    } else if(op4->isChecked()) {
+    } else if(qnsOp4->isChecked()) {
         return 4;
     } else {
         return 0;       // Student left question blank ):

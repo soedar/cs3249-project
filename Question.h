@@ -8,9 +8,9 @@ class Question : public QWidget
     Q_OBJECT
 public:
     Question(QWidget *parent);
-    QGroupBox *createQuestion(const QString &string, const QString &string,
-                              const QString &string, const QString &string,
-                              const QString &string);
+    QGroupBox *createQuestion(QString name, QString op1,
+                             QString op2, QString op3,
+                             QString op4);
     bool isCorrect();
     int getSelectedOption();
     int getAns();
@@ -18,11 +18,11 @@ public:
 
 private:
     QVBoxLayout *vbox;
-    QGroupBox *questionName;
-    QRadioButton *op1;
-    QRadioButton *op2;
-    QRadioButton *op3;
-    QRadioButton *op4;
+    QGroupBox *qnsName;
+    QRadioButton *qnsOp1;
+    QRadioButton *qnsOp2;
+    QRadioButton *qnsOp3;
+    QRadioButton *qnsOp4;
     int answer;
 
 };

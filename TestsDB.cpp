@@ -4,3 +4,8 @@ TestsDB::TestsDB()
 {
 
 }
+
+QList<Question *> TestsDB::getTests() {
+
+
+}

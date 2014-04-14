@@ -25,6 +25,7 @@ Makefile
 *.app
 
 cs3249-project
+test.cpp.autosave
 
 .DS_Store
 
