@@ -23,6 +23,9 @@ class StudentMainWidget : public MainWidget
         void transition();
         void changeToHand();
         void changeToCursor();
+
+    signals:
+        void selectedLesson(int i);
 };
 
 

@@ -91,10 +91,12 @@ void StudentMainWidget::populateTableData()
 
 void StudentMainWidget::transition()
 {
+    lessons = LessonsDBController::getDB();
+
     GridButton *button = (GridButton *)sender();
     int index = button->getIndex();
-    qDebug() << "Index Clicked : " << index << "\n";
 
+    emit selectedLesson(index);
 }
 
 void StudentMainWidget::changeToHand()

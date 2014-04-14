@@ -4,6 +4,7 @@
 #include "DatabaseLayer.h"
 #include "MainWindow.h"
 #include "StudentMainWidget.h"
+#include "StudentLessonWidget.h"
 
 class StudentWindow : public MainWindow
 {
@@ -14,6 +15,9 @@ public:
 private:
     StudentWindow(DatabaseLayer *db, StudentMainWidget *studentMainWidget);
     StudentMainWidget *studentMainWidget;
+
+private slots:
+    void showLessonWidget(int i);
 };
 
 #endif // STUDENTWINDOW_H
