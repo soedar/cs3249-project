@@ -15,6 +15,7 @@ private:
     QMap<QString, User> users;
 
     void loadAllUsers();
+    void preloadUsers();
     QString userDatabaseFile();
 };
 

@@ -13,7 +13,24 @@ DatabaseLayer::DatabaseLayer()
 
     qDebug() << "Data path is: " << dataPath;
 
+    preloadUsers();
+
     loadAllUsers();
+}
+
+void DatabaseLayer::preloadUsers()
+{
+    QFile userFile(userDatabaseFile());
+    if (!userFile.exists()) {
+        if (!userFile.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(0, "error", userFile.errorString());
+            return;
+        }
+        QTextStream out(&userFile);
+        out << "teacher:11111:2" << endl;
+        out << "student:11111:1";
+    }
+    userFile.close();
 }
 
 QString DatabaseLayer::userDatabaseFile()
@@ -55,4 +72,5 @@ void DatabaseLayer::loadAllUsers()
             users.insert(email, user);
         }
     }
+    userFile.close();
 }
