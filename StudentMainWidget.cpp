@@ -3,6 +3,7 @@
 StudentMainWidget::StudentMainWidget()
 {
     createWidgets();
+    qDebug("Student Window initialized\n");
 }
 
 void StudentMainWidget::initializeTable()
@@ -21,7 +22,7 @@ void StudentMainWidget::initializeTable()
     mainLayout->addLayout(tableHeader);
 
     mainTable = new QTableWidget;
-    mainTable->setRowCount(2);
+    mainTable->setRowCount(0);
     mainTable->setColumnCount(3);
     QStringList headers;
     headers << "Topic" << "Lessons" << "Marks";
@@ -46,12 +47,10 @@ void StudentMainWidget::populateTableData()
 
     while (mainTable->rowCount() < lessons.getLessons().size())
     {
-        qDebug("adding a new row\n");
         mainTable->insertRow(mainTable->rowCount());
     }
     while (mainTable->rowCount() > lessons.getLessons().size())
     {
-        qDebug("removing a row\n");
         mainTable->removeRow(mainTable->rowCount()-1);
     }
 

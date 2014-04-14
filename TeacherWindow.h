@@ -20,6 +20,7 @@ private:
 
 private slots:
     void showAddWidget();
+    void save();
 };
 
 #endif // TEACHERWINDOW_H

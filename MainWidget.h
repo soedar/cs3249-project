@@ -18,13 +18,14 @@
 
 class MainWidget : public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     MainWidget();
     virtual void populateTableData();
 
     QPushButton *logOutButton;
+     QPushButton *profileButton;
 
 protected:
     void createWidgets();
@@ -33,7 +34,7 @@ protected:
 
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
-    QPushButton *profileButton;
+
 
 
     QTableWidget *mainTable;

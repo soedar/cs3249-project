@@ -19,10 +19,6 @@ int main(int argc, char *argv[])
 
     DatabaseLayer databaseLayer;
 
-    LessonsDBController *ldb = new LessonsDBController();
-    ldb->init();
-
-
     MainWindow *chosenWindow;
     int retValue;
     do {
@@ -36,6 +32,7 @@ int main(int argc, char *argv[])
 
         User loggedInUser = loginWindow->loggedInUser;
 
+        databaseLayer.loadLessons();
         TeacherWindow *teacherWindow = new TeacherWindow(&databaseLayer);
         StudentWindow *studentWindow = new StudentWindow(&databaseLayer);
 

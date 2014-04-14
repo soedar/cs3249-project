@@ -15,12 +15,15 @@ public:
     static void editLesson(int index, const QString &lessonName, const QString &topicName, QList<CustomImage *> annoList);
     static void deleteItemAt(int index);
     static void setIndex(int ind);
-    static int getIndex();
-
+    static int getIndex(); 
+    static void addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions);
+    //static void addLesson(bool isTeacher, QString lessonName, QString topicName, QString date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions);
 private:
     static LessonsDB ldb;
     bool initialized;
     static int editIndex;
+
+    QString dataPath;
 };
 
 #endif // LESSONDBCONTROLLER_H

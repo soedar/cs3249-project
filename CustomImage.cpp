@@ -23,6 +23,17 @@ void CustomImage::removeAnno(int ind)
     annotations.removeAt(ind);
 }
 
+void CustomImage::setPos(int ind, QPointF pos1, QPointF pos2)
+{
+    AnnotationGraphicsItem *item = annotations.at(ind);
+
+    item->box->setPos(QPointF(pos1.x(),pos1.y()-60));
+    item->boxRect->setPos(pos1);
+    item->lineRect->setPos(pos2);
+    item->line->setPos1(pos1);
+    item->line->setPos2(pos2);
+}
+
 void CustomImage::updateIndices()
 {
     for (int i=0; i<annotations.size(); i++)
