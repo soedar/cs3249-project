@@ -2,6 +2,7 @@
 #define CUSTOMSCENE_H
 
 #include <QGraphicsScene>
+#include <QKeyEvent>
 
 class CustomScene : public QGraphicsScene
 {
@@ -15,9 +16,12 @@ private:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 
 signals:
     void clicked();
+    void toTheLeft();
+    void toTheRight();
 
 public slots:
 
