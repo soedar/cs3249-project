@@ -2,13 +2,14 @@
 
 MenuWidget::MenuWidget()
 {
-    mainLayout = new QVBoxLayout;
+    mainLayout = new QHBoxLayout;
     QLabel *menu = new QLabel(tr("This is my menu"));
 
     mainLayout->addWidget(menu);
+
     setStyleSheet("background-color:blue;");
     setLayout(mainLayout);
-    QPushButton *button = new QPushButton(tr("Adjust"));
+    QPushButton *button = new QPushButton(tr(">"));
     mainLayout->addWidget(button);
 
     connect(button, SIGNAL(clicked()), this, SLOT(adjust()));
@@ -16,8 +17,6 @@ MenuWidget::MenuWidget()
 
 void MenuWidget::adjust()
 {
-    /*
-    qDebug("here");
-    setGeometry(0,0,500,500);
-    */
+    raise();
+    resize(400, height());
 }

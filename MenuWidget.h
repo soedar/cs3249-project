@@ -14,7 +14,7 @@ public:
 
 
 private:
-    QVBoxLayout *mainLayout;
+    QBoxLayout *mainLayout;
 
 
 private slots:
