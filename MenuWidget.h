@@ -5,13 +5,15 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QToolButton>
 #include "DatabaseLayer.h"
+#include "Lesson.h"
 
 class MenuWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MenuWidget(QWidget *parent);
+    MenuWidget(QWidget *parent, Lesson *lesson);
     void adjustSize();
 
 private:
@@ -21,13 +23,17 @@ private:
     QWidget *menuContentWidget;
 
     bool isOpened;
-    QLabel *menu;
     QPushButton *menuButton;
+    Lesson *lesson;
 
     void setupMenuWidgets();
+
+signals:
+    void selectTest();
     
 private slots:
     void toggle();
+    void testPressed();
 
 };
 

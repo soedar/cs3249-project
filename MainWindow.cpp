@@ -11,9 +11,6 @@ MainWindow::MainWindow(DatabaseLayer *db, MainWidget *mainWidget)
     QObject::connect(mainWidget->logOutButton,SIGNAL(clicked()),this,SLOT(logoff()));
 
     showMainWidget();
-    
-    qDebug() << "here";
-
 }
 
 void MainWindow::showMainWidget()

@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>assets/annotate.png</file>
         <file>assets/lessons.png</file>
+        <file>assets/lessons32.png</file>
         <file>assets/notes.png</file>
         <file>assets/select.png</file>
         <file>assets/zoom_bar.png</file>
@@ -12,7 +13,9 @@
         <file>assets/zoom_bar_slider.png</file>
         <file>assets/diagrams.png</file>
         <file>assets/log_out.png</file>
+        <file>assets/log_out32.png</file>
         <file>assets/profile.png</file>
+        <file>assets/profile32.png</file>
         <file>assets/skull_side.png</file>
         <file>assets/generate_summary.png</file>
         <file>assets/new_lesson.png</file>

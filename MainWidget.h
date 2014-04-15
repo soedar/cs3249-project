@@ -33,14 +33,13 @@ protected:
     void createWidgets();
     void createButtons();
     virtual void initializeTable();
-    MenuWidget *menuWidget;
 
     LessonsDB lessons;
     QVBoxLayout *mainLayout;
 
 
     QTableWidget *mainTable;
-    void resizeEvent(QResizeEvent *event);
+
 
 public slots:
     void updateTable();

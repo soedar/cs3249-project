@@ -12,8 +12,7 @@ void StudentWindow::showLessonWidget(int i)
     LessonsDB lessons = LessonsDBController::getDB();
     Lesson lesson = lessons.getLessons().at(i);
 
-    StudentLessonWidget *lessonWidget = new StudentLessonWidget(&lesson);
-
-    mainWidget->setParent(0);
-    setCentralWidget(lessonWidget);
+    lessonWidget = new StudentLessonWidget(&lesson);
+    lessonWidget->show();
+    studentMainWidget->hide();
 }

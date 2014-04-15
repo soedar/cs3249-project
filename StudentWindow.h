@@ -15,6 +15,7 @@ public:
 private:
     StudentWindow(DatabaseLayer *db, StudentMainWidget *studentMainWidget);
     StudentMainWidget *studentMainWidget;
+    StudentLessonWidget *lessonWidget;
 
 private slots:
     void showLessonWidget(int i);
