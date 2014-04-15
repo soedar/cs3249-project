@@ -9,6 +9,7 @@ class TestWidget : public QDialog
 {
     Q_OBJECT
 public:
+    TestWidget();
     TestWidget(QString name);   // need the lesson name in order to create
 
     void addQuestion(QString qnsName, QString op1,

@@ -118,6 +118,13 @@ void LessonWidget::createActions()
     imageAction->setShortcut(tr("Ctrl+I"));
     imageAction->setStatusTip(tr("Add/Delete images and files for this lesson"));
 
+    testAction = new QAction(tr("Self-Test"), this);
+    testAction->setIcon(QIcon(":/assets/test.png"));
+    testAction->setShortcut(tr("Ctrl+T"));
+    testAction->setStatusTip(tr("Go to the test editor for this lesson"));
+
+    connect(testAction,SIGNAL(triggered()),this,SLOT(saveAndTransit()));
+
     toolbar->addAction(selectAction);
     toolbar->addAction(handAction);
     toolbar->addAction(linkAction);
@@ -125,6 +132,7 @@ void LessonWidget::createActions()
     toolbar->addAction(deleteAction);
     toolbar->addAction(imageAction);
     toolbar->addAction(saveAction);
+    toolbar->addAction(testAction);
 }
 
 void LessonWidget::setImage(int index)
@@ -341,7 +349,30 @@ void LessonWidget::saveAndExit()
         }
     scene->removeItem(image);
     annotations.clear();
+
     emit saved();
+}
+
+void LessonWidget::saveAndTransit()
+{
+    LessonsDBController::editLesson(LessonsDBController::getIndex(),lessonName->text(),topicName->currentText(),annotations);
+    LessonsDBController::setIndex(-1);
+
+
+        QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+        int size = tempList.size();
+        for (int i=0; i<size; i++)
+        {
+            AnnotationGraphicsItem *tempItem = tempList.takeLast();
+            scene->removeItem(tempItem->box);
+            scene->removeItem(tempItem->boxRect);
+            scene->removeItem(tempItem->line);
+            scene->removeItem(tempItem->lineRect);
+        }
+    scene->removeItem(image);
+    annotations.clear();
+
+    emit transit();
 }
 
 void LessonWidget::exit()

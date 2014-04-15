@@ -4,6 +4,18 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
+TestWidget::TestWidget()
+{
+    tests = TestsDBController::getDB();
+    // for testing
+    tests.forTesting(this);
+
+    setGeometry(0,0,1000,600);
+    setMouseTracking(true);
+
+    questionList = QList<Question *>();
+}
+
 TestWidget::TestWidget(QString name)
 {
     tests = TestsDBController::getDB();

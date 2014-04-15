@@ -27,6 +27,7 @@ class LessonWidget : public QDialog
 public:
     LessonWidget();
 
+
 private:
     QGraphicsView *imageView;
     CustomScene *scene;
@@ -42,6 +43,7 @@ private:
     QAction *deleteAction; //Click once to change icon, click again to select an item, click again to delete selected items
     QAction *imageAction; //NOT IMPLEMENTED
     QAction *saveAction; //Saves and exits, working for now
+    QAction *testAction; //Transits to the test widget
 
     QLineEdit *lessonName;
     QComboBox *topicName;
@@ -67,6 +69,7 @@ protected:
 signals:
     void prepared();
     void saved();
+    void transit();
 
 public slots:
     void addNewAnnotation();
@@ -81,6 +84,7 @@ public slots:
     void nextImage();
     void clearScene();
     void refreshScene();
+    void saveAndTransit();
 
 private slots:
     void showTestWidget();
