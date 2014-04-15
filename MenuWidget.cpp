@@ -1,25 +1,28 @@
 #include "MenuWidget.h"
+#include <QDebug>
 
 #define MENU_BUTTON_WIDTH   50
-#define MENU_BUTTON_HEIGHT  100
+#define MENU_BUTTON_HEIGHT  150
 
 MenuWidget::MenuWidget(QWidget *parent) : QWidget(parent)
 {
+    setGeometry(0,0,400,parentWidget()->size().height());
     mainLayout = new QHBoxLayout;
-    setGeometry(0,0,500,parent->size().height());
-
-
-    menuLayout = new QVBoxLayout;
-    mainLayout->addLayout(menuLayout);
 
     menu = new QLabel(tr("This is my menu"));
-    menuLayout->addWidget(menu);
 
+    menuContentWidget = new QWidget(this);
+    menuContentWidget->setStyleSheet("background-color:gray;");
+    QVBoxLayout *menuLayout = new QVBoxLayout;
+    menuContentWidget->setLayout(menuLayout);
+    //menuLayout->addWidget(menu);
+
+    mainLayout->addWidget(menuContentWidget);
 
     QPushButton *button = new QPushButton(tr(">"));
+
     button->setMaximumWidth(MENU_BUTTON_WIDTH);
     button->setMinimumHeight(MENU_BUTTON_HEIGHT);
-    button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
     mainLayout->addWidget(button);
 
     setLayout(mainLayout);
@@ -33,12 +36,17 @@ MenuWidget::MenuWidget(QWidget *parent) : QWidget(parent)
 void MenuWidget::toggle()
 {
     if (isOpened) {
-        menu->setHidden(true);
-        setGeometry(0,0,MENU_BUTTON_WIDTH,parentWidget()->size().height());
+        setGeometry(0, 0, 55, parentWidget()->size().height());
+        menuContentWidget->setHidden(true);
     } else {
-        menu->setHidden(false);
-        setGeometry(0,0,500,parentWidget()->size().height());
+        setGeometry(0, 0, 400, parentWidget()->size().height());
+        menuContentWidget->setHidden(false);
     }
 
     isOpened = !isOpened;
+}
+
+void MenuWidget::adjustSize()
+{
+    setGeometry(0, 0, size().width(), parentWidget()->size().height()); 
 }

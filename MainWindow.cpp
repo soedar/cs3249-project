@@ -36,5 +36,5 @@ bool MainWindow::didLoggedOff()
 
 void MainWindow::resizeEvent(QResizeEvent *event) 
 {
-    qDebug("resizing");
+    this->menuWidget->adjustSize();
 }

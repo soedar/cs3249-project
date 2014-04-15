@@ -11,12 +11,13 @@ class MenuWidget : public QWidget
     Q_OBJECT
 public:
     MenuWidget(QWidget *parent);
-
+    void adjustSize();
 
 private:
     QHBoxLayout *mainLayout;
 
-    QVBoxLayout *menuLayout;
+    QWidget *menuContentWidget;
+
     bool isOpened;
     QLabel *menu;
 
