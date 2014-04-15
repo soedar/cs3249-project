@@ -10,15 +10,19 @@ class MenuWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MenuWidget();
+    MenuWidget(QWidget *parent);
 
 
 private:
-    QBoxLayout *mainLayout;
+    QHBoxLayout *mainLayout;
 
+    QVBoxLayout *menuLayout;
+    bool isOpened;
+    QLabel *menu;
 
 private slots:
-    void adjust();
+    void toggle();
+
 };
 
 #endif

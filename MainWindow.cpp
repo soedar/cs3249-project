@@ -11,6 +11,9 @@ MainWindow::MainWindow(DatabaseLayer *db, MainWidget *mainWidget)
     QObject::connect(mainWidget->logOutButton,SIGNAL(clicked()),this,SLOT(logoff()));
 
     showMainWidget();
+    
+    this->menuWidget = new MenuWidget(this->mainWidget);
+    this->menuWidget->show();
 }
 
 void MainWindow::showMainWidget()
@@ -29,4 +32,9 @@ void MainWindow::logoff()
 bool MainWindow::didLoggedOff() 
 {
     return loggedOff;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) 
+{
+    qDebug("resizing");
 }

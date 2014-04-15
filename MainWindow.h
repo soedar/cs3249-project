@@ -20,6 +20,8 @@ protected:
     MainWidget *mainWidget;
     QWidget *parentWidget;
     DatabaseLayer *db;
+    MenuWidget *menuWidget;
+    void resizeEvent(QResizeEvent *event);
 
 private:
     bool loggedOff;
