@@ -2,6 +2,7 @@
 
 CustomImage::CustomImage()
 {
+    annotations = QList<AnnotationGraphicsItem *>();
 }
 
 void CustomImage::setAnnos(QList<AnnotationGraphicsItem *> list)
@@ -20,7 +21,8 @@ void CustomImage::addAnno(AnnotationGraphicsItem *item)
 
 void CustomImage::removeAnno(int ind)
 {
-    annotations.removeAt(ind);
+    AnnotationGraphicsItem *item =  annotations.takeAt(ind);
+    delete item;
 }
 
 void CustomImage::setPos(int ind, QPointF pos1, QPointF pos2)

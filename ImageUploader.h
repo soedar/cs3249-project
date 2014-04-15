@@ -12,6 +12,8 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <GridButton.h>
+#include <QTableWidget>
+#include <LessonsDBController.h>
 
 class ImageUploader : public QWidget
 {
@@ -25,17 +27,23 @@ public:
     void addItem(const QString &string);
     QStringList* getList();
     void clearData();
+    bool editing;
+    int numOriginal;
 
 public slots:
     void deleteItem();
+    void prepare(QStringList list);
+
+signals:
+    void prepared();
 
 private:
     void refreshGrid();
     QStringList *images;
-    QGridLayout *imageGrid;
+    QTableWidget *imageTable;
     QList<GridButton *> *grids;
     int maxRows;
-    int maxCols;
+
 
 };
 

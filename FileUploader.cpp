@@ -1,4 +1,5 @@
 #include "FileUploader.h"
+#include <QHeaderView>
 #include "qdebug.h"
 
 //A custom widget that allows u to drag and drop files onto it.
@@ -8,11 +9,22 @@ FileUploader::FileUploader(QWidget *parent)
     setFixedSize(300,350);
     setAcceptDrops(true);
     files = new QStringList();
-    fileGrid = new QGridLayout();
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    fileTable = new QTableWidget();
+    mainLayout->addWidget(fileTable);
     grids = new QList<GridButton *>();
-    setLayout(fileGrid);
-    maxRows = 4;
-    maxCols = 3;
+    setLayout(mainLayout);
+    maxRows = 50;
+    QStringList headers;
+    headers << "Files";
+    fileTable->setColumnCount(1);
+    fileTable->setHorizontalHeaderLabels(headers);
+    QHeaderView *tempHeader = fileTable->horizontalHeader();
+    tempHeader->setResizeMode(0, QHeaderView::Stretch);
+    fileTable->setRowCount(0);
+    editing = false;
+    numOriginal = 0;
+
 }
 
 void FileUploader::addItem(const QString &string)
@@ -21,12 +33,14 @@ void FileUploader::addItem(const QString &string)
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
     button->setIconSize(QSize(36,36));
-    button->setFixedSize(80,60);
+    button->setFixedSize(260,80);
     button->setIcon(QIcon(":/assets/pdf.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
     button->setEnabled(true);
-    fileGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
+    fileTable->insertRow(fileTable->rowCount());
+    fileTable->setRowHeight(fileTable->rowCount()-1,80);
+    fileTable->setCellWidget(fileTable->rowCount()-1, 0, button);
     grids->push_back(button);
     connect(button, SIGNAL(rightClicked()), this, SLOT(deleteItem()));
 }
@@ -36,28 +50,27 @@ void FileUploader::deleteItem()
     GridButton *button = (GridButton *)sender();
     int index = button->getIndex();
 
-    qDebug("Sender's index : ");
-    qDebug() << index;
-    qDebug("\n");
-    qDebug("Grids Size Now : ");
-    qDebug() << grids->count();
-    qDebug("\n");
     files->removeAt(index);
     grids->removeAt(index);
-    fileGrid->removeWidget(button);
+    fileTable->removeCellWidget(index,0);
+    fileTable->removeRow(index);
+
+    /*if (editing)
+    {
+        if (index < numOriginal)
+        {
+            LessonsDBController::destroyCI(LessonsDBController::getIndex(),index);
+            numOriginal--;
+        }
+    }*/
 
     for (int i=0; i<grids->count(); i++)
     {
         grids->at(i)->setIndex(i);
     }
 
-    qDebug("Grids Size After : ");
-    qDebug() << grids->count();
-    qDebug("\n");
-
     delete button;
 
-    refreshGrid();
 }
 
 QStringList* FileUploader::getList()
@@ -65,30 +78,31 @@ QStringList* FileUploader::getList()
     return files;
 }
 
-void FileUploader::refreshGrid()
-{
-    for (int i=0; i<grids->count(); i++)
-    {
-        fileGrid->removeWidget(grids->at(i));
-    }
-    for (int i=0; i<grids->count(); i++)
-    {
-        fileGrid->addWidget(grids->at(i), i/maxCols , i%maxCols);
-    }
-}
-
 void FileUploader::clearData()
 {
     int size = grids->count();
     for (int i=0; i<size; i++)
     {
-        fileGrid->removeWidget(grids->last());
+        fileTable->removeCellWidget(fileTable->rowCount()-1 , 0);
+        fileTable->removeRow(fileTable->rowCount()-1);
         GridButton *tempButton = grids->takeLast();
         delete tempButton;
 
     }
     files->clear();
     grids->clear();
+    editing = false;
+    numOriginal = 0;
+}
+
+void FileUploader::prepare(QStringList list)
+{
+    for (int i=0; i<list.size(); i++)
+    {
+        addItem(list.at(i));
+    }
+    editing = true;
+    numOriginal = list.size();
 }
 
 
@@ -136,7 +150,7 @@ void FileUploader::dropEvent(QDropEvent* event)
             }
             else
             {
-                if (files->count() >= maxRows*maxCols)
+                if (files->count() >= maxRows)
                 {
                     qDebug("Way too many files already\n");
                 }

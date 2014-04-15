@@ -3,8 +3,9 @@
 //The window that allows u to create a new lesson
 AddLessonWidget::AddLessonWidget()
 {
-    setGeometry(0,0,650,500);
+    setGeometry(0,0,900,800);
     setAcceptDrops(true);
+    editing=false;
     createWidgets();
 }
 
@@ -139,16 +140,34 @@ void AddLessonWidget::createWidgets()
 
 void AddLessonWidget::addStuff()
 {
-    if (lessonName->text().length() > 0)
+    if (editing)
     {
-        LessonsDBController::addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
-        qDebug() << "Num Files : " << uploaderF->getList()->size() << "   Num Images : " << uploader->getList()->size() << "\n";
+        LessonsDBController::editFilesImages(LessonsDBController::getIndex(),lessonName->text(), topicName->currentText(), uploaderF->getList(), uploaderF->numOriginal,
+                                             uploader->getList(), uploader->numOriginal);
+    }
+    else
+    {
+        if (lessonName->text().length() > 0)
+        {
+            LessonsDBController::addLesson(lessonName->text(), topicName->currentText(), uploaderF->getList(), uploader->getList());
+            qDebug() << "Num Files : " << uploaderF->getList()->size() << "   Num Images : " << uploader->getList()->size() << "\n";
+        }
     }
     lessonName->clear();
     topicName->clear();
     addNewTopic->clear();
     uploaderF->clearData();
     uploader->clearData();
+
+    if (editing)
+    {
+        emit saved();
+    }
+    else
+    {
+        emit added();
+    }
+    editing=false;
 }
 
 void AddLessonWidget::newTopic()
@@ -170,4 +189,26 @@ void AddLessonWidget::newTopic()
         }
         addNewTopic->clear();
     }
+}
+
+void AddLessonWidget::prepare()
+{
+    LessonsDB ldb = LessonsDBController::getDB();
+    Lesson tempLesson = ldb.getLessons().at(LessonsDBController::getIndex());
+
+    lessonName->setText(tempLesson.getLesson());
+    QStringList list = LessonsDBController::getDB().getTopics();
+    topicName->addItems(list);
+    for (int i=0; i<list.size(); i++)
+    {
+        if (list.at(i) == tempLesson.getTopic())
+        {
+            topicName->setCurrentIndex(i);
+        }
+    }
+    uploader->prepare(tempLesson.getImageList());
+    uploaderF->prepare(tempLesson.getFileList());
+    editing=true;
+    emit prepared();
+
 }

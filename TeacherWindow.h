@@ -14,6 +14,7 @@ class TeacherWindow : public MainWindow
 public:
     TeacherWindow(DatabaseLayer *db);
 
+
 private:
     TeacherMainWidget *teacherMainWidget;
     AddLessonWidget *addWidget;
@@ -21,7 +22,7 @@ private:
     TestWidget *testWidget;
 
 private slots:
-    void showAddWidget();
+
     void save();
 };
 

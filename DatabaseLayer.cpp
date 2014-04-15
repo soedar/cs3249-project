@@ -87,14 +87,16 @@ void DatabaseLayer::loadAllUsers()
 
 void DatabaseLayer::saveLessons()
 {
+    qDebug() << "SAVING\n";
     QFile lessonFile(lessonsDatabaseFile());
 
-    if (!lessonFile.open(QIODevice::WriteOnly)) {
+    if (!lessonFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
         QMessageBox::information(0, "error", lessonFile.errorString());
         return;
     }
     LessonsDB ldb = LessonsDBController::getDB();
     int numLessons = ldb.getLessons().size();
+
 
     QTextStream out(&lessonFile);
     out << numLessons << endl;
@@ -182,6 +184,8 @@ void DatabaseLayer::saveLessons()
 
 void DatabaseLayer::loadLessons()
 {
+    qDebug() << "READING\n";
+    ldb->clear();
     QFile lessonFile(lessonsDatabaseFile());
 
     if (!lessonFile.open(QIODevice::ReadWrite)) {

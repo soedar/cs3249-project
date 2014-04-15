@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
             chosenWindow = new StudentWindow(&databaseLayer);
         }
 
-        chosenWindow->show();
+        //chosenWindow->show();
         retValue = app->exec();
     } while (chosenWindow->didLoggedOff());
 

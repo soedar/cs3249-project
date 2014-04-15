@@ -1,4 +1,5 @@
 #include "ImageUploader.h"
+#include <QHeaderView>
 #include "qdebug.h"
 
 //A custom widget that allows u to drag and drop images onto it.
@@ -8,11 +9,21 @@ ImageUploader::ImageUploader(QWidget *parent)
     setFixedSize(300,350);
     setAcceptDrops(true);
     images = new QStringList();
-    imageGrid = new QGridLayout();
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    imageTable = new QTableWidget();
+    mainLayout->addWidget(imageTable);
     grids = new QList<GridButton *>();
-    setLayout(imageGrid);
-    maxRows = 4;
-    maxCols = 3;
+    setLayout(mainLayout);
+    maxRows = 50;
+    QStringList headers;
+    headers << "images";
+    imageTable->setColumnCount(1);
+    imageTable->setHorizontalHeaderLabels(headers);
+    QHeaderView *tempHeader = imageTable->horizontalHeader();
+    tempHeader->setResizeMode(0, QHeaderView::Stretch);
+    imageTable->setRowCount(0);
+    editing = false;
+    numOriginal = 0;
 }
 
 void ImageUploader::addItem(const QString &string)
@@ -20,15 +31,17 @@ void ImageUploader::addItem(const QString &string)
     images->push_back(string);
     QStringList list = string.split("/");
     GridButton *button = new GridButton(this);
-    button->setIconSize(QSize(48,48));
-    button->setFixedSize(80,60);
-    button->setIcon(QIcon(":/assets/diagrams.png"));
+    button->setIconSize(QSize(36,36));
+    button->setFixedSize(260,80);
+    button->setIcon(QIcon(":/assets/pdf.png"));
     button->setText(tr(list.last().toStdString().c_str()));
     button->setIndex(grids->count());
     button->setEnabled(true);
-    imageGrid->addWidget(button, grids->count()/maxCols , grids->count()%maxCols);
+    imageTable->insertRow(imageTable->rowCount());
+    imageTable->setRowHeight(imageTable->rowCount()-1,80);
+    imageTable->setCellWidget(imageTable->rowCount()-1, 0, button);
     grids->push_back(button);
-    connect(button,SIGNAL(rightClicked()),this, SLOT(deleteItem()));
+    connect(button, SIGNAL(rightClicked()), this, SLOT(deleteItem()));
 }
 
 void ImageUploader::deleteItem()
@@ -38,7 +51,17 @@ void ImageUploader::deleteItem()
 
     images->removeAt(index);
     grids->removeAt(index);
-    imageGrid->removeWidget(button);
+    imageTable->removeCellWidget(index,0);
+    imageTable->removeRow(index);
+
+    if (editing)
+    {
+        if (index < numOriginal)
+        {
+            LessonsDBController::destroyCI(LessonsDBController::getIndex(),index);
+            numOriginal--;
+        }
+    }
 
     for (int i=0; i<grids->count(); i++)
     {
@@ -47,19 +70,6 @@ void ImageUploader::deleteItem()
 
     delete button;
 
-    refreshGrid();
-}
-
-void ImageUploader::refreshGrid()
-{
-    for (int i=0; i<grids->count(); i++)
-    {
-        imageGrid->removeWidget(grids->at(i));
-    }
-    for (int i=0; i<grids->count(); i++)
-    {
-        imageGrid->addWidget(grids->at(i), i/maxCols , i%maxCols);
-    }
 }
 
 QStringList* ImageUploader::getList()
@@ -72,12 +82,26 @@ void ImageUploader::clearData()
     int size = grids->count();
     for (int i=0; i<size; i++)
     {
-        imageGrid->removeWidget(grids->last());
+        imageTable->removeCellWidget(imageTable->rowCount()-1 , 0);
+        imageTable->removeRow(imageTable->rowCount()-1);
         GridButton *tempButton = grids->takeLast();
         delete tempButton;
+
     }
     images->clear();
     grids->clear();
+    editing = false;
+    numOriginal = 0;
+}
+
+void ImageUploader::prepare(QStringList list)
+{
+    for (int i=0; i<list.size(); i++)
+    {
+        addItem(list.at(i));
+    }
+    editing = true;
+    numOriginal = list.size();
 }
 
 /**
@@ -124,7 +148,7 @@ void ImageUploader::dropEvent(QDropEvent* event)
             }
             else
             {
-                if (images->count() >= maxRows*maxCols)
+                if (images->count() >= maxRows)
                 {
                     qDebug("Way too many images already\n");
                 }

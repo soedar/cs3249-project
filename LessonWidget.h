@@ -71,7 +71,8 @@ protected:
 signals:
     void prepared();
     void saved();
-    void transit();
+    void transitTest();
+    void transitEdit();
 
 public slots:
     void addNewAnnotation();
@@ -86,7 +87,8 @@ public slots:
     void nextImage();
     void clearScene();
     void refreshScene();
-    void saveAndTransit();
+    void saveAndTransitTest();
+    void saveAndTransitEdit();
     void newTopic();
 
 private slots:
