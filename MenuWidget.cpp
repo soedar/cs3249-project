@@ -4,9 +4,8 @@
 #define MENU_BUTTON_WIDTH   50
 #define MENU_BUTTON_HEIGHT  150
 
-MenuWidget::MenuWidget(QWidget *parent, DatabaseLayer *db) : QWidget(parent)
+MenuWidget::MenuWidget(QWidget *parent) : QWidget(parent)
 {
-    this->db = db;
     setGeometry(0,0,400,parentWidget()->size().height());
     mainLayout = new QHBoxLayout;
 

@@ -11,7 +11,7 @@ class MenuWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MenuWidget(QWidget *parent, DatabaseLayer *db);
+    MenuWidget(QWidget *parent);
     void adjustSize();
 
 private:
@@ -25,7 +25,7 @@ private:
     QPushButton *menuButton;
 
     void setupMenuWidgets();
-
+    
 private slots:
     void toggle();
 

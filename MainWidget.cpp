@@ -2,6 +2,7 @@
 
 MainWidget::MainWidget()
 {
+    setGeometry(0, 0, 650, 500);
 	lessons = LessonsDBController::getDB();
 }
 
@@ -15,6 +16,9 @@ void MainWidget::createWidgets()
     populateTableData();
 
     setLayout(mainLayout);
+
+    this->menuWidget = new MenuWidget(this);
+    this->menuWidget->show();
 }
 
 void MainWidget::createButtons()
@@ -43,4 +47,9 @@ void MainWidget::updateTable()
 {
     mainTable->clear();
     populateTableData();
+}
+
+void MainWidget::resizeEvent(QResizeEvent *event) 
+{
+    this->menuWidget->adjustSize();
 }

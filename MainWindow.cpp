@@ -12,8 +12,8 @@ MainWindow::MainWindow(DatabaseLayer *db, MainWidget *mainWidget)
 
     showMainWidget();
     
-    this->menuWidget = new MenuWidget(this->mainWidget, db);
-    this->menuWidget->show();
+    qDebug() << "here";
+
 }
 
 void MainWindow::showMainWidget()
@@ -33,7 +33,4 @@ bool MainWindow::didLoggedOff()
     return loggedOff;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event) 
-{
-    this->menuWidget->adjustSize();
-}
+
