@@ -12,7 +12,7 @@ MainWindow::MainWindow(DatabaseLayer *db, MainWidget *mainWidget)
 
     showMainWidget();
     
-    this->menuWidget = new MenuWidget(this->mainWidget);
+    this->menuWidget = new MenuWidget(this->mainWidget, db);
     this->menuWidget->show();
 }
 
