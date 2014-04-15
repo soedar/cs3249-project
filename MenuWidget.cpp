@@ -56,7 +56,7 @@ void MenuWidget::setupMenuWidgets()
 
     QPixmap lessonPixmap(":/assets/lessons32.png");
     QIcon lessonButtonIcon(lessonPixmap);
-    QToolButton *lessonButton = new QToolButton();
+    lessonButton = new QToolButton();
     lessonButton->setStyleSheet("background-color: none; font-size: 14pt; height: 60px; width: 60px");
     lessonButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     lessonButton->setIcon(lessonButtonIcon);
@@ -65,7 +65,7 @@ void MenuWidget::setupMenuWidgets()
 
     QPixmap profilePixmap(":/assets/profile32.png");
     QIcon profileButtonIcon(profilePixmap);
-    QToolButton *profileButton = new QToolButton();
+    profileButton = new QToolButton();
     profileButton->setStyleSheet("background-color: none; font-size: 14pt; height: 60px; width: 60px");
     profileButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     profileButton->setIcon(profileButtonIcon);
@@ -74,7 +74,7 @@ void MenuWidget::setupMenuWidgets()
 
     QPixmap logoutPixmap(":/assets/log_out32.png");
     QIcon logoutButtonIcon(logoutPixmap);
-    QToolButton *logoutButton = new QToolButton();
+    logoutButton = new QToolButton();
     logoutButton->setStyleSheet("background-color: none; font-size: 14pt; height: 60px; width: 60px");
     logoutButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     logoutButton->setIcon(logoutButtonIcon);

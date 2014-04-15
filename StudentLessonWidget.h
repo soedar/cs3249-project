@@ -12,10 +12,10 @@ public:
     StudentLessonWidget(Lesson *lesson);
     QWidget *pdfWidget;
     QWidget *imageWidget;
+    MenuWidget *menuWidget;
 
 private:
     Lesson *lesson;
-    MenuWidget *menuWidget;
     void resizeEvent(QResizeEvent *event);
 };
 

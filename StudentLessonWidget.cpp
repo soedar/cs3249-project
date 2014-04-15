@@ -15,6 +15,7 @@ StudentLessonWidget::StudentLessonWidget(Lesson *lesson)
 
     this->menuWidget = new MenuWidget(this, lesson);
     this->menuWidget->show();
+
 }
 
 

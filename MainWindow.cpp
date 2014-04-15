@@ -23,6 +23,7 @@ void MainWindow::logoff()
 {
     loggedOff = true;
     close();
+    mainWidget->close();
 }
 
 bool MainWindow::didLoggedOff() 

@@ -16,6 +16,10 @@ public:
     MenuWidget(QWidget *parent, Lesson *lesson);
     void adjustSize();
 
+    QToolButton *logoutButton;
+    QToolButton *profileButton;
+    QToolButton *lessonButton;
+
 private:
     DatabaseLayer *db;
     QHBoxLayout *mainLayout;
