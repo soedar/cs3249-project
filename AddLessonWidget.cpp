@@ -21,7 +21,9 @@ void AddLessonWidget::createWidgets()
    //Contain the lessonName, topic Name stuff
    QHBoxLayout *topHeader = new QHBoxLayout();
    QHBoxLayout *topLeftHeader = new QHBoxLayout();
-   QHBoxLayout *topRightHeader = new QHBoxLayout();
+   QVBoxLayout *topRightHeader = new QVBoxLayout();
+   QHBoxLayout *topUpHeader = new QHBoxLayout();
+   QHBoxLayout *topDownHeader = new QHBoxLayout();
 
 
    //Contain the file/image uploaders
@@ -55,10 +57,15 @@ void AddLessonWidget::createWidgets()
 
    QLabel *titleLabel = new QLabel(tr("Title : "));
    QLabel *topicLabel = new QLabel(tr("Topic : "));
+   QLabel *addTopicLabel = new QLabel(tr("Add New Topic : "));
 
    lessonName = new QLineEdit();
-   lessonName->setFixedSize(220,30);
-   lessonName->setMaxLength(50);
+   lessonName->setFixedSize(180,25);
+   lessonName->setMaxLength(40);
+
+   addNewTopic = new QLineEdit();
+   addNewTopic->setFixedSize(180,25);
+   addNewTopic->setMaxLength(40);
 
    topicName = new QComboBox();
    topicName->setFixedSize(220,30);
@@ -66,11 +73,23 @@ void AddLessonWidget::createWidgets()
    QStringList list = ldb.getTopics();
    topicName->addItems(list);
 
+   addTopic = new QPushButton(tr("Add"));
+   addTopic->setEnabled(true);
+
+   connect(addTopic,SIGNAL(clicked()),this,SLOT(newTopic()));
+
    topLeftHeader->addWidget(titleLabel);
    topLeftHeader->addWidget(lessonName);
 
-   topRightHeader->addWidget(topicLabel);
-   topRightHeader->addWidget(topicName);
+   topDownHeader->addWidget(topicLabel);
+   topDownHeader->addWidget(topicName);
+
+   topUpHeader->addWidget(addTopicLabel);
+   topUpHeader->addWidget(addNewTopic);
+   topUpHeader->addWidget(addTopic);
+
+   topRightHeader->addLayout(topUpHeader);
+   topRightHeader->addLayout(topDownHeader);
 
    topHeader->addLayout(topLeftHeader);
    topHeader->addLayout(topRightHeader);
@@ -126,6 +145,29 @@ void AddLessonWidget::addStuff()
         qDebug() << "Num Files : " << uploaderF->getList()->size() << "   Num Images : " << uploader->getList()->size() << "\n";
     }
     lessonName->clear();
+    topicName->clear();
+    addNewTopic->clear();
     uploaderF->clearData();
     uploader->clearData();
+}
+
+void AddLessonWidget::newTopic()
+{
+    if (addNewTopic->text().length() > 0)
+    {
+        LessonsDBController::addTopic(addNewTopic->text());
+        LessonsDB ldb = LessonsDBController::getDB();
+        QString string = topicName->currentText();
+        QStringList list = ldb.getTopics();
+        topicName->clear();
+        topicName->addItems(list);
+        for (int i=0; i<list.size(); i++)
+        {
+            if (list.at(i) == string)
+            {
+                topicName->setCurrentIndex(i);
+            }
+        }
+        addNewTopic->clear();
+    }
 }

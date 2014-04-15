@@ -32,6 +32,9 @@ void LessonWidget::createWidgets()
     QHBoxLayout *topHeader = new QHBoxLayout();
     QHBoxLayout *topLeftHeader = new QHBoxLayout();
     QHBoxLayout *topRightHeader = new QHBoxLayout();
+    QHBoxLayout *topUpHeader = new QHBoxLayout();
+    QVBoxLayout *topicHeader = new QVBoxLayout();
+    QHBoxLayout *topDownHeader = new QHBoxLayout();
     QHBoxLayout *graphicsLayout = new QHBoxLayout();
 
     toolbar = new QToolBar(tr("Edit"),this);
@@ -40,21 +43,34 @@ void LessonWidget::createWidgets()
 
     QLabel *titleLabel = new QLabel(tr("Title : "));
     QLabel *topicLabel = new QLabel(tr("Topic : "));
+    QLabel *addTopicLabel = new QLabel(tr("Add Topic : "));
 
     lessonName = new QLineEdit();
-    lessonName->setFixedSize(220,30);
-    lessonName->setMaxLength(50);
+    lessonName->setFixedSize(180,25);
+    lessonName->setMaxLength(40);
+
+    addNewTopic = new QLineEdit();
+    addNewTopic->setFixedSize(180,25);
+    addNewTopic->setMaxLength(40);
 
     topicName = new QComboBox();
     topicName->setFixedSize(220,30);
-    LessonsDB ldb = LessonsDBController::getDB();
-    QStringList list = ldb.getTopics();
-    topicName->addItems(list);
+
+    addTopic = new QPushButton(tr("Add"));
+    addTopic->setEnabled(true);
+
+    connect(addTopic,SIGNAL(clicked()),this,SLOT(newTopic()));
 
     topLeftHeader->addWidget(titleLabel);
     topLeftHeader->addWidget(lessonName);
-    topLeftHeader->addWidget(topicLabel);
-    topLeftHeader->addWidget(topicName);
+    topUpHeader->addWidget(addTopicLabel);
+    topUpHeader->addWidget(addNewTopic);
+    topUpHeader->addWidget(addTopic);
+    topDownHeader->addWidget(topicLabel);
+    topDownHeader->addWidget(topicName);
+    topicHeader->addLayout(topUpHeader);
+    topicHeader->addLayout(topDownHeader);
+    topLeftHeader->addLayout(topicHeader);
 
     graphicsLayout->addWidget(imageView);
     topHeader->addLayout(topLeftHeader);
@@ -316,6 +332,7 @@ void LessonWidget::prepare()
 
     //Initialize topics
     QStringList list = LessonsDBController::getDB().getTopics();
+    topicName->addItems(list);
     for (int i=0; i<list.size(); i++)
     {
         if (list.at(i) == tempLesson.getTopic())
@@ -347,6 +364,9 @@ void LessonWidget::saveAndExit()
             scene->removeItem(tempItem->line);
             scene->removeItem(tempItem->lineRect);
         }
+        lessonName->clear();
+        topicName->clear();
+        addNewTopic->clear();
     scene->removeItem(image);
     annotations.clear();
 
@@ -369,6 +389,9 @@ void LessonWidget::saveAndTransit()
             scene->removeItem(tempItem->line);
             scene->removeItem(tempItem->lineRect);
         }
+        lessonName->clear();
+        topicName->clear();
+        addNewTopic->clear();
     scene->removeItem(image);
     annotations.clear();
 
@@ -445,5 +468,26 @@ void LessonWidget::refreshScene()
         scene->addItem(anno->lineRect);
         scene->addItem(anno->boxRect);
         scene->addItem(anno->box);
+    }
+}
+
+void LessonWidget::newTopic()
+{
+    if (addNewTopic->text().length() > 0)
+    {
+        LessonsDBController::addTopic(addNewTopic->text());
+        LessonsDB ldb = LessonsDBController::getDB();
+        QString string = topicName->currentText();
+        QStringList list = ldb.getTopics();
+        topicName->clear();
+        topicName->addItems(list);
+        for (int i=0; i<list.size(); i++)
+        {
+            if (list.at(i) == string)
+            {
+                topicName->setCurrentIndex(i);
+            }
+        }
+        addNewTopic->clear();
     }
 }

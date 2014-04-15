@@ -35,6 +35,11 @@ void LessonsDBController::addLesson(bool isTeacher, const QString &lessonName, c
     ldb.addLesson(isTeacher, lessonName, topicName, date, marks, maxMarks, files, images, list, numbers, positions);
 }
 
+void LessonsDBController::addTopic(const QString &topicName)
+{
+    ldb.addTopic(topicName);
+}
+
 void LessonsDBController::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     ldb.addLesson(lessonName, topicName, files, images);

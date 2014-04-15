@@ -47,6 +47,8 @@ private:
 
     QLineEdit *lessonName;
     QComboBox *topicName;
+    QLineEdit *addNewTopic;
+    QPushButton *addTopic;
 
     QStringList *imageUrls;
     QList<CustomImage *> annotations;
@@ -85,6 +87,7 @@ public slots:
     void clearScene();
     void refreshScene();
     void saveAndTransit();
+    void newTopic();
 
 private slots:
     void showTestWidget();

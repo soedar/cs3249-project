@@ -27,10 +27,12 @@ private:
 
     QVBoxLayout *mainLayout;
     QLineEdit *lessonName;
+    QLineEdit *addNewTopic;
     QComboBox *topicName;
     QLabel *uploadImages;
     QLabel *uploadFiles;
 
+    QPushButton *addTopic;
     QPushButton *dragFiles;
     QPushButton *dragImages;
     ImageUploader *uploader;
@@ -38,6 +40,7 @@ private:
 
 private slots:
     void addStuff();
+    void newTopic();
 
 
 };

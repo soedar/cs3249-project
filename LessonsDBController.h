@@ -17,7 +17,8 @@ public:
     static void setIndex(int ind);
     static int getIndex(); 
     static void addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions);
-    //static void addLesson(bool isTeacher, QString lessonName, QString topicName, QString date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions);
+    static void addTopic(const QString &topicName);
+
 private:
     static LessonsDB ldb;
     bool initialized;
