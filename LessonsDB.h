@@ -18,6 +18,9 @@ public:
     void deleteItemAt(int index);
     void addItemAtIndex(int index, Lesson l);
     void addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions);
+    void destroyCI(int lIndex, int ciIndex);
+    void editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass);
+    void clear();
 
 private:
     QList<Lesson> lessons;

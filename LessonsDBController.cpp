@@ -40,6 +40,16 @@ void LessonsDBController::addTopic(const QString &topicName)
     ldb.addTopic(topicName);
 }
 
+void LessonsDBController::destroyCI(int lIndex, int ciIndex)
+{
+    ldb.destroyCI(lIndex,ciIndex);
+}
+
+void LessonsDBController::editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass)
+{
+    ldb.editFilesImages(index,lessonName,topicName,files,fBypass,images,iBypass);
+}
+
 void LessonsDBController::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     ldb.addLesson(lessonName, topicName, files, images);
@@ -67,4 +77,8 @@ int LessonsDBController::getIndex()
 void LessonsDBController::setIndex(int ind)
 {
     editIndex = ind;
+}
+void LessonsDBController::clear()
+{
+    ldb.clear();
 }

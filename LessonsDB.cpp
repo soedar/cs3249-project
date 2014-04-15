@@ -44,6 +44,45 @@ void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QStri
 
 }
 
+void LessonsDB::destroyCI(int lIndex, int ciIndex)
+{
+    Lesson tempLesson = lessons.takeAt(lIndex);
+    tempLesson.destroyCI(ciIndex);
+    addItemAtIndex(lIndex,tempLesson);
+}
+
+void LessonsDB::editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass)
+{
+    Lesson tempLesson = lessons.at(index);
+    QDate today = QDate::currentDate();
+    QString todayStr = today.toString("d/M/yyyy");
+
+    Lesson newLesson = Lesson();
+    newLesson.setDate(todayStr);
+    newLesson.setLesson(lessonName);
+    newLesson.setTeacher(tempLesson.isTeacher());
+    newLesson.setMarks(tempLesson.getMarks());
+    newLesson.setMaxMarks(tempLesson.getMaxMarks());
+    newLesson.setTopic(topicName);
+    newLesson.addFiles(files);
+    newLesson.addImages(images);
+    QList<CustomImage *> tempList = QList<CustomImage *>();
+
+    for (int i=0; i<iBypass; i++)
+    {
+        tempList.push_back(tempLesson.getAnnos().at(i));
+    }
+    for (int i=iBypass; i<images->size(); i++)
+    {
+        tempList.push_back(new CustomImage());
+    }
+
+    newLesson.setAnnos(tempList);
+
+    deleteItemAt(index);
+    addItemAtIndex(index,newLesson);
+}
+
 void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     Lesson tempLesson = Lesson();
@@ -103,4 +142,9 @@ void LessonsDB::addTopic(const QString &string)
     {
         topics.push_back(string);
     }
+}
+
+void LessonsDB::clear()
+{
+    lessons.clear();
 }

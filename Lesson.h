@@ -38,6 +38,7 @@ public:
     void setAnnos(QList<CustomImage *> tempList);
     void setAnnos(QList<CustomImage *> tempList, QList<int> numbers, QList<QPointF> positions);
     void addCustomImage(int ind);
+    void destroyCI(int ciIndex);
 
 private:
     bool teacher;

@@ -18,10 +18,9 @@ MainWindow::MainWindow(DatabaseLayer *db, MainWidget *mainWidget)
 
 void MainWindow::showMainWidget()
 {
-    setCentralWidget(mainWidget);
     mainWidget->updateTable();
+    mainWidget->show();
 }
-
 
 void MainWindow::logoff()
 {

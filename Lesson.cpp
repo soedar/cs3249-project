@@ -208,6 +208,22 @@ void Lesson::addCustomImage(int ind)
     annotations.push_back(tempImage);
 }
 
+void Lesson::destroyCI(int ciIndex)
+{
+    CustomImage *image = annotations.takeAt(ciIndex);
+    int numAnnos = image->getAnnos().size();
+    for (int i=0; i<numAnnos; i++)
+    {
+        image->removeAnno(numAnnos-1-i);
+    }
+    delete image;
+
+    for (int i=0; i<annotations.size(); i++)
+    {
+        annotations.at(i)->setIndex(i);
+    }
+}
+
 void Lesson::addAnnos(int index, QList<AnnotationGraphicsItem *> tempList)
 {
     CustomImage *image = new CustomImage();

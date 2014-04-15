@@ -8,12 +8,11 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QTableWidget>
 
 #include <LessonsDBController.h>
 #include "ImageUploader.h"
 #include "FileUploader.h"
-
-class Overseer;
 
 class AddLessonWidget : public QWidget
 {
@@ -32,15 +31,30 @@ private:
     QLabel *uploadImages;
     QLabel *uploadFiles;
 
+    QTableWidget *fileTable;
+    QTableWidget *imageTable;
+
     QPushButton *addTopic;
     QPushButton *dragFiles;
     QPushButton *dragImages;
     ImageUploader *uploader;
     FileUploader *uploaderF;
 
+    bool editing;
+
 private slots:
     void addStuff();
     void newTopic();
+
+public slots:
+    void prepare();
+
+signals:
+    void prepared();
+    void saved();
+    void added();
+
+
 
 
 };

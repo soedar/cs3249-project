@@ -2,6 +2,7 @@
 
 TeacherMainWidget::TeacherMainWidget()
 {
+    setGeometry(0, 0, 650, 500);
     numSelected = 0;
     createWidgets();
     qDebug("Teacher Window initialized\n");

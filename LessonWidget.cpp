@@ -134,12 +134,14 @@ void LessonWidget::createActions()
     imageAction->setShortcut(tr("Ctrl+I"));
     imageAction->setStatusTip(tr("Add/Delete images and files for this lesson"));
 
+    connect(imageAction,SIGNAL(triggered()),this,SLOT(saveAndTransitEdit()));
+
     testAction = new QAction(tr("Self-Test"), this);
     testAction->setIcon(QIcon(":/assets/test.png"));
     testAction->setShortcut(tr("Ctrl+T"));
     testAction->setStatusTip(tr("Go to the test editor for this lesson"));
 
-    connect(testAction,SIGNAL(triggered()),this,SLOT(saveAndTransit()));
+    connect(testAction,SIGNAL(triggered()),this,SLOT(saveAndTransitTest()));
 
     toolbar->addAction(selectAction);
     toolbar->addAction(handAction);
@@ -307,7 +309,10 @@ void LessonWidget::prepare()
         imageUrls->push_back(tempImages.at(i));
     }
 
-    scene->addItem(image);
+    if (imageUrls->size() > 0)
+    {
+        scene->addItem(image);
+    }
 
     //Add the annotations of the image at index 0 into the scene
     if (annotations.size() > 0)
@@ -350,10 +355,12 @@ void LessonWidget::prepare()
 
 void LessonWidget::saveAndExit()
 {
+    qDebug() << "Editing Index : " << LessonsDBController::getIndex() << "\n";
     LessonsDBController::editLesson(LessonsDBController::getIndex(),lessonName->text(),topicName->currentText(),annotations);
     LessonsDBController::setIndex(-1);
 
-
+    if (annotations.size() > 0)
+    {
         QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
         int size = tempList.size();
         for (int i=0; i<size; i++)
@@ -364,21 +371,27 @@ void LessonWidget::saveAndExit()
             scene->removeItem(tempItem->line);
             scene->removeItem(tempItem->lineRect);
         }
-        lessonName->clear();
-        topicName->clear();
-        addNewTopic->clear();
-    scene->removeItem(image);
+    }
+    lessonName->clear();
+    topicName->clear();
+    addNewTopic->clear();
+    if (imageUrls->size() > 0)
+    {
+       scene->removeItem(image);
+    }
+    imageUrls->clear();
     annotations.clear();
 
     emit saved();
 }
 
-void LessonWidget::saveAndTransit()
+void LessonWidget::saveAndTransitTest()
 {
+    qDebug() << "Editing Index : " << LessonsDBController::getIndex() << "\n";
     LessonsDBController::editLesson(LessonsDBController::getIndex(),lessonName->text(),topicName->currentText(),annotations);
-    LessonsDBController::setIndex(-1);
 
-
+    if (annotations.size() > 0)
+    {
         QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
         int size = tempList.size();
         for (int i=0; i<size; i++)
@@ -389,14 +402,51 @@ void LessonWidget::saveAndTransit()
             scene->removeItem(tempItem->line);
             scene->removeItem(tempItem->lineRect);
         }
-        lessonName->clear();
-        topicName->clear();
-        addNewTopic->clear();
-    scene->removeItem(image);
+    }
+    lessonName->clear();
+    topicName->clear();
+    addNewTopic->clear();
+    if (imageUrls->size() > 0)
+    {
+       scene->removeItem(image);
+    }
+    imageUrls->clear();
     annotations.clear();
 
-    emit transit();
+    emit transitTest();
 }
+
+void LessonWidget::saveAndTransitEdit()
+{
+    qDebug() << "Editing Index : " << LessonsDBController::getIndex() << "\n";
+    LessonsDBController::editLesson(LessonsDBController::getIndex(),lessonName->text(),topicName->currentText(),annotations);
+
+    if (annotations.size() > 0)
+    {
+        QList<AnnotationGraphicsItem *> tempList = annotations.at(currentIndex)->getAnnos();
+        int size = tempList.size();
+        for (int i=0; i<size; i++)
+        {
+            AnnotationGraphicsItem *tempItem = tempList.takeLast();
+            scene->removeItem(tempItem->box);
+            scene->removeItem(tempItem->boxRect);
+            scene->removeItem(tempItem->line);
+            scene->removeItem(tempItem->lineRect);
+        }
+    }
+    lessonName->clear();
+    topicName->clear();
+    addNewTopic->clear();
+    if (imageUrls->size() > 0)
+    {
+       scene->removeItem(image);
+    }
+    imageUrls->clear();
+    annotations.clear();
+
+    emit transitEdit();
+}
+
 
 void LessonWidget::exit()
 {
