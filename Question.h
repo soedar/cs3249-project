@@ -16,6 +16,7 @@ public:
     int getAns();
 
 private:
+    QVBoxLayout *mainLayout;
     QVBoxLayout *vbox;
     QGroupBox *qnsName;
     QRadioButton *qnsOp1;

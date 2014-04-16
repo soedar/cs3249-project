@@ -2,7 +2,8 @@
 
 Question::Question(QWidget *parent)
 : QWidget(parent) {
-    vbox = new QVBoxLayout;
+    vbox = new QVBoxLayout();
+    mainLayout = new QVBoxLayout();
 }
 
 QGroupBox *Question::setQuestion(QString name, QString op1,
@@ -25,6 +26,10 @@ QGroupBox *Question::setQuestion(QString name, QString op1,
     vbox->addWidget(qnsOp4);
     //vbox->addStretch(1);
     qnsName->setLayout(vbox);
+
+    mainLayout->addWidget(qnsName);
+
+    setLayout(mainLayout);
 
     answer = ans;
 

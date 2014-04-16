@@ -27,6 +27,11 @@ QList<Question *> TestsDB::getTest(int i) {
     */
 }
 
+QList<QList<Question *>> TestsDB::getTests()
+{
+                         return tests;
+}
+
 void TestsDB::saveTest(int i, QList<Question *> updatedQns) {
     tests.replace(i, updatedQns);
 }

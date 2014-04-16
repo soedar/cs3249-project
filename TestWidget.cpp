@@ -1,4 +1,5 @@
 #include "TestWidget.h"
+#include "qdebug.h"
 
 
 // The test widget contains a test with MCQ questions.
@@ -8,39 +9,17 @@ TestWidget::TestWidget()
 {
     tests = TestsDBController::getDB();
     // for testing
-    tests.forTesting(this);
+    //tests.forTesting(this);
 
     setGeometry(0,0,1000,600);
     setMouseTracking(true);
 
     questionList = QList<Question *>();
-}
-
-TestWidget::TestWidget(int i)
-{
-    tests = TestsDBController::getDB();
-    // for testing
-    tests.forTesting(this);
-
-    setGeometry(0,0,1000,600);
-    setMouseTracking(true);
-
-    index = i;
-    questionList = tests.getTest(i);
-}
-
-void TestWidget::setLayout() {
-    QWidget *window = new QWidget;
-
-    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox = new QVBoxLayout();
     vbox->setAlignment(Qt::AlignLeft);
-    for(int i = 0; i < questionList.length(); i++) {
-        vbox->addWidget(questionList[i]);
-    }
 
-    window->setLayout(vbox);
-    window->show();
 
+    setLayout(vbox);
 }
 
 void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
@@ -69,8 +48,34 @@ void TestWidget::deleteAllQuestions() {
 
 }
 
+void TestWidget::saveAndTransitLesson()
+{
+    saveTest();
+    int len = questionList.length();
+    for (int i=0; i<len; i++)
+    {
+        Question *tempQn = questionList.takeLast();
+        vbox->removeWidget(tempQn);
+    }
+    emit transitLesson();
+}
+
 void TestWidget::saveTest() {
     tests.saveTest(index, questionList);
+}
+
+void TestWidget::prepare()
+{
+    index = LessonsDBController::getIndex();
+    tests = TestsDBController::getDB();
+    tests.forTesting(this);
+    qDebug() << "Tests in system : " << tests.getTests().size() << "\n";
+    questionList = tests.getTest(index);
+    for(int i = 0; i < questionList.length(); i++)
+    {
+        vbox->addWidget(questionList[i]);
+    }
+    emit prepared();
 }
 
 

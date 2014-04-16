@@ -28,8 +28,10 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(this->teacherMainWidget->logOutButton, SIGNAL(clicked()), this, SLOT(save()));
 
     //Transiting to test
-    QObject::connect(this->editWidget, SIGNAL(transitTest()), this->testWidget, SLOT(show()));
+    QObject::connect(this->editWidget, SIGNAL(transitTest()), this->testWidget, SLOT(prepare()));
+    QObject::connect(this->testWidget, SIGNAL(prepared()), this->testWidget, SLOT(show()));
     QObject::connect(this->editWidget, SIGNAL(transitTest()), this->editWidget, SLOT(hide()));
+    QObject::connect(this->testWidget, SIGNAL(transitLesson()), this->editWidget, SLOT(prepare()));
 
     //Transiting to edit Files/Images
     QObject::connect(this->editWidget, SIGNAL(transitEdit()), this->addWidget, SLOT(prepare()));

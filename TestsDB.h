@@ -18,6 +18,7 @@ public:
     // for testing purposes only
     void forTesting(QWidget *parent);
 
+    QList<QList<Question *> > getTests();
 private:
     QList< QList<Question *> > tests;
 

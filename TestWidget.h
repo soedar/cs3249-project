@@ -4,13 +4,13 @@
 #include <QtGui>
 #include "Question.h"
 #include "TestsDBController.h"
+#include "LessonsDBController.h"
 
-class TestWidget : public QDialog
+class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
     TestWidget();
-    TestWidget(int i);   // need the lesson index in order to create
 
     void addQuestion(QString qnsName, QString op1,
                      QString op2, QString op3,
@@ -20,18 +20,20 @@ public:
     void saveTest();
 
 private:
-    void setLayout();
 
     TestsDB tests;
     QList<Question *> questionList;
+    QVBoxLayout *vbox;
     int index;
 
 signals:
     // stick the back button here?
-   // void transitLesson();
+    void transitLesson();
+    void prepared();
 
 public slots:
-  //  void saveAndTransitLesson();
+    void saveAndTransitLesson();
+    void prepare();
 
 
 };
