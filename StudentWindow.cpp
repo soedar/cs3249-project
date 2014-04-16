@@ -16,8 +16,6 @@ StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMain
     connect(this->lessonWidget, SIGNAL(transitLessons()), this->lessonWidget, SLOT(hide()));
     connect(this->lessonWidget, SIGNAL(logOut()), this->lessonWidget, SLOT(hide()));
 
-    connect(this->lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), this->lessonWidget, SLOT(transit()));
-    connect(this->lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), this->lessonWidget, SLOT(exit()));
 }
 
 void StudentWindow::showLessonWidget(int i)
@@ -25,7 +23,9 @@ void StudentWindow::showLessonWidget(int i)
     LessonsDB *lessons = LessonsDBController::getDB();
     Lesson lesson = lessons->getLessons().at(i);
     this->lessonWidget->prepare(&lesson);
-
+    
+    connect(this->lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), this->lessonWidget, SLOT(transit()));
+    connect(this->lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), this->lessonWidget, SLOT(exit()));
 }
 
 void StudentWindow::newLessonCreated()
