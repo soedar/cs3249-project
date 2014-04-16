@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include <QHBoxLayout>
+#include <QTextEdit>
+#include <QMessageBox>
+#include <QFile>
 #include "Lesson.h"
 #include "MenuWidget.h"
 
@@ -13,6 +16,7 @@ public:
     QWidget *pdfWidget;
     QWidget *imageWidget;
     MenuWidget *menuWidget;
+    QTextEdit *textEditWidget;
 
 private:
     Lesson *lesson;
