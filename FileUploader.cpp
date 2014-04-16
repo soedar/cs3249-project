@@ -156,13 +156,13 @@ void FileUploader::dropEvent(QDropEvent* event)
                 }
                 else
                 {
-                    if (string.contains(".pdf"))
+                    if (string.contains(".html"))
                     {
                         addItem(string);
                     }
                     else
                     {
-                        qDebug("Item u dragged is not a pdf file");
+                        qDebug("Item u dragged is not a html file");
                     }
                 }
             }

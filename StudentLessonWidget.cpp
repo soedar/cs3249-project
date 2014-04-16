@@ -15,6 +15,7 @@ StudentLessonWidget::StudentLessonWidget()
     image = new QGraphicsPixmapItem();
     image->setFlag(QGraphicsItem::ItemIsSelectable, false);
 
+<<<<<<< HEAD
 
     zoom = 1.0;
     maxZoom = 3.0;
@@ -35,6 +36,40 @@ void StudentLessonWidget::createWidgets()
     lessonName = new QLabel();
 
     topicName = new QLabel();
+=======
+    qDebug() << "filelist" << lesson->getFileList();
+
+    textEditWidget = new QTextEdit;
+    textEditWidget->setReadOnly(true);
+
+    QStringList fileList = lesson->getFileList();
+
+    if (fileList.count() == 0) {
+        textEditWidget->setHtml("<h2>No notes for this lesson</h2>");
+    } else {
+        QFile htmlFile(fileList.at(0));
+
+        if (!htmlFile.open(QIODevice::ReadWrite)) {
+            QMessageBox::information(0, "error", htmlFile.errorString());
+            return;
+        }
+
+        QString html("");
+        QTextStream in(&htmlFile);
+        while (!in.atEnd()) {
+            html += in.readLine();
+        }
+
+        textEditWidget->setHtml(html);
+    }
+
+
+    mainLayout->addWidget(textEditWidget);
+
+    mainLayout->addWidget(new QTextEdit);
+
+    setLayout(mainLayout);
+>>>>>>> 347624bff9bef64796a330839e19741b16119093
 
     topHeader->addWidget(titleLabel);
     topHeader->addWidget(lessonName);
@@ -50,7 +85,11 @@ void StudentLessonWidget::createWidgets()
 
     setLayout(mainLayout);
     this->menuWidget = new MenuWidget(this, lesson);
+<<<<<<< HEAD
 
+=======
+    this->menuWidget->show();
+>>>>>>> 347624bff9bef64796a330839e19741b16119093
 }
 
 

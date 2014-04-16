@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include <QHBoxLayout>
+#include <QTextEdit>
+#include <QMessageBox>
+#include <QFile>
 #include "Lesson.h"
 #include "MenuWidget.h"
 #include <QLabel>
@@ -16,7 +19,11 @@ public:
     //QWidget *pdfWidget;
     //QWidget *imageWidget;
     MenuWidget *menuWidget;
+<<<<<<< HEAD
     void prepare(Lesson *less);
+=======
+    QTextEdit *textEditWidget;
+>>>>>>> 347624bff9bef64796a330839e19741b16119093
 
 private:
     Lesson *lesson;
