@@ -24,10 +24,6 @@ QList<Question *> TestsDBController::getTest(int i) {
     return tdb.getTest(i);
 }
 
-void TestsDBController::saveTest(int i, QList<Question *> updatedQns) {
-    tdb.saveTest(i, updatedQns);
-}
-
 void TestsDBController::addTest(QList<Question *> testQns) {
     tdb.addTest(testQns);
 }

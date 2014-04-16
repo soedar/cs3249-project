@@ -9,6 +9,11 @@ Question::Question(QWidget *parent)
 QGroupBox *Question::setQuestion(QString name, QString op1,
                                    QString op2, QString op3,
                                    QString op4, int ans) {
+    questionName = name;
+    option1 = op1;
+    option2 = op2;
+    option3 = op3;
+    option4 = op4;
 
     // Question name
     qnsName = new QGroupBox(name);
@@ -43,6 +48,50 @@ bool Question::isCorrect() {
     } else {
         return false;
     }
+}
+
+void Question::setQnsName(QString qns) {
+    questionName = qns;
+}
+
+void Question::setOp1(QString op1) {
+    option1 = op1;
+}
+
+void Question::setOp2(QString op2) {
+    option2 = op2;
+}
+
+void Question::setOp3(QString op3) {
+    option3 = op3;
+}
+
+void Question::setOp4(QString op4) {
+    option4 = op4;
+}
+
+void Question::setAns(int ans) {
+    answer = ans;
+}
+
+QString Question::getQnsName() {
+    return questionName;
+}
+
+QString Question::getOp1() {
+    return option1;
+}
+
+QString Question::getOp2() {
+    return option2;
+}
+
+QString Question::getOp3() {
+    return option3;
+}
+
+QString Question::getOp4() {
+    return option4;
 }
 
 int Question::getAns() {

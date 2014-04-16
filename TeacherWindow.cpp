@@ -31,6 +31,7 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(this->editWidget, SIGNAL(transitTest(bool)), this->testWidget, SLOT(prepare(bool)));
     QObject::connect(this->testWidget, SIGNAL(prepared()), this->testWidget, SLOT(show()));
     QObject::connect(this->editWidget, SIGNAL(hideEditWidget()), this->editWidget, SLOT(hide()));
+    QObject::connect(this->testWidget, SIGNAL(transitLesson()), this->testWidget, SLOT(hide()));
     QObject::connect(this->testWidget, SIGNAL(transitLesson()), this->editWidget, SLOT(prepare()));
 
     //Transiting to edit Files/Images

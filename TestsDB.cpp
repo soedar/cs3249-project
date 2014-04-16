@@ -31,10 +31,6 @@ QList< QList<Question *> > TestsDB::getTests() {
     return tests;
 }
 
-void TestsDB::saveTest(int i, QList<Question *> updatedQns) {
-    tests.replace(i, updatedQns);
-}
-
 void TestsDB::writeToFile() {
     // write tests to file??
 }

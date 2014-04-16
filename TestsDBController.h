@@ -12,9 +12,6 @@ public:
     static TestsDB getDB();
     static QList<Question *> getTest(int i);
 
-    // Call when saving an edited test.
-    static void saveTest(int i, QList<Question *> updatedQns);
-
     // Only call at creation of lesson!
     static void addTest(QList<Question *> testQns);
 

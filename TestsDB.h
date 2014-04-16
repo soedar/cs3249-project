@@ -10,7 +10,6 @@ public:
     void addTest(QList<Question *> testQns);
     void deleteTest(int i);
     QList<Question *> getTest(int i);
-    void saveTest(int i, QList<Question *> updatedQns);
 
     // call upon logging out
     void writeToFile();

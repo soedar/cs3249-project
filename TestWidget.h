@@ -12,12 +12,7 @@ class TestWidget : public QWidget
 public:
     TestWidget();
 
-    void addQuestion(QString qnsName, QString op1,
-                     QString op2, QString op3,
-                     QString op4, int ans);
     void deleteQuestion(int i);
-    void deleteAllQuestions();
-    void saveTest();
     QPair<int, int> getMarks();
 
 private:
@@ -28,11 +23,17 @@ private:
     QGroupBox *menu;
     QHBoxLayout *hbox;
 
-    // student stuff
     QTableWidget *testTable;
     QStringList testTableHeader;
 
-    QPushButton *back;
+    QPushButton *backButton;
+
+    // teacher stuff
+    QPushButton *saveButton;
+    QPushButton *deleteAllButton;
+    QPushButton *addQnsButton;
+
+    // student stuff
     QPushButton *submitButton;
 
     void createMenu();
@@ -48,10 +49,12 @@ signals:
     void prepared();
 
 public slots:
-    void saveAndTransitLesson();
+    void backToLesson();
     void prepare(bool teacher);
 
-
+    void addQuestion();
+    void deleteAllQuestions();
+    void saveTest();
     void submitTest();
 
 };
