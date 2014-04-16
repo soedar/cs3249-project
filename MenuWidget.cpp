@@ -28,7 +28,7 @@ MenuWidget::MenuWidget(QWidget *parent, Lesson *lesson) : QWidget(parent)
 
     connect(menuButton, SIGNAL(clicked()), this, SLOT(toggle()));
 
-    isOpened = false;
+    isOpened = true;
     toggle();
 
     qDebug() << LessonsDBController::getDB()->getTopics();

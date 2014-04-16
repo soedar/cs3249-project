@@ -16,14 +16,9 @@ class StudentLessonWidget : public QDialog
     Q_OBJECT
 public:
     StudentLessonWidget();
-    //QWidget *pdfWidget;
-    //QWidget *imageWidget;
     MenuWidget *menuWidget;
-<<<<<<< HEAD
     void prepare(Lesson *less);
-=======
     QTextEdit *textEditWidget;
->>>>>>> 347624bff9bef64796a330839e19741b16119093
 
 private:
     Lesson *lesson;
