@@ -32,6 +32,7 @@ void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QStri
     tempLesson.setTeacher(isTeacher);
     tempLesson.setLesson(lessonName);
     tempLesson.setTopic(topicName);
+    addTopic(topicName);
     tempLesson.setDate(date);
     tempLesson.setMarks(marks);
     tempLesson.setMaxMarks(maxMarks);

@@ -246,5 +246,4 @@ void Lesson::clear()
     }
     annotations.clear();
 
-    delete this;
 }

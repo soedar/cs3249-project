@@ -70,7 +70,6 @@ void CustomImage::clear()
     for (int i=0; i<numAnnos; i++)
     {
         AnnotationGraphicsItem *tempItem = annotations.takeLast();
-        delete tempItem;
     }
     annotations.clear();
 }
