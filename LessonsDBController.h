@@ -6,11 +6,8 @@
 class LessonsDBController
 {
 public:
-    LessonsDBController();
-    void init();
-    void readFile(const QString &string);
-    void saveFile(const QString &string);
-    static LessonsDB getDB();
+    static void init();
+    static LessonsDB* getDB();
     static void addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images);
     static void editLesson(int index, const QString &lessonName, const QString &topicName, QList<CustomImage *> annoList);
     static void deleteItemAt(int index);
@@ -22,12 +19,6 @@ public:
     static void editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass);
     static void clear();
 
-private:
-    static LessonsDB ldb;
-    bool initialized;
-    static int editIndex;
-
-    QString dataPath;
 };
 
 #endif // LESSONDBCONTROLLER_H

@@ -79,18 +79,18 @@ void TeacherMainWidget::populateTableData()
     lessons = LessonsDBController::getDB();
     numSelected = 0;
 
-    while (mainTable->rowCount() < lessons.getLessons().size())
+    while (mainTable->rowCount() < lessons->getLessons().size())
     {
         mainTable->insertRow(mainTable->rowCount());
     }
-    while (mainTable->rowCount() > lessons.getLessons().size())
+    while (mainTable->rowCount() > lessons->getLessons().size())
     {
         mainTable->removeRow(mainTable->rowCount()-1);
     }
 
-    for (int i=0; i<lessons.getLessons().size(); i++)
+    for (int i=0; i<lessons->getLessons().size(); i++)
     {
-        tempLesson = lessons.getLessons().at(i);
+        tempLesson = lessons->getLessons().at(i);
         tempString = tempLesson.getTopic();
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
         item->setFlags(item->flags() ^ Qt::ItemIsEditable);
@@ -117,7 +117,7 @@ void TeacherMainWidget::populateTableData()
 
 void TeacherMainWidget::deleteItem()
 {
-    int size = LessonsDBController::getDB().getLessons().size();
+    int size = LessonsDBController::getDB()->getLessons().size();
 
     for (int i=size-1; i>=0; i--)
     {

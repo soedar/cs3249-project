@@ -34,7 +34,7 @@ protected:
     void createButtons();
     virtual void initializeTable();
 
-    LessonsDB lessons;
+    LessonsDB *lessons;
     QVBoxLayout *mainLayout;
 
 

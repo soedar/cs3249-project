@@ -4,10 +4,11 @@
 #include <QList>
 #include "Lesson.h"
 #include <QDate>
+#include <QObject>
 
-class LessonsDB
+class LessonsDB : public QObject
 {
-
+    Q_OBJECT
 public:
     LessonsDB();
     QList<Lesson> getLessons();
@@ -25,6 +26,9 @@ public:
 private:
     QList<Lesson> lessons;
     QStringList topics;
+
+signals:
+    void newLessonCreated();
 };
 
 #endif // LESSONSDB_H

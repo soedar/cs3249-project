@@ -3,32 +3,45 @@
 
 #include <QString>
 #include <QMap>
+#include <QObject>
+#include <QTimer>
 #include "User.h"
 #include "LessonsDBController.h"
 
-class DatabaseLayer {
+class DatabaseLayer : public QObject 
+{
+
+    Q_OBJECT
 
 public:
     DatabaseLayer();
     User userWithEmail(const QString &);
     LessonsDBController *ldb;
+    void saveLessons();
+    void loadLessons();
+
 
 
 private:
     QString dataPath;
     //QString lessonsDataPath;
     QMap<QString, User> users;
+    QTimer *pollTimer;
+    int updateCount;
 
-
-
+    void initTimer();
     void loadAllUsers();
     void preloadUsers();
     QString userDatabaseFile();
     QString lessonsDatabaseFile();
+    QString updateDatabaseFile();
 
-public:
-    void saveLessons();
-    void loadLessons();
+signals:
+    void newLessonCreated();
+
+private slots:
+    void checkDbUpdate();
+    void saveNewLesson();
 
 };
 

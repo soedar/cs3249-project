@@ -19,6 +19,7 @@ private:
 
 private slots:
     void showLessonWidget(int i);
+    void newLessonCreated();
 };
 
 #endif // STUDENTWINDOW_H

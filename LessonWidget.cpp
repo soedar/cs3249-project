@@ -298,7 +298,7 @@ void LessonWidget::prepare()
     {
         return;
     }
-    tempLesson = LessonsDBController::getDB().getLessons().at(editIndex);
+    tempLesson = LessonsDBController::getDB()->getLessons().at(editIndex);
     annotations = tempLesson.getAnnos();
 
     QStringList tempImages = tempLesson.getImageList();
@@ -336,7 +336,7 @@ void LessonWidget::prepare()
 
 
     //Initialize topics
-    QStringList list = LessonsDBController::getDB().getTopics();
+    QStringList list = LessonsDBController::getDB()->getTopics();
     topicName->addItems(list);
     for (int i=0; i<list.size(); i++)
     {
@@ -526,9 +526,9 @@ void LessonWidget::newTopic()
     if (addNewTopic->text().length() > 0)
     {
         LessonsDBController::addTopic(addNewTopic->text());
-        LessonsDB ldb = LessonsDBController::getDB();
+        LessonsDB *ldb = LessonsDBController::getDB();
         QString string = topicName->currentText();
-        QStringList list = ldb.getTopics();
+        QStringList list = ldb->getTopics();
         topicName->clear();
         topicName->addItems(list);
         for (int i=0; i<list.size(); i++)
