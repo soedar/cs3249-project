@@ -5,6 +5,7 @@
 #include "MainWindow.h"
 #include "StudentMainWidget.h"
 #include "StudentLessonWidget.h"
+#include "TestWidget.h"
 
 class StudentWindow : public MainWindow
 {
@@ -13,6 +14,7 @@ public:
     StudentWindow(DatabaseLayer *db);
 
 private:
+    TestWidget *testWidget;
     StudentWindow(DatabaseLayer *db, StudentMainWidget *studentMainWidget);
     StudentMainWidget *studentMainWidget;
     StudentLessonWidget *lessonWidget;
