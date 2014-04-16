@@ -109,6 +109,7 @@ void TestWidget::prepare()
         submitButton->setEnabled(true);
         connect(submitButton, SIGNAL(clicked()), this, SLOT(submitTest()));
 
+        testTable->insertRow(testTable->rowCount());
         testTable->setCellWidget(testTable->rowCount()-1, 0,
                                     submitButton);
 
@@ -120,9 +121,10 @@ void TestWidget::prepare()
 
 // for student
 void TestWidget::submitTest() {
+    testTable->removeRow(testTable->rowCount()-1);
     testTable->insertColumn(1);
     testTable->setColumnWidth(1, 141);
-    testTableHeader << "Results";
+    testTableHeader << "Questions" << "Results";
     testTable->setHorizontalHeaderLabels(testTableHeader);
 
     for(int i = 0; i < testTable->rowCount(); i++) {
@@ -130,24 +132,24 @@ void TestWidget::submitTest() {
         qnsResult->setAlignment(Qt::AlignCenter);
 
 
-        // why the heck is the answer to the last qns so weird
-        // when this function is called through signal/slot??
-        for(int j = 0; j < questionList.length(); j++) {
-            int test = questionList[j]->getAns();
-            qDebug("qns %d ans is %d", j+1, test);
-        }
-
+//        // why the heck is the answer to the last qns so weird
+//        // when this function is called through signal/slot??
+//        for(int j = 0; j < questionList.length(); j++) {
+//            int test = questionList[j]->getAns();
+//            qDebug("qns %d ans is %d", j+1, test);
+//        }
 
 
         if(questionList[i]->isCorrect()) {
-            qnsResult->setText("Correct!");
+            qnsResult->setText("CORRECT!");
             qDebug("correct\n");
         } else {
             int ans = questionList[i]->getAns();
-            qnsResult->setText(QString("Wrong.\nCorrect answer is %1.").arg(ans));
-            qDebug("wrong\n");
+            qnsResult->setText(QString("WRONG.\nCorrect answer: %1.").arg(ans));
+            qDebug("Wrong.\nCorrect answer is %d.\n", ans);
         }
 
         testTable->setCellWidget(i, 1, qnsResult);
+        qDebug("set widget");
     }
 }
