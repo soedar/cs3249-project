@@ -10,7 +10,7 @@ class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TestWidget();
+    TestWidget(bool teacher);
 
     void addQuestion(QString qnsName, QString op1,
                      QString op2, QString op3,
@@ -24,17 +24,24 @@ private:
     TestsDB tests;
     QList<Question *> questionList;
     QVBoxLayout *vbox;
+
+    // student stuff
+    QTableWidget *testTable;
+    QStringList testTableHeader;
+    QPushButton *submitButton;
+
+
+    bool isTeacher;
     int index;
 
 signals:
-    // stick the back button here?
     void transitLesson();
     void prepared();
 
 public slots:
     void saveAndTransitLesson();
     void prepare();
-
+    void submitTest();
 
 };
 

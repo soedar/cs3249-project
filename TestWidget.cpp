@@ -5,20 +5,38 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget()
+TestWidget::TestWidget(bool teacher)
 {
+    isTeacher = teacher;
     tests = TestsDBController::getDB();
-    // for testing
-    //tests.forTesting(this);
 
     setGeometry(0,0,1000,600);
     setMouseTracking(true);
 
     questionList = QList<Question *>();
     vbox = new QVBoxLayout();
-    vbox->setAlignment(Qt::AlignLeft);
 
+    int width;
 
+    // REMOVE ! once testing is done!
+    if(!isTeacher) {
+        qDebug("student");
+        width = 1000;
+    } else {
+        qDebug("teacher");
+        width = 800;
+    }
+
+    testTable = new QTableWidget;
+    testTable->setRowCount(0);
+    testTable->setColumnCount(1);
+    testTable->setColumnWidth(0, width);
+
+    QStringList testTableHeader;
+    testTableHeader << "Questions";
+    testTable->setHorizontalHeaderLabels(testTableHeader);
+
+    vbox->addWidget(testTable);
     setLayout(vbox);
 }
 
@@ -68,14 +86,68 @@ void TestWidget::prepare()
 {
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
+
+    // for testing only
     tests.forTesting(this);
+
     qDebug() << "Tests in system : " << tests.getTests().size() << "\n";
     questionList = tests.getTest(index);
-    for(int i = 0; i < questionList.length(); i++)
-    {
-        vbox->addWidget(questionList[i]);
+    for(int i = 0; i < questionList.length(); i++) {
+        testTable->insertRow(testTable->rowCount());
+        testTable->setRowHeight(testTable->rowCount()-1, 200);
+        testTable->setCellWidget(testTable->rowCount()-1, 0,
+                                questionList[i]);
     }
+
+    if(!isTeacher) {
+        qDebug("student");
+    } else {
+        qDebug("teacher");
+
+        // create submit button for student
+        submitButton = new QPushButton(tr("Submit"));
+        submitButton->setEnabled(true);
+        connect(submitButton, SIGNAL(clicked()), this, SLOT(submitTest()));
+
+        testTable->setCellWidget(testTable->rowCount()-1, 0,
+                                    submitButton);
+
+        //submitTest();
+    }
+
     emit prepared();
 }
 
+// for student
+void TestWidget::submitTest() {
+    testTable->insertColumn(1);
+    testTable->setColumnWidth(1, 141);
+    testTableHeader << "Results";
+    testTable->setHorizontalHeaderLabels(testTableHeader);
 
+    for(int i = 0; i < testTable->rowCount(); i++) {
+        QLabel *qnsResult = new QLabel(this);
+        qnsResult->setAlignment(Qt::AlignCenter);
+
+
+        // why the heck is the answer to the last qns so weird
+        // when this function is called through signal/slot??
+        for(int j = 0; j < questionList.length(); j++) {
+            int test = questionList[j]->getAns();
+            qDebug("qns %d ans is %d", j+1, test);
+        }
+
+
+
+        if(questionList[i]->isCorrect()) {
+            qnsResult->setText("Correct!");
+            qDebug("correct\n");
+        } else {
+            int ans = questionList[i]->getAns();
+            qnsResult->setText(QString("Wrong.\nCorrect answer is %1.").arg(ans));
+            qDebug("wrong\n");
+        }
+
+        testTable->setCellWidget(i, 1, qnsResult);
+    }
+}

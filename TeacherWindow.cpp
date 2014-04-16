@@ -6,7 +6,7 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     this->teacherMainWidget = (TeacherMainWidget *)mainWidget;
     this->addWidget = new AddLessonWidget();
     this->editWidget = new LessonWidget();
-    this->testWidget = new TestWidget();
+    this->testWidget = new TestWidget(true);    // true if isTeacher
 
 
     //Connections with Add New Lesson
