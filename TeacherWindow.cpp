@@ -24,7 +24,6 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(this->editWidget, SIGNAL(saved()), this->editWidget, SLOT(hide()));
 
     //Logging out
-    QObject::connect(this->teacherMainWidget->profileButton, SIGNAL(clicked()), this, SLOT(save()));
     QObject::connect(this->teacherMainWidget->logOutButton, SIGNAL(clicked()), this, SLOT(save()));
 
     //Transiting to test

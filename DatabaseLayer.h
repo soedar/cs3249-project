@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "User.h"
 #include "LessonsDBController.h"
+#include "MarksDB.h"
 
 class DatabaseLayer : public QObject 
 {
@@ -17,11 +18,11 @@ public:
     DatabaseLayer();
     User userWithEmail(const QString &);
     LessonsDBController *ldb;
+    MarksDB *mdb;
     void saveLessons();
     void loadLessons();
-
-
-
+    void saveMarks();
+    void loadMarks();
 private:
     QString dataPath;
     //QString lessonsDataPath;
@@ -35,6 +36,7 @@ private:
     QString userDatabaseFile();
     QString lessonsDatabaseFile();
     QString updateDatabaseFile();
+    QString marksDatabaseFile();
 
 signals:
     void newLessonCreated();

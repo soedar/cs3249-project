@@ -20,6 +20,13 @@ int main(int argc, char *argv[])
 
     DatabaseLayer databaseLayer;
 
+
+    //For testing
+    databaseLayer.loadMarks();
+    qDebug() << "Loaded\n";
+    databaseLayer.saveMarks();
+    qDebug() << "Saved\n";
+
     /*
     TestsDBController *tdb = new TestsDBController();
     tdb->init();
