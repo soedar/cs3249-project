@@ -9,15 +9,13 @@ class Question : public QWidget
 public:
     Question(QWidget *parent = 0);
     QGroupBox *setQuestion(QString name, QString op1,
-                             QString op2, QString op3,
-                             QString op4, int ans);
+                           QString op2, QString op3,
+                           QString op4, int ans);
     bool isCorrect();
     int getSelectedOption();
     int getAns();
 
-
 private:
-    void setAns(int ans);
     QVBoxLayout *vbox;
     QGroupBox *qnsName;
     QRadioButton *qnsOp1;

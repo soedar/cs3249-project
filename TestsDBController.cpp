@@ -16,26 +16,28 @@ void TestsDBController::init() {
     }
 }
 
-void TestsDBController::writeToFile() {
-    tdb.writeToFile();
-}
-
 TestsDB TestsDBController::getDB() {
     return tdb;
 }
 
-void TestsDBController::addTest(QString testName,
-                                QList<Question *> testQns) {
-
-    tdb.addTest(testName, testQns);
+QList<Question *> TestsDBController::getTest(int i) {
+    return tdb.getTest(i);
 }
 
-QList<Question *> TestsDBController::getTest(QString testName) {
-    return tdb.getTest(testName);
+void TestsDBController::saveTest(int i, QList<Question *> updatedQns) {
+    tdb.saveTest(i, updatedQns);
 }
 
-void TestsDBController::deleteTest(QString testName) {
-    tdb.deleteTest(testName);
+void TestsDBController::addTest(QList<Question *> testQns) {
+    tdb.addTest(testQns);
+}
+
+void TestsDBController::deleteTest(int i) {
+    tdb.deleteTest(i);
+}
+
+void TestsDBController::writeToFile() {
+    tdb.writeToFile();
 }
 
 

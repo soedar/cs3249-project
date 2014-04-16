@@ -16,7 +16,7 @@ TestWidget::TestWidget()
     questionList = QList<Question *>();
 }
 
-TestWidget::TestWidget(QString name)
+TestWidget::TestWidget(int i)
 {
     tests = TestsDBController::getDB();
     // for testing
@@ -25,8 +25,8 @@ TestWidget::TestWidget(QString name)
     setGeometry(0,0,1000,600);
     setMouseTracking(true);
 
-    lessonName = name;
-    questionList = tests.getTest(lessonName);
+    index = i;
+    questionList = tests.getTest(i);
 }
 
 void TestWidget::setLayout() {
@@ -53,19 +53,24 @@ void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
     qDebug("Successfully added qns");
 }
 
-void TestWidget::saveTest() {
-    tests.addTest(lessonName, questionList);
+void TestWidget::deleteQuestion(int i) {
+    questionList.removeAt(i);
 }
 
 // TODO: add confirmation dialog if there's time
-void TestWidget::deleteTest() {
-    tests.deleteTest(lessonName);
-
+void TestWidget::deleteAllQuestions() {
     // confirmation dialog here
 
 
-    // redraw to show blank window?
+    // replace the list of questions with an empty one
+    questionList = QList<Question *>();
 
+    // need to redraw to show blank window?
+
+}
+
+void TestWidget::saveTest() {
+    tests.saveTest(index, questionList);
 }
 
 

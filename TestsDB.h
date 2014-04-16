@@ -7,16 +7,19 @@ class TestsDB
 {
 public:
     TestsDB();
-    void addTest(QString lessonName, QList<Question *> testQns);
-    QList<Question *> getTest(QString lessonName);
-    void deleteTest(QString lessonName);
+    void addTest(QList<Question *> testQns);
+    void deleteTest(int i);
+    QList<Question *> getTest(int i);
+    void saveTest(int i, QList<Question *> updatedQns);
+
+    // call upon logging out
     void writeToFile();
 
     // for testing purposes only
     void forTesting(QWidget *parent);
 
 private:
-    QList< QPair<QString, QList<Question *> > > tests;
+    QList< QList<Question *> > tests;
 
 };
 

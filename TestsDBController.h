@@ -8,12 +8,21 @@ class TestsDBController
 public:
     TestsDBController();
     void init();
-    void writeToFile();
 
     static TestsDB getDB();
-    static void addTest(QString testName, QList<Question *> testQns);
-    static QList<Question *> getTest(QString testName);
-    static void deleteTest(QString testName);
+    static QList<Question *> getTest(int i);
+
+    // Call when saving an edited test.
+    static void saveTest(int i, QList<Question *> updatedQns);
+
+    // Only call at creation of lesson!
+    static void addTest(QList<Question *> testQns);
+
+    // only call at deletion lesson!
+    static void deleteTest(int i);
+
+    // Call when logging out
+    static void writeToFile();
 
 private:
     static TestsDB tdb;

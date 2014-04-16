@@ -10,25 +10,28 @@ class TestWidget : public QDialog
     Q_OBJECT
 public:
     TestWidget();
-    TestWidget(QString name);   // need the lesson name in order to create
+    TestWidget(int i);   // need the lesson index in order to create
 
     void addQuestion(QString qnsName, QString op1,
                      QString op2, QString op3,
                      QString op4, int ans);
+    void deleteQuestion(int i);
+    void deleteAllQuestions();
     void saveTest();
-    void deleteTest();
 
 private:
     void setLayout();
 
     TestsDB tests;
     QList<Question *> questionList;
-    QString lessonName;
+    int index;
 
 signals:
     // stick the back button here?
+   // void transitLesson();
 
 public slots:
+  //  void saveAndTransitLesson();
 
 
 };
