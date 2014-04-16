@@ -14,6 +14,7 @@ TestWidget::TestWidget()
     questionList = QList<Question *>();
     mainLayout = new QVBoxLayout();
     menu = new QGroupBox();
+    hbox = new QHBoxLayout;
 
     testTable = new QTableWidget;
     testTable->setRowCount(0);
@@ -27,16 +28,7 @@ TestWidget::TestWidget()
     mainLayout->addWidget(testTable);
     setLayout(mainLayout);
 
-    hbox = new QHBoxLayout;
 
-    back = new QPushButton(tr("Back to lessons"));
-    connect(back, SIGNAL(clicked()), this, SLOT(saveAndTransitLesson()));
-    hbox->addWidget(back);
-
-    marksText = new QLabel(this);
-    hbox->addWidget(marksText);
-
-    menu->setLayout(hbox);
 }
 
 void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
@@ -75,9 +67,18 @@ QPair<int, int> TestWidget::getMarks() {
 
 void TestWidget::createMenu() {
 
+    hbox = new QHBoxLayout;
 
+    back = new QPushButton(tr("Back to lessons"));
+    connect(back, SIGNAL(clicked()), this, SLOT(saveAndTransitLesson()));
+    hbox->addWidget(back);
+
+    marksText = new QLabel(this);
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
+    hbox->addWidget(marksText);
+
+    menu->setLayout(hbox);
 
 }
 
@@ -87,23 +88,35 @@ void TestWidget::createMenu() {
 void TestWidget::saveAndTransitLesson()
 {
     saveTest();
-    int len = questionList.length();
-    for (int i=0; i<len; i++)
-    {
-        Question *tempQn = questionList.takeLast();
-        mainLayout->removeWidget(tempQn);
-    }
+//    int len = questionList.length();
+//    for (int i=0; i<len; i++)
+//    {
+//        Question *tempQn = questionList.takeLast();
+//        mainLayout->removeWidget(tempQn);
+//    }
 
     // remove everything from the table
     for(int i = testTable->rowCount()-1; i >= 0; i--) {
         testTable->removeRow(i);
     }
 
+    // remove menu layout manager
+    QLayoutItem * item;
+    QWidget * widget;
+    while (item = hbox->takeAt(0)) {
+        if ((widget = item->widget()) != 0) {
+            widget->hide();
+            delete widget;
+        } else {
+            delete item;
+        }
+    }
+    delete hbox;
+
     if(isTeacher) {
         emit transitLesson();
-    }
-    else
-    {
+    } else {
+        testTable->removeColumn(1);
         emit transitLessonStudent();
     }
 
