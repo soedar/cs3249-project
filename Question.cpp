@@ -26,7 +26,7 @@ QGroupBox *Question::setQuestion(QString name, QString op1,
     //vbox->addStretch(1);
     qnsName->setLayout(vbox);
 
-    setAns(ans);
+    answer = ans;
 
     return qnsName;
 
@@ -38,11 +38,6 @@ bool Question::isCorrect() {
     } else {
         return false;
     }
-}
-
-void Question::setAns(int ans) {
-    answer = ans;
-    qDebug("Successfully set qns ans");
 }
 
 int Question::getAns() {
