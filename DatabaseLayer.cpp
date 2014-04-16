@@ -195,6 +195,8 @@ void DatabaseLayer::saveLessons()
      * Number Of Custom Images
      * Number of annotations for CI 1
      * Annotations
+     * POS1 POS2
+     * Text
      * Number of annotations for CI 2
      * Annotations
      * .
@@ -255,6 +257,7 @@ void DatabaseLayer::saveLessons()
                 AnnotationGraphicsItem *agi = lesson.getAnnos().at(j)->getAnnos().at(k);
                 out << agi->boxRect->pos().x() << " , " << agi->boxRect->pos().y() << " , ";
                 out << agi->lineRect->pos().x() << " , " << agi->lineRect->pos().y() << endl;
+                out << agi->box->toPlainText() << endl;
                 qDebug() << "4." << j << "." << k << "\n";
             }
         }
@@ -296,10 +299,18 @@ void DatabaseLayer::loadLessons()
     QList<CustomImage *> ciList = QList<CustomImage *>();
     QList<int> numbers = QList<int>();
     QList<QPointF> positions = QList<QPointF>();
+    QStringList *annoText = new QStringList();
 
 
     for (int i=0; i<numLessons; i++)
     {
+        fileList = new QStringList();
+        imageList = new QStringList();
+        ciList = QList<CustomImage *>();
+        numbers = QList<int>();
+        positions = QList<QPointF>();
+        annoText = new QStringList();
+
         //Second line
         QString line = in.readLine();
         QStringList data = line.split(" , ");
@@ -360,10 +371,11 @@ void DatabaseLayer::loadLessons()
                 qDebug() << "DataCI.size " << dataCI.size() << "\n";
                 positions.push_back(QPointF(dataCI.at(0).toFloat(), dataCI.at(1).toFloat()));
                 positions.push_back(QPointF(dataCI.at(2).toFloat(), dataCI.at(3).toFloat()));
+                annoText->push_back(in.readLine());
             }
         }
         qDebug("Part 4 OK\n");
-        LessonsDBController::addLesson(isTeacher,lessonName,topicName,date,marks,maxMarks,fileList,imageList,ciList,numbers,positions);
+        LessonsDBController::addLesson(isTeacher,lessonName,topicName,date,marks,maxMarks,fileList,imageList,ciList,numbers,positions,annoText);
 
     }
 

@@ -25,11 +25,12 @@ void CustomImage::removeAnno(int ind)
     delete item;
 }
 
-void CustomImage::setPos(int ind, QPointF pos1, QPointF pos2)
+void CustomImage::setPos(int ind, QPointF pos1, QPointF pos2, const QString &string)
 {
     AnnotationGraphicsItem *item = annotations.at(ind);
 
     item->box->setPos(QPointF(pos1.x(),pos1.y()-60));
+    item->box->setPlainText(string);
     item->boxRect->setPos(pos1);
     item->lineRect->setPos(pos2);
     item->line->setPos1(pos1);
@@ -61,4 +62,15 @@ int CustomImage::getIndex()
 QList<AnnotationGraphicsItem *> CustomImage::getAnnos()
 {
     return annotations;
+}
+
+void CustomImage::clear()
+{
+    int numAnnos = annotations.size();
+    for (int i=0; i<numAnnos; i++)
+    {
+        AnnotationGraphicsItem *tempItem = annotations.takeLast();
+        delete tempItem;
+    }
+    annotations.clear();
 }

@@ -79,8 +79,8 @@ void LessonWidget::createWidgets()
     mainLayout->addLayout(graphicsLayout);
 
 
-    connect(scene,SIGNAL(toTheLeft()),this,SLOT(previousImage()));
-    connect(scene,SIGNAL(toTheRight()),this,SLOT(nextImage()));
+    //connect(scene,SIGNAL(toTheLeft()),this,SLOT(previousImage()));
+    //connect(scene,SIGNAL(toTheRight()),this,SLOT(nextImage()));
 
 
     setLayout(mainLayout);
@@ -143,6 +143,20 @@ void LessonWidget::createActions()
 
     connect(testAction,SIGNAL(triggered()),this,SLOT(saveAndTransitTest()));
 
+    leftAction = new QAction(tr("To The Left"), this);
+    leftAction->setIcon(QIcon(":/assets/left_arrow.png"));
+    leftAction->setShortcut(tr("Ctrl+A"));
+    leftAction->setStatusTip(tr("Shift to the previous image"));
+
+    connect(leftAction,SIGNAL(triggered()),this,SLOT(previousImage()));
+
+    rightAction = new QAction(tr("To The Right"), this);
+    rightAction->setIcon(QIcon(":/assets/right_arrow.png"));
+    rightAction->setShortcut(tr("Ctrl+D"));
+    rightAction->setStatusTip(tr("Shift to the next image"));
+
+    connect(rightAction,SIGNAL(triggered()),this,SLOT(nextImage()));
+
     toolbar->addAction(selectAction);
     toolbar->addAction(handAction);
     toolbar->addAction(linkAction);
@@ -151,6 +165,8 @@ void LessonWidget::createActions()
     toolbar->addAction(imageAction);
     toolbar->addAction(saveAction);
     toolbar->addAction(testAction);
+    toolbar->addAction(leftAction);
+    toolbar->addAction(rightAction);
 }
 
 void LessonWidget::setImage(int index)
@@ -227,6 +243,7 @@ void LessonWidget::enableMove()
         tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable);
         tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable);
         tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable);
+        tempList.at(i)->box->setTextInteractionFlags(Qt::TextEditorInteraction);
     }
 }
 
@@ -242,6 +259,7 @@ void LessonWidget::enableSelect()
         tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
         tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
         tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->box->setTextInteractionFlags(Qt::NoTextInteraction);
     }
 }
 
@@ -257,6 +275,7 @@ void LessonWidget::changeCursorDelete()
         tempList.at(i)->boxRect->setFlag(QGraphicsItem::ItemIsMovable, false);
         tempList.at(i)->line->setFlag(QGraphicsItem::ItemIsMovable, false);
         tempList.at(i)->lineRect->setFlag(QGraphicsItem::ItemIsMovable, false);
+        tempList.at(i)->box->setTextInteractionFlags(Qt::NoTextInteraction);
     }
 }
 
@@ -451,12 +470,6 @@ void LessonWidget::saveAndTransitEdit()
 void LessonWidget::exit()
 {
     delete this;
-}
-
-void LessonWidget::showTestWidget() {
-    //testWidget = new TestWidget(STICK THE LESSON NAME HERE);
-
-    // I haven't added any buttons there yet
 }
 
 void LessonWidget::previousImage()

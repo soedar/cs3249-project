@@ -25,7 +25,7 @@ void LessonsDB::addItemAtIndex(int index, Lesson l)
     lessons.insert(index,l);
 }
 
-void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions)
+void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
 {
     Lesson tempLesson = Lesson();
 
@@ -37,10 +37,9 @@ void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QStri
     tempLesson.setMaxMarks(maxMarks);
     tempLesson.addFiles(files);
     tempLesson.addImages(images);
-    tempLesson.setAnnos(list,numbers,positions);
+    tempLesson.setAnnos(list,numbers,positions,annoText);
     lessons.push_back(tempLesson);
     qDebug() << "New Lesson Added, No.of lessons = " << lessons.size() << "\n";
-    addTopic("The Human Skeleton");
 
 }
 
@@ -147,5 +146,10 @@ void LessonsDB::addTopic(const QString &string)
 
 void LessonsDB::clear()
 {
-    lessons.clear();
+    int numLessons = lessons.size();
+    for (int i=0; i<numLessons; i++)
+    {
+        Lesson tempLesson = lessons.takeLast();
+        tempLesson.clear();
+    }
 }

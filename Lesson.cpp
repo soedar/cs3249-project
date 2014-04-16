@@ -177,7 +177,7 @@ void Lesson::setAnnos(QList<CustomImage *> tempList)
     }
 }
 
-void Lesson::setAnnos(QList<CustomImage *> tempList ,QList<int> numbers, QList<QPointF> positions)
+void Lesson::setAnnos(QList<CustomImage *> tempList ,QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
 {
     this->annotations.clear();
     int count = 0;
@@ -194,7 +194,7 @@ void Lesson::setAnnos(QList<CustomImage *> tempList ,QList<int> numbers, QList<Q
         for (int j=0; j<numbers.at(i); j++)
         {
             image->addAnno(new AnnotationGraphicsItem());
-            image->setPos(j,positions.at(count), positions.at(count+1));
+            image->setPos(j,positions.at(count), positions.at(count+1),annoText->at(j));
             count = count+2;
         }
         annotations.push_back(image);
@@ -230,4 +230,21 @@ void Lesson::addAnnos(int index, QList<AnnotationGraphicsItem *> tempList)
     image->setAnnos(tempList);
     image->setIndex(index);
     this->annotations.push_back(image);
+}
+
+void Lesson::clear()
+{
+    fileList.clear();
+    imageList.clear();
+    int numCIs = annotations.size();
+
+    for (int i=0; i<numCIs; i++)
+    {
+        CustomImage *tempImage = annotations.takeLast();
+        tempImage->clear();
+        delete tempImage;
+    }
+    annotations.clear();
+
+    delete this;
 }

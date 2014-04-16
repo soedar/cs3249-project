@@ -28,6 +28,7 @@ void CustomScene::keyPressEvent(QKeyEvent *event)
     {
         emit toTheRight();
     }
+    QGraphicsScene::keyPressEvent(event);
 }
 
 void CustomScene::setDelete(bool del)

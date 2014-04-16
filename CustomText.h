@@ -22,6 +22,8 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
+    //void keyPressEvent(QKeyEvent *event);
+
 public slots:
     void recieveChange(QPointF posChange);
 
