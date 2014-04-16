@@ -136,10 +136,7 @@ void StudentLessonWidget::prepare(Lesson *less)
     }
 
     this->menuWidget = new MenuWidget(this, lesson);
-    //this->menuWidget->show();
-
     qDebug() << "Lesson Loaded\n" << "No.of images = " << annotations.size() << "\n";
-    //this->menuWidget->show();
     emit prepared();
 }
 
