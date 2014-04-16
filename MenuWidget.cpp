@@ -31,7 +31,7 @@ MenuWidget::MenuWidget(QWidget *parent, Lesson *lesson) : QWidget(parent)
     isOpened = false;
     toggle();
 
-    qDebug() << LessonsDBController::getDB().getTopics();
+    qDebug() << LessonsDBController::getDB()->getTopics();
 }
 
 void MenuWidget::setupMenuWidgets()

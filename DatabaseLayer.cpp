@@ -14,12 +14,88 @@ DatabaseLayer::DatabaseLayer()
     ldb = new LessonsDBController();
     ldb->init();
 
+    initTimer();
+
     //lessonsDataPath = ":";
 
     qDebug() << "Data path is: " << dataPath;
 
     preloadUsers();
     loadAllUsers();
+
+    connect(LessonsDBController::getDB(), SIGNAL(newLessonCreated()), this, SLOT(saveNewLesson()));
+}
+
+void DatabaseLayer::saveNewLesson()
+{
+    saveLessons();
+    QFile updateFile(updateDatabaseFile());
+    if (!updateFile.open(QIODevice::ReadWrite | QIODevice::Append)) {
+        QMessageBox::information(0, "error", updateFile.errorString());
+        return;
+    }
+
+    QTextStream out(&updateFile);
+    out << "new_lesson" << endl;
+    updateFile.close();
+}
+
+void DatabaseLayer::initTimer()
+{
+    updateCount = 0;
+
+    QFile updateFile(updateDatabaseFile());
+    if (!updateFile.exists()) {
+        if (!updateFile.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(0, "error", updateFile.errorString());
+            return;
+        }
+        QTextStream out(&updateFile);
+        out << "updates" << endl;
+        updateCount = 1;
+    } else {
+        if (!updateFile.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(0, "error", updateFile.errorString());
+            return;
+        }
+        QTextStream in(&updateFile);
+        while (!in.atEnd()) {
+            in.readLine();
+            updateCount++;
+        }
+    }
+    updateFile.close();
+
+    pollTimer = new QTimer(0);
+    connect(pollTimer, SIGNAL(timeout()), this, SLOT(checkDbUpdate()));
+    pollTimer->start(1000);
+}
+
+void DatabaseLayer::checkDbUpdate()
+{
+    QFile updateFile(updateDatabaseFile());
+    if (!updateFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", updateFile.errorString());
+        return;
+    }
+
+    int newUpdateCount = 0;
+    QString lastUpdate;
+    QTextStream in(&updateFile);
+    while (!in.atEnd()) {
+        newUpdateCount++;
+        lastUpdate = in.readLine();
+    }
+
+    // Has a new update
+    if (newUpdateCount > updateCount) {
+        qDebug() << "has new update";
+        if (lastUpdate == "new_lesson") {
+            emit newLessonCreated();
+        }
+    }
+    updateCount = newUpdateCount;
+
 }
 
 void DatabaseLayer::preloadUsers()
@@ -32,7 +108,7 @@ void DatabaseLayer::preloadUsers()
         }
         QTextStream out(&userFile);
         out << "teacher:11111:2" << endl;
-        out << "student:11111:1";
+        out << "student:11111:1" << endl;
     }
     userFile.close();
 }
@@ -46,6 +122,12 @@ QString DatabaseLayer::userDatabaseFile()
 QString DatabaseLayer::lessonsDatabaseFile()
 {
     QString path = dataPath + "/lessons.db";
+    return QDir::toNativeSeparators(path);
+}
+
+QString DatabaseLayer::updateDatabaseFile()
+{
+    QString path = dataPath + "/updates.txt";
     return QDir::toNativeSeparators(path);
 }
 
@@ -94,8 +176,8 @@ void DatabaseLayer::saveLessons()
         QMessageBox::information(0, "error", lessonFile.errorString());
         return;
     }
-    LessonsDB ldb = LessonsDBController::getDB();
-    int numLessons = ldb.getLessons().size();
+    LessonsDB *ldb = LessonsDBController::getDB();
+    int numLessons = ldb->getLessons().size();
 
 
     QTextStream out(&lessonFile);
@@ -122,7 +204,7 @@ void DatabaseLayer::saveLessons()
 
     for (int i=0; i<numLessons; i++)
     {
-        Lesson lesson = ldb.getLessons().at(i);
+        Lesson lesson = ldb->getLessons().at(i);
         int isTeacher;
         if (lesson.isTeacher())
         {

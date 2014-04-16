@@ -106,6 +106,7 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
     addTopic("The Human Skeleton");
     lessons.push_back(tempLesson);
 
+    emit newLessonCreated();
     qDebug() << "Lesson, File size : " << tempLesson.getFileList().size() << "  Image size" << tempLesson.getImageList().size() << "\n";
 }
 

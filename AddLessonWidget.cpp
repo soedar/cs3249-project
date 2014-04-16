@@ -70,8 +70,8 @@ void AddLessonWidget::createWidgets()
 
    topicName = new QComboBox();
    topicName->setFixedSize(220,30);
-   LessonsDB ldb = LessonsDBController::getDB();
-   QStringList list = ldb.getTopics();
+   LessonsDB *ldb = LessonsDBController::getDB();
+   QStringList list = ldb->getTopics();
    topicName->addItems(list);
 
    addTopic = new QPushButton(tr("Add"));
@@ -175,9 +175,9 @@ void AddLessonWidget::newTopic()
     if (addNewTopic->text().length() > 0)
     {
         LessonsDBController::addTopic(addNewTopic->text());
-        LessonsDB ldb = LessonsDBController::getDB();
+        LessonsDB *ldb = LessonsDBController::getDB();
         QString string = topicName->currentText();
-        QStringList list = ldb.getTopics();
+        QStringList list = ldb->getTopics();
         topicName->clear();
         topicName->addItems(list);
         for (int i=0; i<list.size(); i++)
@@ -193,11 +193,11 @@ void AddLessonWidget::newTopic()
 
 void AddLessonWidget::prepare()
 {
-    LessonsDB ldb = LessonsDBController::getDB();
-    Lesson tempLesson = ldb.getLessons().at(LessonsDBController::getIndex());
+    LessonsDB *ldb = LessonsDBController::getDB();
+    Lesson tempLesson = ldb->getLessons().at(LessonsDBController::getIndex());
 
     lessonName->setText(tempLesson.getLesson());
-    QStringList list = LessonsDBController::getDB().getTopics();
+    QStringList list = LessonsDBController::getDB()->getTopics();
     topicName->addItems(list);
     for (int i=0; i<list.size(); i++)
     {
