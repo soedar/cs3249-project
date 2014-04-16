@@ -26,6 +26,17 @@ TestWidget::TestWidget()
     mainLayout->addWidget(menu);
     mainLayout->addWidget(testTable);
     setLayout(mainLayout);
+
+    hbox = new QHBoxLayout;
+
+    back = new QPushButton(tr("Back to lessons"));
+    connect(back, SIGNAL(clicked()), this, SLOT(saveAndTransitLesson()));
+    hbox->addWidget(back);
+
+    marksText = new QLabel(this);
+    hbox->addWidget(marksText);
+
+    menu->setLayout(hbox);
 }
 
 void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
@@ -64,18 +75,10 @@ QPair<int, int> TestWidget::getMarks() {
 
 void TestWidget::createMenu() {
 
-    hbox = new QHBoxLayout;
 
-    back = new QPushButton(tr("Back to lessons"));
-    connect(back, SIGNAL(clicked()), this, SLOT(saveAndTransitLesson()));
-    hbox->addWidget(back);
-
-    marksText = new QLabel(this);
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
-    hbox->addWidget(marksText);
 
-    menu->setLayout(hbox);
 }
 
 
@@ -98,7 +101,9 @@ void TestWidget::saveAndTransitLesson()
 
     if(isTeacher) {
         emit transitLesson();
-    } else {
+    }
+    else
+    {
         emit transitLessonStudent();
     }
 
