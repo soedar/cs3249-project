@@ -44,6 +44,8 @@ private:
     QAction *imageAction; //NOT IMPLEMENTED
     QAction *saveAction; //Saves and exits, working for now
     QAction *testAction; //Transits to the test widget
+    QAction *rightAction;
+    QAction *leftAction;
 
     QLineEdit *lessonName;
     QComboBox *topicName;
@@ -62,8 +64,6 @@ private:
     void initImages();
     void createActions();
     void setImage(int index);
-
-    TestWidget *testWidget;
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -91,8 +91,6 @@ public slots:
     void saveAndTransitEdit();
     void newTopic();
 
-private slots:
-    void showTestWidget();
 };
 
 #endif // LESSONWIDGET_H

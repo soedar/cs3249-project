@@ -15,7 +15,8 @@ public:
     void addAnno(AnnotationGraphicsItem *item);
     void removeAnno(int ind);
     void updateIndices();
-    void setPos(int ind, QPointF pos1, QPointF pos2);
+    void setPos(int ind, QPointF pos1, QPointF pos2, const QString &string);
+    void clear();
 private:
     QList<AnnotationGraphicsItem *> annotations;
     int index;

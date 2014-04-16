@@ -28,9 +28,10 @@ void LessonsDBController::deleteItemAt(int index)
     TestsDBController::deleteTest(index);
 }
 
-void LessonsDBController::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions)
+void LessonsDBController::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks,
+                                    QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
 {
-    ldb->addLesson(isTeacher, lessonName, topicName, date, marks, maxMarks, files, images, list, numbers, positions);
+    ldb->addLesson(isTeacher, lessonName, topicName, date, marks, maxMarks, files, images, list, numbers, positions, annoText);
     //TestsDBController::addTest(QList<Question *>());
 }
 

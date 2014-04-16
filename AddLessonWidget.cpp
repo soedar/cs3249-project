@@ -105,7 +105,7 @@ void AddLessonWidget::createWidgets()
    dragImages = new QPushButton(QIcon(":/assets/diagrams.png"), tr("Drag Images to Upload!"));
    dragImages->setFlat(true);
    dragImages->setEnabled(false);
-   dragFiles = new QPushButton(QIcon(":/assets/pdf.png"), tr("Drag PDF Files to Upload!"));
+   dragFiles = new QPushButton(QIcon(":/assets/pdf.png"), tr("Drag HTML Files to Upload!"));
    dragFiles->setFlat(true);
    dragFiles->setEnabled(false);
 

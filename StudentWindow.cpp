@@ -3,24 +3,29 @@
 StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMainWidget())
 {
     this->studentMainWidget = (StudentMainWidget *)mainWidget;
+    this->lessonWidget = new StudentLessonWidget();
 
     connect(this->studentMainWidget, SIGNAL(selectedLesson(int)), this, SLOT(showLessonWidget(int)));
     connect(db, SIGNAL(newLessonCreated()), this, SLOT(newLessonCreated()));
+
+    connect(this->lessonWidget, SIGNAL(prepared()), this->lessonWidget, SLOT(show()));
+    connect(this->lessonWidget, SIGNAL(prepared()), this->studentMainWidget, SLOT(hide()));
+
+    connect(this->lessonWidget, SIGNAL(transitLessons()), this->studentMainWidget, SLOT(show()));
+    connect(this->lessonWidget, SIGNAL(logOut()), this, SLOT(logoff()));
+    connect(this->lessonWidget, SIGNAL(transitLessons()), this->lessonWidget, SLOT(hide()));
+    connect(this->lessonWidget, SIGNAL(logOut()), this->lessonWidget, SLOT(hide()));
+
 }
 
 void StudentWindow::showLessonWidget(int i)
 {
     LessonsDB *lessons = LessonsDBController::getDB();
     Lesson lesson = lessons->getLessons().at(i);
-
-    lessonWidget = new StudentLessonWidget(&lesson);
-    lessonWidget->show();
-    studentMainWidget->hide();
-
-    connect(lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), studentMainWidget, SLOT(show()));
-    connect(lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), lessonWidget, SLOT(close()));
-    connect(lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), lessonWidget, SLOT(close()));
-    connect(lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), this, SLOT(logoff()));
+    this->lessonWidget->prepare(&lesson);
+    
+    connect(this->lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), this->lessonWidget, SLOT(transit()));
+    connect(this->lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), this->lessonWidget, SLOT(exit()));
 }
 
 void StudentWindow::newLessonCreated()
