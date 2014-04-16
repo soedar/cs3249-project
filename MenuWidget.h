@@ -33,7 +33,7 @@ private:
     void setupMenuWidgets();
 
 signals:
-    void selectTest();
+    void selectTest(bool);
     
 private slots:
     void toggle();

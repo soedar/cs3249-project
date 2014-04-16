@@ -96,7 +96,12 @@ void TestWidget::saveAndTransitLesson()
         testTable->removeRow(i);
     }
 
-    emit transitLesson();
+    if(isTeacher) {
+        emit transitLesson();
+    } else {
+        emit transitLessonStudent();
+    }
+
 }
 
 void TestWidget::prepare(bool teacher)
@@ -108,11 +113,11 @@ void TestWidget::prepare(bool teacher)
     int width;
 
     // REMOVE ! once testing is done!
-    if(!isTeacher) {
-        qDebug("student");
+    if(isTeacher) {
+        qDebug("teacher");
         width = 1000;
     } else {
-        qDebug("teacher");
+        qDebug("student");
         width = 800;
     }
     testTable->setColumnWidth(0, width);
@@ -134,10 +139,10 @@ void TestWidget::prepare(bool teacher)
                                 questionList[i]);
     }
 
-    if(!isTeacher) {
-        qDebug("student");
-    } else {
+    if(isTeacher) {
         qDebug("teacher");
+    } else {
+        qDebug("student");
 
         // create submit button for student
         submitButton = new QPushButton(tr("Submit"));

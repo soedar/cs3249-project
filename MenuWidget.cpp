@@ -112,5 +112,5 @@ void MenuWidget::adjustSize()
 
 void MenuWidget::testPressed()
 {
-    emit selectTest();
+    emit selectTest(false);
 }

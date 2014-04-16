@@ -4,7 +4,7 @@ StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMain
 {
     this->studentMainWidget = (StudentMainWidget *)mainWidget;
     this->lessonWidget = new StudentLessonWidget();
-    this->testWidget = new TestWidget(false);    // true if isTeacher
+    this->testWidget = new TestWidget();
 
     connect(this->studentMainWidget, SIGNAL(selectedLesson(int)), this, SLOT(showLessonWidget(int)));
     connect(db, SIGNAL(newLessonCreated()), this, SLOT(newLessonCreated()));
@@ -28,9 +28,12 @@ void StudentWindow::showLessonWidget(int i)
     connect(this->lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), this->lessonWidget, SLOT(transit()));
     connect(this->lessonWidget->menuWidget->logoutButton, SIGNAL(clicked()), this->lessonWidget, SLOT(exit()));
 
-    connect(this->lessonWidget->menuWidget, SIGNAL(selectTest()), this->testWidget, SLOT(prepare()));
+    connect(this->lessonWidget->menuWidget, SIGNAL(selectTest(bool)), this->testWidget, SLOT(prepare(bool)));
     connect(this->testWidget, SIGNAL(prepared()), this->testWidget, SLOT(show()));
     connect(this->testWidget, SIGNAL(prepared()), this->lessonWidget, SLOT(hide()));
+
+    connect(this->testWidget, SIGNAL(transitLessonStudent()), this->testWidget, SLOT(hide()));
+    connect(this->testWidget, SIGNAL(transitLessonStudent()), this->lessonWidget, SLOT(show()));
 }
 
 void StudentWindow::newLessonCreated()

@@ -44,6 +44,7 @@ private:
 
 signals:
     void transitLesson();
+    void transitLessonStudent();
     void prepared();
 
 public slots:
