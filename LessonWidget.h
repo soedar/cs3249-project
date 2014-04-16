@@ -71,7 +71,8 @@ protected:
 signals:
     void prepared();
     void saved();
-    void transitTest();
+    void transitTest(bool);
+    void hideEditWidget();
     void transitEdit();
 
 public slots:

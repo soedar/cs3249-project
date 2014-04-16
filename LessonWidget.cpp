@@ -432,7 +432,8 @@ void LessonWidget::saveAndTransitTest()
     imageUrls->clear();
     annotations.clear();
 
-    emit transitTest();
+    emit transitTest(true); // for teachers
+    emit hideEditWidget();
 }
 
 void LessonWidget::saveAndTransitEdit()

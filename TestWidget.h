@@ -10,7 +10,7 @@ class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TestWidget(bool teacher);
+    TestWidget();
 
     void addQuestion(QString qnsName, QString op1,
                      QString op2, QString op3,
@@ -18,21 +18,29 @@ public:
     void deleteQuestion(int i);
     void deleteAllQuestions();
     void saveTest();
+    QPair<int, int> getMarks();
 
 private:
 
     TestsDB tests;
     QList<Question *> questionList;
-    QVBoxLayout *vbox;
+    QVBoxLayout *mainLayout;
+    QGroupBox *menu;
+    QHBoxLayout *hbox;
 
     // student stuff
     QTableWidget *testTable;
     QStringList testTableHeader;
+
+    QPushButton *back;
     QPushButton *submitButton;
 
+    void createMenu();
 
+    QLabel *marksText;
     bool isTeacher;
     int index;
+    int marks;
 
 signals:
     void transitLesson();
@@ -40,7 +48,9 @@ signals:
 
 public slots:
     void saveAndTransitLesson();
-    void prepare();
+    void prepare(bool teacher);
+
+
     void submitTest();
 
 };

@@ -5,39 +5,27 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget(bool teacher)
+TestWidget::TestWidget()
 {
-    isTeacher = teacher;
     tests = TestsDBController::getDB();
 
     setGeometry(0,0,1000,600);
-    setMouseTracking(true);
 
     questionList = QList<Question *>();
-    vbox = new QVBoxLayout();
-
-    int width;
-
-    // REMOVE ! once testing is done!
-    if(!isTeacher) {
-        qDebug("student");
-        width = 1000;
-    } else {
-        qDebug("teacher");
-        width = 800;
-    }
+    mainLayout = new QVBoxLayout();
+    menu = new QGroupBox();
 
     testTable = new QTableWidget;
     testTable->setRowCount(0);
     testTable->setColumnCount(1);
-    testTable->setColumnWidth(0, width);
 
     QStringList testTableHeader;
     testTableHeader << "Questions";
     testTable->setHorizontalHeaderLabels(testTableHeader);
 
-    vbox->addWidget(testTable);
-    setLayout(vbox);
+    mainLayout->addWidget(menu);
+    mainLayout->addWidget(testTable);
+    setLayout(mainLayout);
 }
 
 void TestWidget::addQuestion(QString qnsName, QString op1, QString op2,
@@ -66,6 +54,33 @@ void TestWidget::deleteAllQuestions() {
 
 }
 
+void TestWidget::saveTest() {
+    tests.saveTest(index, questionList);
+}
+
+QPair<int, int> TestWidget::getMarks() {
+    return qMakePair(marks, questionList.length());
+}
+
+void TestWidget::createMenu() {
+
+    hbox = new QHBoxLayout;
+
+    back = new QPushButton(tr("Back to lessons"));
+    connect(back, SIGNAL(clicked()), this, SLOT(saveAndTransitLesson()));
+    hbox->addWidget(back);
+
+    marksText = new QLabel(this);
+    marksText->setText(QString("Marks from last attempt: %1/%2")
+                       .arg(marks).arg(questionList.length()));
+    hbox->addWidget(marksText);
+
+    menu->setLayout(hbox);
+}
+
+
+// PUBLIC SLOTS
+
 void TestWidget::saveAndTransitLesson()
 {
     saveTest();
@@ -73,19 +88,39 @@ void TestWidget::saveAndTransitLesson()
     for (int i=0; i<len; i++)
     {
         Question *tempQn = questionList.takeLast();
-        vbox->removeWidget(tempQn);
+        mainLayout->removeWidget(tempQn);
     }
+
+    // remove everything from the table
+    for(int i = testTable->rowCount()-1; i >= 0; i--) {
+        testTable->removeRow(i);
+    }
+
     emit transitLesson();
 }
 
-void TestWidget::saveTest() {
-    tests.saveTest(index, questionList);
-}
-
-void TestWidget::prepare()
+void TestWidget::prepare(bool teacher)
 {
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
+    isTeacher = teacher;
+
+    int width;
+
+    // REMOVE ! once testing is done!
+    if(!isTeacher) {
+        qDebug("student");
+        width = 1000;
+    } else {
+        qDebug("teacher");
+        width = 800;
+    }
+    testTable->setColumnWidth(0, width);
+
+    // get marks from db before calling create menu
+
+
+    createMenu();
 
     // for testing only
     tests.forTesting(this);
@@ -112,8 +147,6 @@ void TestWidget::prepare()
         testTable->insertRow(testTable->rowCount());
         testTable->setCellWidget(testTable->rowCount()-1, 0,
                                     submitButton);
-
-        //submitTest();
     }
 
     emit prepared();
@@ -121,6 +154,8 @@ void TestWidget::prepare()
 
 // for student
 void TestWidget::submitTest() {
+    marks = 0;
+
     testTable->removeRow(testTable->rowCount()-1);
     testTable->insertColumn(1);
     testTable->setColumnWidth(1, 141);
@@ -131,25 +166,17 @@ void TestWidget::submitTest() {
         QLabel *qnsResult = new QLabel(this);
         qnsResult->setAlignment(Qt::AlignCenter);
 
-
-//        // why the heck is the answer to the last qns so weird
-//        // when this function is called through signal/slot??
-//        for(int j = 0; j < questionList.length(); j++) {
-//            int test = questionList[j]->getAns();
-//            qDebug("qns %d ans is %d", j+1, test);
-//        }
-
-
         if(questionList[i]->isCorrect()) {
             qnsResult->setText("CORRECT!");
-            qDebug("correct\n");
+            marks++;
         } else {
             int ans = questionList[i]->getAns();
             qnsResult->setText(QString("WRONG.\nCorrect answer: %1.").arg(ans));
-            qDebug("Wrong.\nCorrect answer is %d.\n", ans);
         }
 
         testTable->setCellWidget(i, 1, qnsResult);
-        qDebug("set widget");
     }
+
+    marksText->setText(QString("Marks from last attempt: %1/%2")
+                       .arg(marks).arg(questionList.length()));
 }

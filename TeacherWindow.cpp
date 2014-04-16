@@ -6,7 +6,7 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     this->teacherMainWidget = (TeacherMainWidget *)mainWidget;
     this->addWidget = new AddLessonWidget();
     this->editWidget = new LessonWidget();
-    this->testWidget = new TestWidget(true);    // true if isTeacher
+    this->testWidget = new TestWidget();
 
 
     //Connections with Add New Lesson
@@ -28,9 +28,9 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db) : MainWindow(db, new TeacherMain
     QObject::connect(this->teacherMainWidget->logOutButton, SIGNAL(clicked()), this, SLOT(save()));
 
     //Transiting to test
-    QObject::connect(this->editWidget, SIGNAL(transitTest()), this->testWidget, SLOT(prepare()));
+    QObject::connect(this->editWidget, SIGNAL(transitTest(bool)), this->testWidget, SLOT(prepare(bool)));
     QObject::connect(this->testWidget, SIGNAL(prepared()), this->testWidget, SLOT(show()));
-    QObject::connect(this->editWidget, SIGNAL(transitTest()), this->editWidget, SLOT(hide()));
+    QObject::connect(this->editWidget, SIGNAL(hideEditWidget()), this->editWidget, SLOT(hide()));
     QObject::connect(this->testWidget, SIGNAL(transitLesson()), this->editWidget, SLOT(prepare()));
 
     //Transiting to edit Files/Images
