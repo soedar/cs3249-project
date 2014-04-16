@@ -135,6 +135,9 @@ void StudentLessonWidget::prepare(Lesson *less)
         textEditWidget->setHtml(html);
     }
 
+    if (this->menuWidget) {
+        delete this->menuWidget;
+    }
     this->menuWidget = new MenuWidget(this, lesson);
     qDebug() << "Lesson Loaded\n" << "No.of images = " << annotations.size() << "\n";
     emit prepared();
