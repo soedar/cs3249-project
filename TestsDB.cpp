@@ -27,7 +27,7 @@ QList<Question *> TestsDB::getTest(int i) {
     */
 }
 
-QList<QList<Question *>> TestsDB::getTests()
+QList< QList<Question *> > TestsDB::getTests()
 {
                          return tests;
 }
@@ -46,7 +46,7 @@ void TestsDB::forTesting(QWidget *parent) {
     QList<Question *> tempTest = QList<Question *>();
     for(int i = 0; i < 5; i++) {
         Question *tempQns = new Question(parent);
-        tempQns->setQuestion("This is question " + i, "op1",
+        tempQns->setQuestion("This is question " + QString(i), "op1",
                              "op2", "op3", "op4", 2);
         tempTest.append(tempQns);
     }
