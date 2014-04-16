@@ -15,7 +15,7 @@ StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMain
     connect(this->lessonWidget, SIGNAL(transitLessons()), this->studentMainWidget, SLOT(show()));
     connect(this->lessonWidget, SIGNAL(logOut()), this, SLOT(logoff()));
     connect(this->lessonWidget, SIGNAL(transitLessons()), this->lessonWidget, SLOT(hide()));
-    connect(this->lessonWidget, SIGNAL(logOut()), this->lessonWidget, SLOT(hide()));
+    connect(this->lessonWidget, SIGNAL(logOut()), this->lessonWidget, SLOT(close()));
 
 }
 

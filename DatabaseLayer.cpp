@@ -13,6 +13,7 @@ DatabaseLayer::DatabaseLayer()
 
     ldb = new LessonsDBController();
     ldb->init();
+    mdb = new MarksDB();
 
     initTimer();
 
@@ -125,6 +126,12 @@ QString DatabaseLayer::lessonsDatabaseFile()
     return QDir::toNativeSeparators(path);
 }
 
+QString DatabaseLayer::marksDatabaseFile()
+{
+    QString path = dataPath + "/marks.db";
+    return QDir::toNativeSeparators(path);
+}
+
 QString DatabaseLayer::updateDatabaseFile()
 {
     QString path = dataPath + "/updates.txt";
@@ -161,6 +168,10 @@ void DatabaseLayer::loadAllUsers()
 
         if (!users.contains(email)) {
             User user(email, password, role);
+            if (user.userRole() == UserRoleStudent)
+            {
+
+            }
             users.insert(email, user);
         }
     }
@@ -380,4 +391,66 @@ void DatabaseLayer::loadLessons()
     }
 
     lessonFile.close();
+}
+
+void DatabaseLayer::saveMarks()
+{
+    qDebug() << "SAVING MARKS\n";
+    QFile marksFile(marksDatabaseFile());
+
+    if (!marksFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+        QMessageBox::information(0, "error", marksFile.errorString());
+        return;
+    }
+
+    QTextStream out(&marksFile);
+
+    QMap<QString,QMap<int,int>> map = mdb->getData();
+
+    QList<QString> listStudents = map.uniqueKeys();
+
+    for (int i=0;i<listStudents.size(); i++)
+    {
+        QString name = listStudents.at(i);
+
+        QMap<int,int> tempMap = map.value(name);
+        QList<int> lessonIds = tempMap.uniqueKeys();
+
+        for (int j=0; j<lessonIds.size(); j++)
+        {
+            int lesson = lessonIds.at(j);
+            int mark = tempMap.value(lesson);
+
+            out << name << " , " << lesson << " , " << mark << endl;
+        }
+    }
+    marksFile.close();
+
+}
+
+void DatabaseLayer::loadMarks()
+{
+
+    QFile marksFile(marksDatabaseFile());
+
+    if (!marksFile.open(QIODevice::ReadWrite)) {
+        QMessageBox::information(0, "error", marksFile.errorString());
+        return;
+    }
+
+    QTextStream in(&marksFile);
+
+    MarksDB::clear();
+
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+        QStringList data = line.split(" , ");
+
+        QString email = data[0];
+        int lessonId = data[1].toInt();
+        int mark = data[2].toInt();
+        MarksDB::addMark(email,lessonId,mark);
+    }
+    marksFile.close();
 }
