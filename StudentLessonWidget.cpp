@@ -4,7 +4,7 @@ StudentLessonWidget::StudentLessonWidget()
 {
     setGeometry(0,0,1000,600);
     imageView = new QGraphicsView(this);
-    imageView->setGeometry(50,100,900,500);
+    imageView->setGeometry(50,100,500,500);
     imageView->setDragMode(QGraphicsView::ScrollHandDrag);
     scene = new CustomScene(this);
     //pdfView = new QTextEdit(this);
@@ -14,6 +14,7 @@ StudentLessonWidget::StudentLessonWidget()
     currentIndex = -1;
     image = new QGraphicsPixmapItem();
     image->setFlag(QGraphicsItem::ItemIsSelectable, false);
+
 
 
     zoom = 1.0;
@@ -38,25 +39,27 @@ void StudentLessonWidget::createWidgets()
 
     textEditWidget = new QTextEdit;
     textEditWidget->setReadOnly(true);
+    textEditWidget->setGeometry(600,100,350,500);
 
-    mainLayout->addWidget(textEditWidget);
+    //mainLayout->addWidget(textEditWidget);
 
-    mainLayout->addWidget(new QTextEdit);
+    //mainLayout->addWidget(new QTextEdit);
 
-    setLayout(mainLayout);
+    //setLayout(mainLayout);
 
     topHeader->addWidget(titleLabel);
     topHeader->addWidget(lessonName);
     topHeader->addWidget(topicLabel);
     topHeader->addWidget(topicName);
 
-    graphicsLayout->addWidget(imageView);;
+    graphicsLayout->addWidget(imageView);
+    graphicsLayout->addWidget(textEditWidget);
     mainLayout->addLayout(topHeader);
     mainLayout->addLayout(graphicsLayout);
 
     connect(scene,SIGNAL(toTheLeft()),this,SLOT(previousImage()));
     connect(scene,SIGNAL(toTheRight()),this,SLOT(nextImage()));
-
+    this->menuWidget = new MenuWidget(this, lesson);
     setLayout(mainLayout);
 
 }
@@ -135,7 +138,7 @@ void StudentLessonWidget::prepare(Lesson *less)
         textEditWidget->setHtml(html);
     }
 
-    this->menuWidget = new MenuWidget(this, lesson);
+
     qDebug() << "Lesson Loaded\n" << "No.of images = " << annotations.size() << "\n";
     emit prepared();
 }
