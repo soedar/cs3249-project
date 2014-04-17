@@ -303,7 +303,7 @@ void LessonWidget::deleteItem()
         scene->removeItem(tempItem->line);
         scene->removeItem(tempItem->lineRect);
         annotations.at(currentIndex)->removeAnno(nums.at(i));
-        delete tempItem;
+        //delete tempItem;
     }
 
     annotations.at(currentIndex)->updateIndices();
