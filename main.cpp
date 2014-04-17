@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
         databaseLayer.loadLessons();
 
         if (loggedInUser.userRole() == UserRoleTeacher) {
-            chosenWindow = new TeacherWindow(&databaseLayer);
+            chosenWindow = new TeacherWindow(&databaseLayer, loggedInUser);
         } else {
-            chosenWindow = new StudentWindow(&databaseLayer);
+            chosenWindow = new StudentWindow(&databaseLayer, loggedInUser);
         }
 
         //chosenWindow->show();

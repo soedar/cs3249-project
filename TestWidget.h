@@ -5,17 +5,18 @@
 #include "Question.h"
 #include "TestsDBController.h"
 #include "LessonsDBController.h"
+#include "MarksDB.h"
 
 class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TestWidget();
-
+    TestWidget(QString email);
     QPair<int, int> getMarks();
 
 private:
 
+    QString email;
     TestsDB tests;
     QList<Question *> questionList;
     QVBoxLayout *mainLayout;
