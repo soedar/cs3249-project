@@ -15,6 +15,7 @@ public:
     void forTesting();
 
     QList<QList<Question *> > getTests();
+    void saveTest(int index, QList<Question *> testQns);
 private:
     QList< QList<Question *> > tests;
 

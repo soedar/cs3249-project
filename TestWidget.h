@@ -21,9 +21,10 @@ private:
     QString email;
     TestsDB *tests;
     QList<Question *> questionList;
-    QVBoxLayout *mainLayout;
-    QGroupBox *menu;
-    QHBoxLayout *hbox;
+    QGroupBox *menuStudent;
+    QGroupBox *menuTeacher;
+    QVBoxLayout *vboxStudent;
+    QVBoxLayout *vboxTeacher;
 
     QTableWidget *testTable;
     QStringList testTableHeader;
@@ -47,6 +48,7 @@ private:
     int marks;
     int numSelected;
 
+    void setMainLayout();
 signals:
     void transitLesson();
     void transitLessonStudent();

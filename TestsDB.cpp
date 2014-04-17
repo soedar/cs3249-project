@@ -8,9 +8,16 @@ TestsDB::TestsDB()
 
 }
 
-void TestsDB::addTest(QList<Question *> testQns) {
+void TestsDB::addTest(QList<Question *> testQns)
+{
     tests.append(testQns);
     qDebug("Successfully added test");
+}
+
+void TestsDB::saveTest(int index, QList<Question *> testQns)
+{
+    tests.removeAt(index);
+    tests.insert(index,testQns);
 }
 
 void TestsDB::deleteTest(int i) {

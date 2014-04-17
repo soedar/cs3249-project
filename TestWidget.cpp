@@ -14,90 +14,92 @@ TestWidget::TestWidget(DatabaseLayer *db, QString email)
     setGeometry(0,0,1000,600);
 
     questionList = QList<Question *>();
-    mainLayout = new QVBoxLayout();
-    menu = new QGroupBox();
-    hbox = new QHBoxLayout;
+    menuStudent = new QGroupBox();
+    menuTeacher = new QGroupBox();
+    vboxStudent = new QVBoxLayout;
+    vboxTeacher = new QVBoxLayout;
 
     testTable = new QTableWidget;
     testTable->setRowCount(0);
     testTable->setColumnCount(1);
 
-    mainLayout->addWidget(menu);
-    mainLayout->addWidget(testTable);
-    setLayout(mainLayout);
+    vboxStudent->addWidget(menuStudent);
+    vboxStudent->addWidget(testTable);
+    vboxTeacher->addWidget(menuTeacher);
+    vboxTeacher->addWidget(testTable);
 
-
+    createMenu();
 }
 
 QPair<int, int> TestWidget::getMarks() {
     return qMakePair(marks, questionList.length());
 }
 
-void TestWidget::createMenu() {
+void TestWidget::createMenu()
+{
+    QHBoxLayout *studentLayout = new QHBoxLayout();
+    QHBoxLayout *teacherLayout = new QHBoxLayout();
 
-    hbox = new QHBoxLayout;
 
     backButton = new QPushButton(tr("Back to lessons"));
     backButton->setIcon(QIcon(":/assets/left_arrow.png"));
     connect(backButton, SIGNAL(clicked()), this, SLOT(backToLesson()));
-    hbox->addWidget(backButton);
+    studentLayout->addWidget(backButton);
+    teacherLayout->addWidget(backButton);
 
-    if(isTeacher) {
         saveButton = new QPushButton(tr("Save questions"), this);
         saveButton->setIcon(QIcon(":/assets/save_exit.png"));
         connect(saveButton,SIGNAL(clicked()),this,SLOT(saveTest()));
-        hbox->addWidget(saveButton);
+        teacherLayout->addWidget(saveButton);
 
         addQnsButton = new QPushButton(tr("Add new question"), this);
         addQnsButton->setIcon(QIcon(":/assets/new_question.png"));
         connect(addQnsButton, SIGNAL(clicked()), this, SLOT(addQuestion()));
-        hbox->addWidget(addQnsButton);
+        teacherLayout->addWidget(addQnsButton);
 
         deleteTestButton = new QPushButton(tr("Delete entire test"), this);
         deleteTestButton->setIcon(QIcon(":/assets/delete.png"));
         connect(deleteTestButton, SIGNAL(clicked()), this, SLOT(deleteTest()));
-        hbox->addWidget(deleteTestButton);
+        teacherLayout->addWidget(deleteTestButton);
 
         deleteQnsButton = new QPushButton(tr("Delete selected questions"), this);
         deleteQnsButton->setIcon(QIcon(":/assets/delete.png"));
         connect(deleteQnsButton, SIGNAL(clicked()), this, SLOT(deleteSelectedQns()));
         deleteQnsButton->setEnabled(false);
-        hbox->addWidget(deleteQnsButton);
+        teacherLayout->addWidget(deleteQnsButton);
 
-    } else {
         marksText = new QLabel(this);
         marksText->setText(QString("Marks from last attempt: %1/%2")
                            .arg(marks).arg(questionList.length()));
-        hbox->addWidget(marksText);
-    }
+        studentLayout->addWidget(marksText);
 
-    menu->setLayout(hbox);
+        menuStudent->setLayout(studentLayout);
+        menuTeacher->setLayout(teacherLayout);
 
 }
 
+void TestWidget::setMainLayout()
+{
+    if (isTeacher)
+    {
+        setLayout(vboxTeacher);
+    }
+    else
+    {
+        setLayout(vboxStudent);
+    }
+}
 
 // PUBLIC SLOTS
 
 void TestWidget::backToLesson() {
 
     // remove everything from the table
+    questionList.clear();
+    testTable->clear();
     for(int i = testTable->rowCount()-1; i >= 0; i--) {
         testTable->removeRow(i);
     }
-
-    // remove menu layout manager
-    QLayoutItem *item;
-    QWidget *widget;
-    while (item = hbox->takeAt(0)) {
-        if ((widget = item->widget()) != 0) {
-            widget->hide();
-            delete widget;
-        } else {
-            delete item;
-        }
-    }
-    delete hbox;
-
 
     if(isTeacher) {
         emit transitLesson();
@@ -109,7 +111,8 @@ void TestWidget::backToLesson() {
 
 }
 
-void TestWidget::prepare(bool teacher) {
+void TestWidget::prepare(bool teacher)
+{
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
     isTeacher = teacher;
@@ -135,7 +138,7 @@ void TestWidget::prepare(bool teacher) {
     // get marks from db before calling create menu
 
 
-    createMenu();
+    setMainLayout();
 
     // for testing only
     //tests->forTesting();
@@ -148,11 +151,13 @@ void TestWidget::prepare(bool teacher) {
 
     QStringList testTableHeader;
 
-    if(isTeacher) {
+    if(isTeacher)
+    {
         qDebug("teacher");
         testTable->insertColumn(1);     // to select qns
 
-        for(int i = 0; i < questionList.length(); i++) {
+        for(int i = 0; i < questionList.length(); i++)
+        {
             QGroupBox *qns = new QGroupBox(this);
             QGridLayout *gridBox = new QGridLayout;
             gridBox->setColumnStretch(1, 2);
@@ -215,11 +220,13 @@ void TestWidget::prepare(bool teacher) {
 
         testTableHeader << "Questions" << "Action";
 
-    } else {
+    } else
+    {
         qDebug("student");
 
         // populate table with questions
-        for(int i = 0; i < questionList.length(); i++) {
+        for(int i = 0; i < questionList.length(); i++)
+        {
             questionList[i]->setParent(this);
             testTable->insertRow(testTable->rowCount());
             testTable->setRowHeight(testTable->rowCount()-1, 200);
@@ -269,11 +276,13 @@ void TestWidget::submitTest() {
 
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
+    MarksDB::addMark(email,index,marks);
 
 }
 
-void TestWidget::addQuestion() {
-
+void TestWidget::addQuestion()
+{
+    //Question *newQns = new Question();
     QGroupBox *qns = new QGroupBox(this);
     QGridLayout *gridBox = new QGridLayout;
     gridBox->setColumnStretch(1, 2);
@@ -380,7 +389,9 @@ void TestWidget::deleteTest() {
 
 
     // replace the list of questions with an empty one
-    questionList = QList<Question *>();
+    questionList.clear();
+
+    testTable->clear();
 
     for(int i = testTable->rowCount()-1; i >= 0; i--) {
         testTable->removeRow(i);
@@ -439,6 +450,6 @@ void TestWidget::saveTest() {
         qDebug() << updatedAns->text().toInt();
 
     }
-    db->saveTests();
+    TestsDBController::saveTest(index, questionList);
     LessonsDBController::editMaxMark(index, questionList.length());
 }

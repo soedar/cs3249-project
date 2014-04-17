@@ -18,6 +18,7 @@ public:
     // only call at deletion lesson!
     static void deleteTest(int i);
 
+    static void saveTest(int index, QList<Question *> testQns);
 private:
     static TestsDB tdb;
     bool initialized;
