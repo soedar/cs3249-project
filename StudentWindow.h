@@ -11,13 +11,14 @@ class StudentWindow : public MainWindow
 {
     Q_OBJECT
 public:
-    StudentWindow(DatabaseLayer *db);
+    StudentWindow(DatabaseLayer *db, User loggedInUser);
 
 private:
     TestWidget *testWidget;
     StudentWindow(DatabaseLayer *db, StudentMainWidget *studentMainWidget);
     StudentMainWidget *studentMainWidget;
     StudentLessonWidget *lessonWidget;
+    QString email;
 
 private slots:
     void showLessonWidget(int i);

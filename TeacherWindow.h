@@ -12,7 +12,7 @@ class TeacherWindow : public MainWindow
 {
     Q_OBJECT
 public:
-    TeacherWindow(DatabaseLayer *db);
+    TeacherWindow(DatabaseLayer *db, User loggedInUser);
 
 
 private:
@@ -20,6 +20,7 @@ private:
     AddLessonWidget *addWidget;
     LessonWidget *editWidget;
     TestWidget *testWidget;
+    QString email;
 
 private slots:
 

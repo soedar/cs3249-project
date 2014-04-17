@@ -1,10 +1,11 @@
 #include "StudentWindow.h"
 
-StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMainWidget())
+StudentWindow::StudentWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(db, new StudentMainWidget())
 {
+    this->email = loggedInUser.email();
     this->studentMainWidget = (StudentMainWidget *)mainWidget;
     this->lessonWidget = new StudentLessonWidget();
-    this->testWidget = new TestWidget(db);
+    this->testWidget = new TestWidget(db, email);
 
     connect(this->studentMainWidget, SIGNAL(selectedLesson(int)), this, SLOT(showLessonWidget(int)));
     connect(db, SIGNAL(newLessonCreated()), this, SLOT(newLessonCreated()));

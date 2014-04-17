@@ -29,30 +29,10 @@ void MarksDB::addMark(QString email,int lessonId, int mark)
     }
     else
     {
-
-    }
-    markMap.insert(email,map);
-}
-
-
-void MarksDB::setMark(QString email,int lessonId, int mark)
-{
-    if (!markMap.contains(email))
-    {
-        return;
-    }
-    QMap<int, int> map = markMap.take(email);
-    if (!map.contains(lessonId))
-    {
-
-    }
-    else
-    {
         map.take(lessonId);
         map.insert(lessonId,mark);
     }
     markMap.insert(email,map);
-
 }
 
 QMap<int,int> MarksDB::getMarks(QString email)

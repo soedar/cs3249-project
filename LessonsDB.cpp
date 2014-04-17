@@ -25,7 +25,10 @@ void LessonsDB::addItemAtIndex(int index, Lesson l)
     lessons.insert(index,l);
 }
 
-void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
+void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QString &topicName,
+                          const QString &date, int maxMarks, QStringList *files, QStringList *images,
+                          QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions,
+                          QStringList *annoText)
 {
     Lesson tempLesson = Lesson();
 
@@ -34,7 +37,6 @@ void LessonsDB::addLesson(bool isTeacher, const QString &lessonName, const QStri
     tempLesson.setTopic(topicName);
     addTopic(topicName);
     tempLesson.setDate(date);
-    tempLesson.setMarks(marks);
     tempLesson.setMaxMarks(maxMarks);
     tempLesson.addFiles(files);
     tempLesson.addImages(images);
@@ -61,7 +63,6 @@ void LessonsDB::editFilesImages(int index, const QString &lessonName, const QStr
     newLesson.setDate(todayStr);
     newLesson.setLesson(lessonName);
     newLesson.setTeacher(tempLesson.isTeacher());
-    newLesson.setMarks(tempLesson.getMarks());
     newLesson.setMaxMarks(tempLesson.getMaxMarks());
     newLesson.setTopic(topicName);
     newLesson.addFiles(files);
@@ -92,7 +93,6 @@ void LessonsDB::addLesson(const QString &lessonName, const QString &topicName, Q
 
     tempLesson.setDate(todayStr);
     tempLesson.setLesson(lessonName);
-    tempLesson.setMarks(0);
     tempLesson.setMaxMarks(10);
     tempLesson.setTeacher(true);
     tempLesson.setTopic(topicName);
@@ -121,7 +121,6 @@ void LessonsDB::editLesson(int index, const QString &lessonName, const QString &
     newLesson.setDate(todayStr);
     newLesson.setLesson(lessonName);
     newLesson.setTeacher(tempLesson.isTeacher());
-    newLesson.setMarks(tempLesson.getMarks());
     newLesson.setMaxMarks(tempLesson.getMaxMarks());
     newLesson.setTopic(topicName);
     newLesson.setAnnos(annoList);
@@ -153,4 +152,11 @@ void LessonsDB::clear()
         Lesson tempLesson = lessons.takeLast();
         tempLesson.clear();
     }
+}
+
+void LessonsDB::editMaxMark(int index, int newMark)
+{
+    Lesson tempLesson = lessons.takeAt(index);
+    tempLesson.setMaxMarks(newMark);
+    addItemAtIndex(index,tempLesson);
 }

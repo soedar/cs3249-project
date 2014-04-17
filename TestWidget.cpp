@@ -5,8 +5,9 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget(DatabaseLayer *db)
+TestWidget::TestWidget(DatabaseLayer *db, QString email)
 {
+    this->email = email;
     tests = TestsDBController::getDB();
     this->db = db;
 
@@ -112,6 +113,7 @@ void TestWidget::prepare(bool teacher) {
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
     isTeacher = teacher;
+    numSelected = 0;
 
     int width;
 
@@ -123,7 +125,7 @@ void TestWidget::prepare(bool teacher) {
         width = 800;
     }
     testTable->setColumnWidth(0, width);
-
+    MarksDB::getMark(this->email,index);
     // get marks from db before calling create menu
 
 
@@ -201,12 +203,8 @@ void TestWidget::prepare(bool teacher) {
 
             // to select qns and center align the damn checkbox
             QCheckBox *box = new QCheckBox;
-            QHBoxLayout *boxLayout = new QHBoxLayout;
-            boxLayout->setAlignment(Qt::AlignCenter);
-            boxLayout->addWidget(box);
-            QWidget *widget = new QWidget;
-            widget->setLayout(boxLayout);
-            testTable->setCellWidget(testTable->rowCount()-1, 1, widget);
+            connect(box, SIGNAL(toggled(bool)), this, SLOT(toggle(bool)));
+            testTable->setCellWidget(testTable->rowCount()-1, 1, box);
         }
 
         testTableHeader << "Questions" << "Action";
@@ -265,6 +263,7 @@ void TestWidget::submitTest() {
 
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
+
 }
 
 void TestWidget::addQuestion() {
@@ -321,14 +320,52 @@ void TestWidget::addQuestion() {
     testTable->setRowHeight(testTable->rowCount()-1, 200);
     testTable->setCellWidget(testTable->rowCount()-1, 0, qns);
 
+
+    // to select qns and center align the damn checkbox
+    QCheckBox *box = new QCheckBox;
+    connect(box, SIGNAL(toggled(bool)), this, SLOT(toggle(bool)));
+    testTable->setCellWidget(testTable->rowCount()-1, 1, box);
+
     qDebug("Added");
 }
 
 void TestWidget::deleteSelectedQns() {
-    int numSelected = 0;
+    int start = questionList.length()-1;
 
-    //questionList.removeAt(i);
+    qDebug("numSelected = %d", numSelected);
 
+    for(int i = start; i >= 0; i--) {
+        QCheckBox *box = (QCheckBox *)(testTable->cellWidget(i,1));
+        qDebug("qns %d", i+1);
+
+        if(box->isChecked()) {
+            qDebug("is being delected\n");
+            testTable->removeRow(i);
+            questionList.removeAt(i);
+            numSelected--;
+        }
+    }
+
+    if(numSelected == 0) {
+        deleteQnsButton->setEnabled(false);
+    } else {
+        deleteQnsButton->setEnabled(true);
+    }
+
+}
+
+void TestWidget::toggle(bool checked) {
+    if(checked) {
+        numSelected++;
+    } else {
+        numSelected--;
+    }
+
+    if (numSelected == 0) {
+        deleteQnsButton->setEnabled(false);
+    } else {
+        deleteQnsButton->setEnabled(true);
+    }
 }
 
 // TODO: add confirmation dialog if there's time
@@ -397,4 +434,5 @@ void TestWidget::saveTest() {
 
     }
     db->saveTests();
+    LessonsDBController::editMaxMark(index, questionList.length());
 }

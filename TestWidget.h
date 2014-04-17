@@ -6,17 +6,19 @@
 #include "TestsDBController.h"
 #include "LessonsDBController.h"
 #include "DatabaseLayer.h"
+#include "MarksDB.h"
 
 class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TestWidget(DatabaseLayer *db);
-
+    TestWidget(DatabaseLayer *db, QString email);
     QPair<int, int> getMarks();
 
 private:
+
     DatabaseLayer *db;
+    QString email;
     TestsDB *tests;
     QList<Question *> questionList;
     QVBoxLayout *mainLayout;
@@ -43,6 +45,7 @@ private:
     bool isTeacher;
     int index;
     int marks;
+    int numSelected;
 
 signals:
     void transitLesson();
@@ -52,7 +55,7 @@ signals:
 public slots:
     void backToLesson();
     void prepare(bool teacher);
-    //void toggle(bool isChecked);
+    void toggle(bool checked);
 
     void addQuestion();
     void deleteSelectedQns();
