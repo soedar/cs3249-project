@@ -19,7 +19,7 @@ public:
     static void editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass);
     static void clear();
 
-    void editMaxMark(int index, int newMark);
+    static void editMaxMark(int index, int newMark);
 };
 
 #endif // LESSONDBCONTROLLER_H
