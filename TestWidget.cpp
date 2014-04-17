@@ -5,8 +5,9 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget()
+TestWidget::TestWidget(QString email)
 {
+    this->email = email;
     tests = TestsDBController::getDB();
 
     setGeometry(0,0,1000,600);
@@ -120,7 +121,7 @@ void TestWidget::prepare(bool teacher) {
         width = 800;
     }
     testTable->setColumnWidth(0, width);
-
+    MarksDB::getMark(this->email,index);
     // get marks from db before calling create menu
 
 
