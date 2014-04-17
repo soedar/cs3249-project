@@ -427,4 +427,6 @@ void TestWidget::saveTest() {
 
     }
 
+    LessonsDBController::editMaxMark(index, questionList.length());
+
 }
