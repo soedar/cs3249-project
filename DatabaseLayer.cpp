@@ -229,7 +229,7 @@ void DatabaseLayer::saveLessons()
         }
 
         out << isTeacher << " , " << lesson.getLesson() << " , " << lesson.getTopic() << " , ";
-        out << lesson.getDate() << " , " << lesson.getMarks() << " , " << lesson.getMaxMarks() << endl;
+        out << lesson.getDate() << " , "  << lesson.getMaxMarks() << endl;
 
          qDebug("Part 1 OK\n");
 
@@ -299,7 +299,6 @@ void DatabaseLayer::loadLessons()
     QString lessonName;
     QString topicName;
     QString date;
-    int marks;
     int maxMarks;
     int numFiles;
     int numImages;
@@ -337,8 +336,7 @@ void DatabaseLayer::loadLessons()
         lessonName = data.at(1);
         topicName = data.at(2);
         date = data.at(3);
-        marks = data.at(4).toInt();
-        maxMarks = data.at(5).toInt();
+        maxMarks = data.at(4).toInt();
 
         qDebug("Part 1 OK\n");
 
@@ -386,7 +384,7 @@ void DatabaseLayer::loadLessons()
             }
         }
         qDebug("Part 4 OK\n");
-        LessonsDBController::addLesson(isTeacher,lessonName,topicName,date,marks,maxMarks,fileList,imageList,ciList,numbers,positions,annoText);
+        LessonsDBController::addLesson(isTeacher,lessonName,topicName,date,maxMarks,fileList,imageList,ciList,numbers,positions,annoText);
 
     }
 

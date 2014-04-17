@@ -5,7 +5,7 @@ StudentWindow::StudentWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(
     this->email = loggedInUser.email();
     this->studentMainWidget = (StudentMainWidget *)mainWidget;
     this->lessonWidget = new StudentLessonWidget();
-    this->testWidget = new TestWidget();
+    this->testWidget = new TestWidget(email);
 
     connect(this->studentMainWidget, SIGNAL(selectedLesson(int)), this, SLOT(showLessonWidget(int)));
     connect(db, SIGNAL(newLessonCreated()), this, SLOT(newLessonCreated()));

@@ -13,12 +13,13 @@ public:
     static void deleteItemAt(int index);
     static void setIndex(int ind);
     static int getIndex(); 
-    static void addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int marks, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText);
+    static void addLesson(bool isTeacher, const QString &lessonName, const QString &topicName, const QString &date, int maxMarks, QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText);
     static void addTopic(const QString &topicName);
     static void destroyCI(int lIndex, int ciIndex);
     static void editFilesImages(int index, const QString &lessonName, const QString &topicName, QStringList *files, int fBypass, QStringList *images, int iBypass);
     static void clear();
 
+    void editMaxMark(int index, int newMark);
 };
 
 #endif // LESSONDBCONTROLLER_H
