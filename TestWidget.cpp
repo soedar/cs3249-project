@@ -44,7 +44,12 @@ void TestWidget::createMenu()
     backButton = new QPushButton(tr("Back to lessons"));
     backButton->setIcon(QIcon(":/assets/left_arrow.png"));
     connect(backButton, SIGNAL(clicked()), this, SLOT(backToLesson()));
-    studentLayout->addWidget(backButton);
+
+    QPushButton *backButtonStudent = new QPushButton(tr("Back to lessons"));
+    backButtonStudent->setIcon(QIcon(":/assets/left_arrow.png"));
+    connect(backButtonStudent, SIGNAL(clicked()), this, SLOT(backToLesson()));
+
+    studentLayout->addWidget(backButtonStudent);
     teacherLayout->addWidget(backButton);
 
         saveButton = new QPushButton(tr("Save questions"), this);
@@ -86,6 +91,8 @@ void TestWidget::setMainLayout()
     }
     else
     {
+        marksText->setText(QString("Marks from last attempt: %1/%2")
+                           .arg(marks).arg(questionList.length()));
         setLayout(vboxStudent);
     }
 }
