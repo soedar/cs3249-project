@@ -125,7 +125,13 @@ void TestWidget::prepare(bool teacher) {
         width = 800;
     }
     testTable->setColumnWidth(0, width);
-    MarksDB::getMark(this->email,index);
+    marks = MarksDB::getMark(this->email,index);
+
+    if (marks == -1)
+    {
+        marks = 0;
+    }
+
     // get marks from db before calling create menu
 
 
