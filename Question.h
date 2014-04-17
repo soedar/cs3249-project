@@ -7,7 +7,7 @@ class Question : public QWidget
 {
     Q_OBJECT
 public:
-    Question(QWidget *parent = 0);
+    Question();
     QGroupBox *setQuestion(QString name, QString op1,
                            QString op2, QString op3,
                            QString op4, int ans);

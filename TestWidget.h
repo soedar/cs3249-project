@@ -5,18 +5,19 @@
 #include "Question.h"
 #include "TestsDBController.h"
 #include "LessonsDBController.h"
+#include "DatabaseLayer.h"
 
 class TestWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TestWidget();
+    TestWidget(DatabaseLayer *db);
 
     QPair<int, int> getMarks();
 
 private:
-
-    TestsDB tests;
+    DatabaseLayer *db;
+    TestsDB *tests;
     QList<Question *> questionList;
     QVBoxLayout *mainLayout;
     QGroupBox *menu;

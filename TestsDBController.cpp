@@ -4,20 +4,10 @@ TestsDB TestsDBController::tdb;
 
 TestsDBController::TestsDBController()
 {
-    initialized = false;
 }
 
-void TestsDBController::init() {
-    if(!initialized) {
-        tdb = TestsDB();
-        initialized = true;
-    } else {
-        return;
-    }
-}
-
-TestsDB TestsDBController::getDB() {
-    return tdb;
+TestsDB* TestsDBController::getDB() {
+    return &tdb;
 }
 
 QList<Question *> TestsDBController::getTest(int i) {
@@ -31,10 +21,5 @@ void TestsDBController::addTest(QList<Question *> testQns) {
 void TestsDBController::deleteTest(int i) {
     tdb.deleteTest(i);
 }
-
-void TestsDBController::writeToFile() {
-    tdb.writeToFile();
-}
-
 
 

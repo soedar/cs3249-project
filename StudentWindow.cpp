@@ -4,7 +4,7 @@ StudentWindow::StudentWindow(DatabaseLayer *db) : MainWindow(db, new StudentMain
 {
     this->studentMainWidget = (StudentMainWidget *)mainWidget;
     this->lessonWidget = new StudentLessonWidget();
-    this->testWidget = new TestWidget();
+    this->testWidget = new TestWidget(db);
 
     connect(this->studentMainWidget, SIGNAL(selectedLesson(int)), this, SLOT(showLessonWidget(int)));
     connect(db, SIGNAL(newLessonCreated()), this, SLOT(newLessonCreated()));

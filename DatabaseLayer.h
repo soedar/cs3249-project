@@ -23,6 +23,8 @@ public:
     void loadLessons();
     void saveMarks();
     void loadMarks();
+    void loadTests();
+    void saveTests();
 private:
     QString dataPath;
     //QString lessonsDataPath;
@@ -37,6 +39,7 @@ private:
     QString lessonsDatabaseFile();
     QString updateDatabaseFile();
     QString marksDatabaseFile();
+    QString testsDatabaseFile();
 
 signals:
     void newLessonCreated();

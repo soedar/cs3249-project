@@ -1,7 +1,7 @@
 #include "Question.h"
 
-Question::Question(QWidget *parent)
-: QWidget(parent) {
+Question::Question()
+{
     vbox = new QVBoxLayout();
     mainLayout = new QVBoxLayout();
 }

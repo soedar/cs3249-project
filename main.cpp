@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
     databaseLayer.saveMarks();
     qDebug() << "Saved\n";
 
+    databaseLayer.loadTests();
+
     /*
     TestsDBController *tdb = new TestsDBController();
     tdb->init();

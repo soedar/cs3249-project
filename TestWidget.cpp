@@ -5,9 +5,10 @@
 // The test widget contains a test with MCQ questions.
 // A teacher can create/edit/delete a test, while
 // a student can take the test.
-TestWidget::TestWidget()
+TestWidget::TestWidget(DatabaseLayer *db)
 {
     tests = TestsDBController::getDB();
+    this->db = db;
 
     setGeometry(0,0,1000,600);
 
@@ -96,12 +97,14 @@ void TestWidget::backToLesson() {
     }
     delete hbox;
 
+
     if(isTeacher) {
         emit transitLesson();
     } else {
         testTable->removeColumn(1);
         emit transitLessonStudent();
     }
+
 
 }
 
@@ -127,12 +130,14 @@ void TestWidget::prepare(bool teacher) {
     createMenu();
 
     // for testing only
-    tests.forTesting(this);
+    //tests->forTesting();
 
     // the real thing
     //tests.getTest(index);
 
-    questionList = tests.getTest(index);
+    questionList = tests->getTest(index);
+
+
     QStringList testTableHeader;
 
     if(isTeacher) {
@@ -211,6 +216,7 @@ void TestWidget::prepare(bool teacher) {
 
         // populate table with questions
         for(int i = 0; i < questionList.length(); i++) {
+            questionList[i]->setParent(this);
             testTable->insertRow(testTable->rowCount());
             testTable->setRowHeight(testTable->rowCount()-1, 200);
             testTable->setCellWidget(testTable->rowCount()-1, 0,
@@ -390,5 +396,5 @@ void TestWidget::saveTest() {
         qDebug() << updatedAns->text().toInt();
 
     }
-
+    db->saveTests();
 }

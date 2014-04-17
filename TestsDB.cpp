@@ -31,16 +31,12 @@ QList< QList<Question *> > TestsDB::getTests() {
     return tests;
 }
 
-void TestsDB::writeToFile() {
-    // write tests to file??
-}
-
 // for testing purposes only
-void TestsDB::forTesting(QWidget *parent) {
+void TestsDB::forTesting() {
 
     QList<Question *> tempTest = QList<Question *>();
     for(int i = 0; i < 5; i++) {
-        Question *tempQns = new Question(parent);
+        Question *tempQns = new Question();
         tempQns->setQuestion(QString("This is question %1.").arg(i+1),
                              "op1", "op2", "op3", "op4", i);
         tempTest.append(tempQns);

@@ -9,7 +9,7 @@ public:
     TestsDBController();
     void init();
 
-    static TestsDB getDB();
+    static TestsDB* getDB();
     static QList<Question *> getTest(int i);
 
     // Only call at creation of lesson!
@@ -17,9 +17,6 @@ public:
 
     // only call at deletion lesson!
     static void deleteTest(int i);
-
-    // Call when logging out
-    static void writeToFile();
 
 private:
     static TestsDB tdb;

@@ -4,6 +4,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QtDebug>
+#include "TestsDBController.h"
+#include "TestsDB.h"
 
 DatabaseLayer::DatabaseLayer()
 {
@@ -135,6 +137,12 @@ QString DatabaseLayer::marksDatabaseFile()
 QString DatabaseLayer::updateDatabaseFile()
 {
     QString path = dataPath + "/updates.txt";
+    return QDir::toNativeSeparators(path);
+}
+
+QString DatabaseLayer::testsDatabaseFile()
+{
+    QString path = dataPath + "/tests.txt";
     return QDir::toNativeSeparators(path);
 }
 
@@ -453,4 +461,70 @@ void DatabaseLayer::loadMarks()
         MarksDB::addMark(email,lessonId,mark);
     }
     marksFile.close();
+}
+
+void DatabaseLayer::saveTests()
+{
+    QFile testFile(testsDatabaseFile());
+    if (!testFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+        QMessageBox::information(0, "error", testFile.errorString());
+        return;
+    }
+
+    QTextStream out(&testFile);
+    TestsDB *testDb = TestsDBController::getDB();
+
+    QList<QList<Question *> > tests = testDb->getTests();
+
+    for (int i=0;i<tests.size();i++) {
+        QList<Question *> test = tests[i];
+        out << tests[i].size() << endl;
+
+        for (int j=0;j<test.size();j++) {
+            Question *question = test[j];
+
+            out << question->getQnsName() << endl 
+                << question->getOp1() << endl
+                << question->getOp2() << endl
+                << question->getOp3() << endl
+                << question->getOp4() << endl
+                << question->getAns() << endl;
+        }
+    }
+
+    testFile.close();
+}
+
+void DatabaseLayer::loadTests()
+{
+    QFile testsFile(testsDatabaseFile());
+
+    if (!testsFile.open(QIODevice::ReadWrite)) {
+        QMessageBox::information(0, "error", testsFile.errorString());
+        return;
+    }
+
+    QTextStream in(&testsFile);
+    TestsDB *testDb = TestsDBController::getDB();
+
+    while (!in.atEnd())
+    {
+        int nQuestions = in.readLine().toInt();
+        QList<Question *> test;
+        for (int i=0;i<nQuestions;i++) {
+            QString qn = in.readLine();
+            QString opt1 = in.readLine();
+            QString opt2 = in.readLine();
+            QString opt3 = in.readLine();
+            QString opt4 = in.readLine();
+            int ans = in.readLine().toInt();
+
+            Question *question = new Question();
+            question->setQuestion(qn, opt1, opt2, opt3, opt4, ans);
+            test.append(question);
+        }
+        testDb->addTest(test);
+    }
+
+    testsFile.close();
 }
