@@ -109,6 +109,7 @@ void TestWidget::prepare(bool teacher) {
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
     isTeacher = teacher;
+    numSelected = 0;
 
     int width;
 
@@ -196,12 +197,8 @@ void TestWidget::prepare(bool teacher) {
 
             // to select qns and center align the damn checkbox
             QCheckBox *box = new QCheckBox;
-            QHBoxLayout *boxLayout = new QHBoxLayout;
-            boxLayout->setAlignment(Qt::AlignCenter);
-            boxLayout->addWidget(box);
-            QWidget *widget = new QWidget;
-            widget->setLayout(boxLayout);
-            testTable->setCellWidget(testTable->rowCount()-1, 1, widget);
+            connect(box, SIGNAL(toggled(bool)), this, SLOT(toggle(bool)));
+            testTable->setCellWidget(testTable->rowCount()-1, 1, box);
         }
 
         testTableHeader << "Questions" << "Action";
@@ -315,14 +312,52 @@ void TestWidget::addQuestion() {
     testTable->setRowHeight(testTable->rowCount()-1, 200);
     testTable->setCellWidget(testTable->rowCount()-1, 0, qns);
 
+
+    // to select qns and center align the damn checkbox
+    QCheckBox *box = new QCheckBox;
+    connect(box, SIGNAL(toggled(bool)), this, SLOT(toggle(bool)));
+    testTable->setCellWidget(testTable->rowCount()-1, 1, box);
+
     qDebug("Added");
 }
 
 void TestWidget::deleteSelectedQns() {
-    int numSelected = 0;
+    int start = questionList.length()-1;
 
-    //questionList.removeAt(i);
+    qDebug("numSelected = %d", numSelected);
 
+    for(int i = start; i >= 0; i--) {
+        QCheckBox *box = (QCheckBox *)(testTable->cellWidget(i,1));
+        qDebug("qns %d", i+1);
+
+        if(box->isChecked()) {
+            qDebug("is being delected\n");
+            testTable->removeRow(i);
+            questionList.removeAt(i);
+            numSelected--;
+        }
+    }
+
+    if(numSelected == 0) {
+        deleteQnsButton->setEnabled(false);
+    } else {
+        deleteQnsButton->setEnabled(true);
+    }
+
+}
+
+void TestWidget::toggle(bool checked) {
+    if(checked) {
+        numSelected++;
+    } else {
+        numSelected--;
+    }
+
+    if (numSelected == 0) {
+        deleteQnsButton->setEnabled(false);
+    } else {
+        deleteQnsButton->setEnabled(true);
+    }
 }
 
 // TODO: add confirmation dialog if there's time

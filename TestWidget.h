@@ -42,6 +42,7 @@ private:
     bool isTeacher;
     int index;
     int marks;
+    int numSelected;
 
 signals:
     void transitLesson();
@@ -51,7 +52,7 @@ signals:
 public slots:
     void backToLesson();
     void prepare(bool teacher);
-    //void toggle(bool isChecked);
+    void toggle(bool checked);
 
     void addQuestion();
     void deleteSelectedQns();
