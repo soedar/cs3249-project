@@ -5,7 +5,6 @@ Lesson::Lesson()
     this->setDate("");
     this->setTeacher(true);
     this->setLesson("");
-    this->setMarks(0);
     this->setMaxMarks(10);
     this->setTopic("");
     fileList = QStringList();
@@ -13,14 +12,13 @@ Lesson::Lesson()
     annotations = QList<CustomImage *>();
 }
 
-Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int maxMarks, int marks)
+Lesson::Lesson(bool teacher, QString topic, QString lesson, QString date, int maxMarks)
 {
         this->setTeacher(teacher);
         this->setTopic(topic);
         this->setLesson(lesson);
         this->setDate(date);
         this->setMaxMarks(maxMarks);
-        this->setMarks(marks);
         fileList = QStringList();
         imageList = QStringList();
         annotations = QList<CustomImage *>();
@@ -36,11 +34,6 @@ QString Lesson::getDate()
 QString Lesson::getLesson()
 {
     return lesson;
-}
-
-int Lesson::getMarks()
-{
-    return marks;
 }
 
 int Lesson::getMaxMarks()
@@ -86,11 +79,6 @@ void Lesson::setTopic(const QString &string)
 void Lesson::setMaxMarks(int marks)
 {
     this->maxMarks = marks;
-}
-
-void Lesson::setMarks(int marks)
-{
-    this->marks = marks;
 }
 
 void Lesson::setTeacher(bool teacher)

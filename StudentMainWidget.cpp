@@ -73,11 +73,10 @@ void StudentMainWidget::populateTableData()
         connect(button,SIGNAL(left()),this,SLOT(changeToCursor()));
         mainTable->setCellWidget(i,1,button);
 
-        int marks = tempLesson.getMarks();
         int maxMarks = tempLesson.getMaxMarks();
 
-        tempString = QString::number(marks);
-        tempString += "/";
+        //tempString = QString::number(marks);
+        //tempString += "/";
         tempString += QString::number(maxMarks);
 
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));

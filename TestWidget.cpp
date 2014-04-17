@@ -257,6 +257,7 @@ void TestWidget::submitTest() {
 
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
+
 }
 
 void TestWidget::addQuestion() {
