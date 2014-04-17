@@ -27,6 +27,7 @@ void StudentWindow::showLessonWidget(int i)
 {
     LessonsDB *lessons = LessonsDBController::getDB();
     Lesson lesson = lessons->getLessons().at(i);
+    LessonsDBController::setIndex(i);
     this->lessonWidget->prepare(&lesson);
     
     connect(this->lessonWidget->menuWidget->lessonButton, SIGNAL(clicked()), this->lessonWidget, SLOT(transit()));

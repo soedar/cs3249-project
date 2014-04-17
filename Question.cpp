@@ -155,14 +155,14 @@ void Question::setOp2(QString op2)
 
 void Question::setOp3(QString op3)
 {
-    question->setOp1(op3);
+    question->setOp3(op3);
     qnsOp3->setText(op3);
     editOp3->setText(op3);
 }
 
 void Question::setOp4(QString op4)
 {
-    question->setOp1(op4);
+    question->setOp4(op4);
     qnsOp4->setText(op4);
     editOp4->setText(op4);
 }

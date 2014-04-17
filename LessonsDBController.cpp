@@ -32,7 +32,7 @@ void LessonsDBController::addLesson(bool isTeacher, const QString &lessonName, c
                                     QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
 {
     ldb->addLesson(isTeacher, lessonName, topicName, date, maxMarks, files, images, list, numbers, positions, annoText);
-    TestsDBController::addTest(QList<QuestionItem *>());
+    //TestsDBController::addTest(QList<QuestionItem *>());
 }
 
 void LessonsDBController::addTopic(const QString &topicName)

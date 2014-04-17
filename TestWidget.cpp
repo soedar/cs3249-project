@@ -101,7 +101,7 @@ void TestWidget::setMainLayout()
 
 void TestWidget::backToLesson()
 {
-    TestsDBController::saveTest(index, questionList);
+    //TestsDBController::saveTest(index, questionList);
 
     // remove everything from the table
     questionList.clear();
