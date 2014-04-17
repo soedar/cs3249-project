@@ -20,90 +20,10 @@ TestWidget::TestWidget()
     testTable->setRowCount(0);
     testTable->setColumnCount(1);
 
-    QStringList testTableHeader;
-    testTableHeader << "Questions";
-    testTable->setHorizontalHeaderLabels(testTableHeader);
-
     mainLayout->addWidget(menu);
     mainLayout->addWidget(testTable);
     setLayout(mainLayout);
 
-
-}
-
-void TestWidget::addQuestion() {
-
-
-    qDebug("Adding");
-}
-
-void TestWidget::deleteQuestion(int i) {
-    questionList.removeAt(i);
-}
-
-// TODO: add confirmation dialog if there's time
-void TestWidget::deleteAllQuestions() {
-    // confirmation dialog here
-
-
-    // replace the list of questions with an empty one
-    questionList = QList<Question *>();
-
-    for(int i = testTable->rowCount()-1; i >= 0; i--) {
-        testTable->removeRow(i);
-    }
-
-}
-
-void TestWidget::saveTest() {
-    QGridLayout *cellLayout;
-
-    for(int i = 0; i < questionList.length(); i++) {
-        cellLayout = qobject_cast<QGridLayout *>(testTable->cellWidget(i, 0)->layout());
-
-        // update qns name
-        QLineEdit *updatedQns;
-        updatedQns = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(0, 1)->widget());
-        questionList[i]->setQnsName(updatedQns->text());
-        qDebug() << updatedQns->text();
-
-        // update op1
-        QLineEdit *updatedOp1;
-        updatedOp1 = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(1, 1)->widget());
-        questionList[i]->setOp1(updatedOp1->text());
-        qDebug() << updatedOp1->text();
-
-        // update op2
-        QLineEdit *updatedOp2;
-        updatedOp2 = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(2, 1)->widget());
-        questionList[i]->setOp2(updatedOp2->text());
-        qDebug() << updatedOp2->text();
-
-        // update op3
-        QLineEdit *updatedOp3;
-        updatedOp3 = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(3, 1)->widget());
-        questionList[i]->setOp3(updatedOp3->text());
-        qDebug() << updatedOp3->text();
-
-        // update op4
-        QLineEdit *updatedOp4;
-        updatedOp4 = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(4, 1)->widget());
-        questionList[i]->setOp4(updatedOp4->text());
-        qDebug() << updatedOp4->text();
-
-        // update ans
-        QLineEdit *updatedAns;
-        updatedAns = qobject_cast<QLineEdit *>
-                (cellLayout->itemAtPosition(5, 1)->widget());
-        questionList[i]->setAns(updatedAns->text().toInt());
-        qDebug() << updatedAns->text().toInt();
-
-    }
 
 }
 
@@ -131,10 +51,16 @@ void TestWidget::createMenu() {
         connect(addQnsButton, SIGNAL(clicked()), this, SLOT(addQuestion()));
         hbox->addWidget(addQnsButton);
 
-        deleteAllButton = new QPushButton(tr("Delete all questions"), this);
-        deleteAllButton->setIcon(QIcon(":/assets/delete.png"));
-        connect(deleteAllButton, SIGNAL(clicked()), this, SLOT(deleteAllQuestions()));
-        hbox->addWidget(deleteAllButton);
+        deleteTestButton = new QPushButton(tr("Delete entire test"), this);
+        deleteTestButton->setIcon(QIcon(":/assets/delete.png"));
+        connect(deleteTestButton, SIGNAL(clicked()), this, SLOT(deleteTest()));
+        hbox->addWidget(deleteTestButton);
+
+        deleteQnsButton = new QPushButton(tr("Delete selected questions"), this);
+        deleteQnsButton->setIcon(QIcon(":/assets/delete.png"));
+        connect(deleteQnsButton, SIGNAL(clicked()), this, SLOT(deleteSelectedQns()));
+        deleteQnsButton->setEnabled(false);
+        hbox->addWidget(deleteQnsButton);
 
     } else {
         marksText = new QLabel(this);
@@ -179,8 +105,7 @@ void TestWidget::backToLesson() {
 
 }
 
-void TestWidget::prepare(bool teacher)
-{
+void TestWidget::prepare(bool teacher) {
     index = LessonsDBController::getIndex();
     tests = TestsDBController::getDB();
     isTeacher = teacher;
@@ -189,7 +114,7 @@ void TestWidget::prepare(bool teacher)
 
     if(isTeacher) {
         qDebug("teacher");
-        width = 955;
+        width = 840;
     } else {
         qDebug("student");
         width = 800;
@@ -208,9 +133,11 @@ void TestWidget::prepare(bool teacher)
     //tests.getTest(index);
 
     questionList = tests.getTest(index);
+    QStringList testTableHeader;
 
     if(isTeacher) {
         qDebug("teacher");
+        testTable->insertColumn(1);     // to select qns
 
         for(int i = 0; i < questionList.length(); i++) {
             QGroupBox *qns = new QGroupBox(this);
@@ -265,8 +192,19 @@ void TestWidget::prepare(bool teacher)
             testTable->insertRow(testTable->rowCount());
             testTable->setRowHeight(testTable->rowCount()-1, 200);
             testTable->setCellWidget(testTable->rowCount()-1, 0, qns);
+
+
+            // to select qns and center align the damn checkbox
+            QCheckBox *box = new QCheckBox;
+            QHBoxLayout *boxLayout = new QHBoxLayout;
+            boxLayout->setAlignment(Qt::AlignCenter);
+            boxLayout->addWidget(box);
+            QWidget *widget = new QWidget;
+            widget->setLayout(boxLayout);
+            testTable->setCellWidget(testTable->rowCount()-1, 1, widget);
         }
 
+        testTableHeader << "Questions" << "Action";
 
     } else {
         qDebug("student");
@@ -285,14 +223,16 @@ void TestWidget::prepare(bool teacher)
         connect(submitButton, SIGNAL(clicked()), this, SLOT(submitTest()));
 
         testTable->insertRow(testTable->rowCount());
-        testTable->setCellWidget(testTable->rowCount()-1, 0,
-                                    submitButton);
+        testTable->setCellWidget(testTable->rowCount()-1, 0, submitButton);
+
+        testTableHeader << "Questions";
     }
+
+    testTable->setHorizontalHeaderLabels(testTableHeader);
 
     emit prepared();
 }
 
-// for student
 void TestWidget::submitTest() {
     marks = 0;
 
@@ -319,4 +259,136 @@ void TestWidget::submitTest() {
 
     marksText->setText(QString("Marks from last attempt: %1/%2")
                        .arg(marks).arg(questionList.length()));
+}
+
+void TestWidget::addQuestion() {
+
+    QGroupBox *qns = new QGroupBox(this);
+    QGridLayout *gridBox = new QGridLayout;
+    gridBox->setColumnStretch(1, 2);
+
+    // question name
+    QLabel *qnsNameLabel = new QLabel;
+    qnsNameLabel->setText("Question:");
+    QLineEdit *qnsName = new QLineEdit();
+    gridBox->addWidget(qnsNameLabel, 0, 0);
+    gridBox->addWidget(qnsName, 0, 1);
+
+    // option 1
+    QLabel *op1Label = new QLabel;
+    op1Label->setText("Option 1:");
+    QLineEdit *op1 = new QLineEdit();
+    gridBox->addWidget(op1Label, 1, 0);
+    gridBox->addWidget(op1, 1, 1);
+
+    // option 2
+    QLabel *op2Label = new QLabel;
+    op2Label->setText("Option 2:");
+    QLineEdit *op2 = new QLineEdit();
+    gridBox->addWidget(op2Label, 2, 0);
+    gridBox->addWidget(op2, 2, 1);
+
+    // option 3
+    QLabel *op3Label = new QLabel;
+    op3Label->setText("Option 3:");
+    QLineEdit *op3 = new QLineEdit();
+    gridBox->addWidget(op3Label, 3, 0);
+    gridBox->addWidget(op3, 3, 1);
+
+    // option 4
+    QLabel *op4Label = new QLabel;
+    op4Label->setText("Option 4:");
+    QLineEdit *op4 = new QLineEdit();
+    gridBox->addWidget(op4Label, 4, 0);
+    gridBox->addWidget(op4, 4, 1);
+
+    // answer
+    QLabel *ansLabel = new QLabel;
+    ansLabel->setText("Answer:");
+    QLineEdit *ans = new QLineEdit();
+    gridBox->addWidget(ansLabel, 5, 0);
+    gridBox->addWidget(ans, 5, 1);
+
+    qns->setLayout(gridBox);
+
+    testTable->insertRow(testTable->rowCount());
+    testTable->setRowHeight(testTable->rowCount()-1, 200);
+    testTable->setCellWidget(testTable->rowCount()-1, 0, qns);
+
+    qDebug("Added");
+}
+
+void TestWidget::deleteSelectedQns() {
+    int numSelected = 0;
+
+    //questionList.removeAt(i);
+
+}
+
+// TODO: add confirmation dialog if there's time
+void TestWidget::deleteTest() {
+    // confirmation dialog here
+
+
+    // replace the list of questions with an empty one
+    questionList = QList<Question *>();
+
+    for(int i = testTable->rowCount()-1; i >= 0; i--) {
+        testTable->removeRow(i);
+    }
+
+}
+
+void TestWidget::saveTest() {
+    QGridLayout *cellLayout;
+
+    // if there's time, call controller to do this instead
+    // of accessing question directly.
+    for(int i = 0; i < questionList.length(); i++) {
+        cellLayout = qobject_cast<QGridLayout *>(testTable->cellWidget(i, 0)->layout());
+
+        // update qns name
+        QLineEdit *updatedQns;
+        updatedQns = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(0, 1)->widget());
+        questionList[i]->setQnsName(updatedQns->text());
+        qDebug() << updatedQns->text();
+
+        // update op1
+        QLineEdit *updatedOp1;
+        updatedOp1 = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(1, 1)->widget());
+        questionList[i]->setOp1(updatedOp1->text());
+        qDebug() << updatedOp1->text();
+
+        // update op2
+        QLineEdit *updatedOp2;
+        updatedOp2 = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(2, 1)->widget());
+        questionList[i]->setOp2(updatedOp2->text());
+        qDebug() << updatedOp2->text();
+
+        // update op3
+        QLineEdit *updatedOp3;
+        updatedOp3 = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(3, 1)->widget());
+        questionList[i]->setOp3(updatedOp3->text());
+        qDebug() << updatedOp3->text();
+
+        // update op4
+        QLineEdit *updatedOp4;
+        updatedOp4 = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(4, 1)->widget());
+        questionList[i]->setOp4(updatedOp4->text());
+        qDebug() << updatedOp4->text();
+
+        // update ans
+        QLineEdit *updatedAns;
+        updatedAns = qobject_cast<QLineEdit *>
+                (cellLayout->itemAtPosition(5, 1)->widget());
+        questionList[i]->setAns(updatedAns->text().toInt());
+        qDebug() << updatedAns->text().toInt();
+
+    }
+
 }

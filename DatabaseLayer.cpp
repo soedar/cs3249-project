@@ -405,7 +405,7 @@ void DatabaseLayer::saveMarks()
 
     QTextStream out(&marksFile);
 
-    QMap<QString,QMap<int,int>> map = mdb->getData();
+    QMap<QString,QMap<int,int> > map = mdb->getData();
 
     QList<QString> listStudents = map.uniqueKeys();
 

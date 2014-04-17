@@ -12,7 +12,6 @@ class TestWidget : public QWidget
 public:
     TestWidget();
 
-    void deleteQuestion(int i);
     QPair<int, int> getMarks();
 
 private:
@@ -30,8 +29,9 @@ private:
 
     // teacher stuff
     QPushButton *saveButton;
-    QPushButton *deleteAllButton;
+    QPushButton *deleteTestButton;
     QPushButton *addQnsButton;
+    QPushButton *deleteQnsButton;
 
     // student stuff
     QPushButton *submitButton;
@@ -51,9 +51,11 @@ signals:
 public slots:
     void backToLesson();
     void prepare(bool teacher);
+    //void toggle(bool isChecked);
 
     void addQuestion();
-    void deleteAllQuestions();
+    void deleteSelectedQns();
+    void deleteTest();
     void saveTest();
     void submitTest();
 

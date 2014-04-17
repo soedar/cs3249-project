@@ -15,7 +15,7 @@ public:
     static void addMark(QString email, int lessonId, int mark);
     static void setMark(QString email, int lessonId, int mark);
     static QMap<int, int> getMarks(QString email);
-    static QMap<QString, QMap<int,int>> getData();
+    static QMap<QString, QMap<int,int> > getData();
     static void deleteLesson(int lessonId);
     static void clear();
 };

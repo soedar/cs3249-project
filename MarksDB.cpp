@@ -1,6 +1,6 @@
 #include "MarksDB.h"
 
-static QMap<QString, QMap<int,int>> markMap;
+static QMap<QString, QMap<int,int> > markMap;
 
 MarksDB::MarksDB()
 {
