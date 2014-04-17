@@ -23,6 +23,7 @@ private:
 private slots:
     void showLessonWidget(int i);
     void newLessonCreated();
+    void save();
 };
 
 #endif // STUDENTWINDOW_H

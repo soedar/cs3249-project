@@ -47,5 +47,6 @@ TeacherWindow::TeacherWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(
 void TeacherWindow::save()
 {
     db->saveLessons();
+    db->saveTests();
     this->teacherMainWidget->close();
 }

@@ -14,9 +14,12 @@ StudentWindow::StudentWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(
     connect(this->lessonWidget, SIGNAL(prepared()), this->studentMainWidget, SLOT(hide()));
 
     connect(this->lessonWidget, SIGNAL(transitLessons()), this->studentMainWidget, SLOT(show()));
+    connect(this->lessonWidget, SIGNAL(logOut()), this, SLOT(save()));
     connect(this->lessonWidget, SIGNAL(logOut()), this, SLOT(logoff()));
     connect(this->lessonWidget, SIGNAL(transitLessons()), this->lessonWidget, SLOT(hide()));
     connect(this->lessonWidget, SIGNAL(logOut()), this->lessonWidget, SLOT(close()));
+
+    QObject::connect(this->studentMainWidget->logOutButton, SIGNAL(clicked()), this, SLOT(save()));
 
 }
 
@@ -42,4 +45,9 @@ void StudentWindow::newLessonCreated()
      QMessageBox::information(0, "", "New Lesson Created");
      db->loadLessons();
      this->studentMainWidget->updateTable();
+}
+
+void StudentWindow::save()
+{
+    db->saveMarks();
 }

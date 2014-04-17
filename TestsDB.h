@@ -2,22 +2,24 @@
 #define TESTSDB_H
 
 #include "Question.h"
+#include "QuestionItem.h"
 
 class TestsDB
 {
 public:
     TestsDB();
-    void addTest(QList<Question *> testQns);
+    void addTest(QList<QuestionItem *> testQns);
     void deleteTest(int i);
-    QList<Question *> getTest(int i);
+    QList<QuestionItem *> getTest(int i);
 
     // for testing purposes only
-    void forTesting();
+    //void forTesting();
 
-    QList<QList<Question *> > getTests();
-    void saveTest(int index, QList<Question *> testQns);
+    QList<QList<QuestionItem *> > getTests();
+    void saveTest(int index, QList<QuestionItem *> testQns);
+    void clear();
 private:
-    QList< QList<Question *> > tests;
+    QList< QList<QuestionItem *> > tests;
 
 };
 

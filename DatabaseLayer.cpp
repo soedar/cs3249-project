@@ -472,16 +472,16 @@ void DatabaseLayer::saveTests()
     QTextStream out(&testFile);
     TestsDB *testDb = TestsDBController::getDB();
 
-    QList<QList<Question *> > tests = testDb->getTests();
+    QList<QList<QuestionItem *> > tests = testDb->getTests();
 
     for (int i=0;i<tests.size();i++) {
-        QList<Question *> test = tests[i];
+        QList<QuestionItem *> test = tests[i];
         out << tests[i].size() << endl;
 
         for (int j=0;j<test.size();j++) {
-            Question *question = test[j];
+            QuestionItem *question = test[j];
 
-            out << question->getQnsName() << endl 
+            out << question->getQnName() << endl
                 << question->getOp1() << endl
                 << question->getOp2() << endl
                 << question->getOp3() << endl
@@ -505,10 +505,12 @@ void DatabaseLayer::loadTests()
     QTextStream in(&testsFile);
     TestsDB *testDb = TestsDBController::getDB();
 
+    TestsDBController::clear();
+
     while (!in.atEnd())
     {
         int nQuestions = in.readLine().toInt();
-        QList<Question *> test;
+        QList<QuestionItem *> test;
         for (int i=0;i<nQuestions;i++) {
             QString qn = in.readLine();
             QString opt1 = in.readLine();
@@ -519,7 +521,7 @@ void DatabaseLayer::loadTests()
 
             Question *question = new Question();
             question->setQuestion(qn, opt1, opt2, opt3, opt4, ans);
-            test.append(question);
+            test.append(question->getQuestion());
         }
         testDb->addTest(test);
     }

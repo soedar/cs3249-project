@@ -10,15 +10,16 @@ public:
     void init();
 
     static TestsDB* getDB();
-    static QList<Question *> getTest(int i);
+    static QList<QuestionItem *> getTest(int i);
 
     // Only call at creation of lesson!
-    static void addTest(QList<Question *> testQns);
+    static void addTest(QList<QuestionItem *> testQns);
 
     // only call at deletion lesson!
     static void deleteTest(int i);
 
-    static void saveTest(int index, QList<Question *> testQns);
+    static void saveTest(int index, QList<QuestionItem *> testQns);
+    static void clear();
 private:
     static TestsDB tdb;
     bool initialized;

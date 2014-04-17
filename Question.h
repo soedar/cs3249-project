@@ -2,15 +2,19 @@
 #define QUESTION_H
 
 #include <QtGui>
+#include <QuestionItem.h>
+#include <QGridLayout>
 
 class Question : public QWidget
 {
     Q_OBJECT
 public:
     Question();
-    QGroupBox *setQuestion(QString name, QString op1,
+    void setQuestion(QString name, QString op1,
                            QString op2, QString op3,
                            QString op4, int ans);
+
+    void setQuestion(QuestionItem *item);
     bool isCorrect();
     int getSelectedOption();
 
@@ -28,21 +32,35 @@ public:
     QString getOp4();
     int getAns();
 
-private:
-    QVBoxLayout *mainLayout;
-    QVBoxLayout *vbox;
+    QuestionItem* getQuestion();
+
+    void saveQuestion();
+
     QGroupBox *qnsName;
+    QGroupBox *qnsEdit;
+
     QRadioButton *qnsOp1;
     QRadioButton *qnsOp2;
     QRadioButton *qnsOp3;
     QRadioButton *qnsOp4;
 
-    QString questionName;
-    QString option1;
-    QString option2;
-    QString option3;
-    QString option4;
-    int answer;
+    QLineEdit *editName;
+    QLineEdit *editOp1;
+    QLineEdit *editOp2;
+    QLineEdit *editOp3;
+    QLineEdit *editOp4;
+    QComboBox *editAns;
+
+    void setLayoutStudent();
+    void setLayoutTeacher();
+private:
+    QVBoxLayout *mainLayoutStudent;
+    QVBoxLayout *mainLayoutTeacher;
+
+    QGridLayout *gridTeacher;
+    QVBoxLayout *vboxStudent;
+
+    QuestionItem *question;
 
 };
 

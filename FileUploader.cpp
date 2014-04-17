@@ -156,7 +156,7 @@ void FileUploader::dropEvent(QDropEvent* event)
                 }
                 else
                 {
-                    if (string.contains(".html"))
+                    if (string.contains(".htm"))
                     {
                         addItem(string);
                     }

@@ -39,7 +39,7 @@ void StudentLessonWidget::createWidgets()
 
     textEditWidget = new QTextEdit;
     textEditWidget->setReadOnly(true);
-    textEditWidget->setGeometry(600,100,350,500);
+    //textEditWidget->setGeometry(600,100,350,500);
 
     //mainLayout->addWidget(textEditWidget);
 

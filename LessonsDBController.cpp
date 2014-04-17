@@ -32,7 +32,7 @@ void LessonsDBController::addLesson(bool isTeacher, const QString &lessonName, c
                                     QStringList *files, QStringList *images, QList<CustomImage *> list, QList<int> numbers, QList<QPointF> positions, QStringList *annoText)
 {
     ldb->addLesson(isTeacher, lessonName, topicName, date, maxMarks, files, images, list, numbers, positions, annoText);
-    //TestsDBController::addTest(QList<Question *>());
+    TestsDBController::addTest(QList<QuestionItem *>());
 }
 
 void LessonsDBController::addTopic(const QString &topicName)
@@ -53,7 +53,7 @@ void LessonsDBController::editFilesImages(int index, const QString &lessonName, 
 void LessonsDBController::addLesson(const QString &lessonName, const QString &topicName, QStringList *files, QStringList *images)
 {
     ldb->addLesson(lessonName, topicName, files, images);
-    TestsDBController::addTest(QList<Question *>());
+    TestsDBController::addTest(QList<QuestionItem *>());
 }
 
 void LessonsDBController::editLesson(int index, const QString &lessonName, const QString &topicName, QList<CustomImage *> annoList)

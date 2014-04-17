@@ -8,37 +8,36 @@ TestsDB::TestsDB()
 
 }
 
-void TestsDB::addTest(QList<Question *> testQns)
+void TestsDB::addTest(QList<QuestionItem *> testQns)
 {
     tests.append(testQns);
     qDebug("Successfully added test");
 }
 
-void TestsDB::saveTest(int index, QList<Question *> testQns)
+void TestsDB::saveTest(int index, QList<QuestionItem *> testQns)
 {
     tests.removeAt(index);
     tests.insert(index,testQns);
 }
 
-void TestsDB::deleteTest(int i) {
+void TestsDB::deleteTest(int i)
+{
     tests.removeAt(i);
     qDebug("Successfully removed test");
 }
 
-QList<Question *> TestsDB::getTest(int i) {
+QList<QuestionItem *> TestsDB::getTest(int i)
+{
     return tests[i];
-
-/*    // return empty QList if there is no test with that index
-    qDebug("Test");
-    return QList<Question *>();
-    */
 }
 
-QList< QList<Question *> > TestsDB::getTests() {
+QList<QList<QuestionItem *> > TestsDB::getTests()
+{
     return tests;
 }
 
 // for testing purposes only
+/*
 void TestsDB::forTesting() {
 
     QList<Question *> tempTest = QList<Question *>();
@@ -52,4 +51,9 @@ void TestsDB::forTesting() {
     }
 
     addTest(tempTest);
+}*/
+
+void TestsDB::clear()
+{
+    tests.clear();
 }

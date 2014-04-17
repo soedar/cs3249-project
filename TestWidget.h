@@ -20,7 +20,7 @@ private:
     DatabaseLayer *db;
     QString email;
     TestsDB *tests;
-    QList<Question *> questionList;
+    QList<QuestionItem *> questionList;
     QGroupBox *menuStudent;
     QGroupBox *menuTeacher;
     QVBoxLayout *vboxStudent;
