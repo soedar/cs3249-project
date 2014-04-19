@@ -75,8 +75,8 @@ void StudentMainWidget::populateTableData()
 
         int maxMarks = tempLesson.getMaxMarks();
 
-        //tempString = QString::number(marks);
-        //tempString += "/";
+        tempString = "0";
+        tempString += "/";
         tempString += QString::number(maxMarks);
 
         item = new QTableWidgetItem(tr(tempString.toStdString().c_str()));
