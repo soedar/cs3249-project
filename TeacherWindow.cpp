@@ -1,9 +1,8 @@
 #include "TeacherWindow.h"
 
 
-TeacherWindow::TeacherWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(db, new TeacherMainWidget())
+TeacherWindow::TeacherWindow(DatabaseLayer *db, User loggedInUser) : MainWindow(db, loggedInUser, new TeacherMainWidget())
 {
-    this->email = loggedInUser.email();
     this->teacherMainWidget = (TeacherMainWidget *)mainWidget;
     this->addWidget = new AddLessonWidget();
     this->editWidget = new LessonWidget();

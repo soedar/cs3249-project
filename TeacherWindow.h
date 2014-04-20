@@ -20,7 +20,6 @@ private:
     AddLessonWidget *addWidget;
     LessonWidget *editWidget;
     TestWidget *testWidget;
-    QString email;
 
 private slots:
 

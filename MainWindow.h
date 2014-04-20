@@ -11,7 +11,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(DatabaseLayer *db, MainWidget *mainWidget);
+    MainWindow(DatabaseLayer *db, User loggedInUser, MainWidget *mainWidget);
     bool didLoggedOff();
     void setup();
 
@@ -19,6 +19,7 @@ protected:
     MainWidget *mainWidget;
     QWidget *parentWidget;
     DatabaseLayer *db;
+    QString email;
 
 private:
     bool loggedOff;
