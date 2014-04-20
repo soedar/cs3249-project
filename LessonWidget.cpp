@@ -102,10 +102,6 @@ void LessonWidget::createActions()
 
     connect(handAction, SIGNAL(triggered()),this,SLOT(enableMove()));
 
-    linkAction = new QAction(tr("&Link"), this);
-    linkAction->setIcon(QIcon(":/assets/link.png"));
-    linkAction->setShortcut(tr("Ctrl+L"));
-    linkAction->setStatusTip(tr("Create a link to the notes"));
 
     annotationAction = new QAction(tr("&Annotation"), this);
     annotationAction->setIcon(QIcon(":/assets/annotate.png"));
@@ -159,7 +155,6 @@ void LessonWidget::createActions()
 
     toolbar->addAction(selectAction);
     toolbar->addAction(handAction);
-    toolbar->addAction(linkAction);
     toolbar->addAction(annotationAction);
     toolbar->addAction(deleteAction);
     toolbar->addAction(imageAction);

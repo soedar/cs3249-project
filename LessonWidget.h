@@ -38,10 +38,9 @@ private:
 
     QAction *selectAction; //Disables Movement, Enables Multi-Selection
     QAction *handAction; // Enables Movement, Disables Multi-Selection
-    QAction *linkAction; //NOT IMPLEMENTED
     QAction *annotationAction; //Adds a new annotation to a predefined spot in the scene
     QAction *deleteAction; //Click once to change icon, click again to select an item, click again to delete selected items
-    QAction *imageAction; //NOT IMPLEMENTED
+    QAction *imageAction; //Manages files and images
     QAction *saveAction; //Saves and exits, working for now
     QAction *testAction; //Transits to the test widget
     QAction *rightAction;
