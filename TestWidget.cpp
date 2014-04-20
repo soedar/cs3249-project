@@ -254,6 +254,9 @@ void TestWidget::prepare(bool teacher)
 
         qDebug() << "Ok\n";
 
+        marksText->setText(QString("Marks from last attempt: %1/%2")
+                               .arg(marks).arg(questionList.length()));
+
         // create submit button for student
         submitButton = new QPushButton(tr("Submit"));
         submitButton->setEnabled(true);
